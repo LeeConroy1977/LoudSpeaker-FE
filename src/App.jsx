@@ -1,7 +1,9 @@
+import AppLayout from "./components/AppLayout";
+
 function App() {
   return (
     <>
-      <p>Hello World</p>
+      <AppLayout />
     </>
   );
 }
