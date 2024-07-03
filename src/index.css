@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .avatarMobile {
+    width: 30px;
+    height: 30px;
+    border: 2px solid black;
+    border-radius: 50%;
+  }
+  .avatarLarge {
+    width: 48px;
+    height: 48px;
+    border: 3px solid black;
+    border-radius: 50%;
+  }
+  .buttonLarge {
+    width: 90px;
+    height: 34px;
+    font-size: 0.85rem;
+  }
+  /* ... */
+}

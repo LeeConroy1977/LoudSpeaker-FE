@@ -7,19 +7,18 @@ import Main from "./Main";
 
 const AppLayout = () => {
   const { width, height } = useContext(ScreenSizeContext);
-  console.log(width);
 
   return (
     <>
       {width < 640 ? (
-        <div className="w-full h-full bg-blue-500 grid grid-rows-[44px_auto] ">
+        <div className="w-full h-full  grid grid-rows-[44px_auto] ">
           <NavBar />
           <Main>{Children}</Main>
         </div>
       ) : (
         <div
           style={{ width: "76vw" }}
-          className="w-full h-full bg-red-500 grid grid-rows-[9%_91%]  grid-cols-[20%_57%_23%]"
+          className="w-full h-full grid grid-rows-[10%_90%]  grid-cols-[20%_57%_23%]"
         >
           <NavBar />
           <TopicSection />
