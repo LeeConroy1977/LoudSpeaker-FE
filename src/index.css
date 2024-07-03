@@ -9,16 +9,54 @@
     border: 2px solid black;
     border-radius: 50%;
   }
+  .avatarFeatured {
+    width: 25px;
+    height: 25px;
+    border: 2px solid white;
+    border-radius: 50%;
+  }
   .avatarLarge {
-    width: 48px;
-    height: 48px;
-    border: 3px solid black;
+    width: 55px;
+    height: 55px;
+    border: 3.5px solid black;
     border-radius: 50%;
   }
   .buttonLarge {
     width: 90px;
-    height: 34px;
-    font-size: 0.85rem;
+    height: 38px;
+    font-size: 0.9rem;
+  }
+
+  .featuredSectionMobile {
+    height: 140px;
+    background-color: red;
+  }
+  .featuredComment {
+    /* padding: 0.1rem 0.4rem; */
+  }
+  .featuredCommentsNum {
+    font-size: 8px;
+    margin-left: 0.2rem;
+    color: white;
+  }
+  .featuredCommentsIcon {
+    font-size: 11px;
+    color: white;
+  }
+  .featuredVotes {
+    /* padding: 0.1rem 0.4rem; */
+    /* margin-left: 1rem; */
+    color: white;
+    margin-left: 0.4rem;
+  }
+  .featuredVotesNum {
+    font-size: 8px;
+    margin: 0 0.05rem;
+    color: white;
+  }
+  .featuredVotesIcon {
+    font-size: 14px;
+    color: white;
   }
   /* ... */
 }

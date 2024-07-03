@@ -17,7 +17,7 @@ const NavBar = () => {
         {width > 640 && <Button buttonStyle="buttonLarge">Sign In</Button>}
         {width < 640 && <FaSearch className="w-5 h-5 text-primary" />}
         {width < 640 && <IoIosAddCircle className="w-7 h-7 text-primary" />}
-        <Avatar classType="avatarMobile sm:avatarLarge" />
+        <Avatar avatarStyle="avatarMobile sm:avatarLarge" />
       </div>
     </nav>
   );
