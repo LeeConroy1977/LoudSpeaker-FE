@@ -11,7 +11,7 @@ const AppLayout = () => {
   return (
     <>
       {width < 640 ? (
-        <div className="w-full h-full  grid grid-rows-[44px_auto] ">
+        <div className="w-full h-full  grid grid-rows-[44px_auto] grid-cols-[100%] ">
           <NavBar />
           <Main>{Children}</Main>
         </div>
