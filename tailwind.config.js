@@ -5,6 +5,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Roboto", "sans-serif"],
+        lobster: ["Lobster", "sans-serif"],
       },
       colors: {
         primary: "#456990",

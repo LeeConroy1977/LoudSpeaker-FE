@@ -6,13 +6,14 @@ const CommentsContainer = ({
   commentStyle,
   commentsNumStyle,
   commentsIconStyle,
+  comment_count,
 }) => {
   return (
     <div className={`${commentStyle} flex items-center rounded-xl`}>
       <span>
         <FaRegCommentAlt className={`${commentsIconStyle} font-bold`} />
       </span>
-      <p className={`${commentsNumStyle} `}>{comments}</p>
+      <p className={`${commentsNumStyle} `}>{comment_count}</p>
     </div>
   );
 };

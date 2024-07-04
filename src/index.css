@@ -6,7 +6,13 @@
   .avatarMobile {
     width: 30px;
     height: 30px;
-    border: 2px solid black;
+    border: 2px solid #456990;
+    border-radius: 50%;
+  }
+  .avatarMain {
+    width: 48px;
+    height: 48px;
+    border: 3px solid #456990;
     border-radius: 50%;
   }
   .avatarFeatured {
@@ -18,21 +24,44 @@
   .avatarLarge {
     width: 55px;
     height: 55px;
-    border: 3.5px solid black;
+    border: 3.5px solid #456990;
     border-radius: 50%;
   }
   .buttonLarge {
+    width: 100px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+
+  .buttonMedium {
     width: 90px;
     height: 38px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 
   .featuredSectionMobile {
     height: 140px;
     background-color: red;
   }
-  .featuredComment {
-    /* padding: 0.1rem 0.4rem; */
+  .mobileComments {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 50px;
+    height: 22px;
+    background-color: #f3f4f6;
+    margin-right: 0.6rem;
+  }
+  .mobileCommentsNum {
+    font-size: 8px;
+    margin-left: 0.2rem;
+    color: #456990;
+    font-weight: bold;
+  }
+  .mobileCommentsIcon {
+    font-size: 13px;
+    font-weight: bold;
+    color: #456990;
   }
   .featuredCommentsNum {
     font-size: 8px;
@@ -43,9 +72,25 @@
     font-size: 11px;
     color: white;
   }
+  .mobileVotes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 50px;
+    background-color: #f3f4f6;
+  }
+  .mobileVotesNum {
+    font-size: 9px;
+    margin: 0 0.05rem;
+    color: #456990;
+    font-weight: bold;
+  }
+  .mobileVotesIcon {
+    font-size: 15px;
+    color: #456990;
+    padding: 0 0.1rem;
+  }
   .featuredVotes {
-    /* padding: 0.1rem 0.4rem; */
-    /* margin-left: 1rem; */
     color: white;
     margin-left: 0.4rem;
   }
@@ -57,6 +102,21 @@
   .featuredVotesIcon {
     font-size: 14px;
     color: white;
+  }
+
+  .selectMobile {
+    padding: 0.3rem;
+    padding-left: 0.6rem;
+    width: 120px;
+    height: 32px;
+    background-color: #edeeef;
+    margin-right: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #456990;
+    font-weight: bold;
   }
   /* ... */
 }
