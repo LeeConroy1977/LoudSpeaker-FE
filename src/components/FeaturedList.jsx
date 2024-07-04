@@ -13,7 +13,7 @@ const FeaturedList = () => {
     "
     >
       {featuredArticles.map((article) => {
-        return <FeaturedCard key={article.id} article={article} />;
+        return <FeaturedCard key={article.title} article={article} />;
       })}
     </div>
   );
