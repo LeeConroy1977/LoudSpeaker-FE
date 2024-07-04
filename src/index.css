@@ -9,6 +9,12 @@
     border: 2px solid black;
     border-radius: 50%;
   }
+  .avatarMain {
+    width: 48px;
+    height: 48px;
+    border: 3px solid rgb(0, 0, 0);
+    border-radius: 50%;
+  }
   .avatarFeatured {
     width: 25px;
     height: 25px;
@@ -22,9 +28,15 @@
     border-radius: 50%;
   }
   .buttonLarge {
+    width: 100px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+
+  .buttonMedium {
     width: 90px;
     height: 38px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 
   .featuredSectionMobile {

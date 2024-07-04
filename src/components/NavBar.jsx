@@ -10,7 +10,7 @@ import { IoIosAddCircle } from "react-icons/io";
 const NavBar = () => {
   const { width, height } = useContext(ScreenSizeContext);
   return (
-    <nav className=" row-span-1 col-span-3  flex justify-between items-center border-b border-l border-r border-gray-300">
+    <nav className=" row-span-1 col-span-3  flex justify-between items-center border-b border-l border-r border-gray-200">
       <Logo />
       {width > 640 && <Input />}
       <div className="flex items-center mx-2.5 sm:mx-8 gap-4 sm:gap-8">
