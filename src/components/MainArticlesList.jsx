@@ -3,12 +3,10 @@ import articlesArray from "../../data/articles";
 import users from "../../data/users";
 import MainArticlesCard from "./MainArticlesCard";
 
-const MainArticlesList = () => {
-  const [articles, setArticles] = useState(articlesArray);
-
+const MainArticlesList = ({ articles }) => {
   return (
     <div className="sm:w-full sm:h-full sm:overflow-auto">
-      {articlesArray &&
+      {articles &&
         users &&
         articles.map((article) => {
           return (

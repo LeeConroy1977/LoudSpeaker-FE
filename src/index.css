@@ -6,13 +6,13 @@
   .avatarMobile {
     width: 30px;
     height: 30px;
-    border: 2px solid rgb(0, 0, 0);
+    border: 2px solid #456990;
     border-radius: 50%;
   }
   .avatarMain {
     width: 48px;
     height: 48px;
-    border: 3px solid rgb(0, 0, 0);
+    border: 3px solid #456990;
     border-radius: 50%;
   }
   .avatarFeatured {
@@ -24,7 +24,7 @@
   .avatarLarge {
     width: 55px;
     height: 55px;
-    border: 3.5px solid black;
+    border: 3.5px solid #456990;
     border-radius: 50%;
   }
   .buttonLarge {
@@ -102,6 +102,21 @@
   .featuredVotesIcon {
     font-size: 14px;
     color: white;
+  }
+
+  .selectMobile {
+    padding: 0.3rem;
+    padding-left: 0.6rem;
+    width: 120px;
+    height: 32px;
+    background-color: #edeeef;
+    margin-right: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #456990;
+    font-weight: bold;
   }
   /* ... */
 }
