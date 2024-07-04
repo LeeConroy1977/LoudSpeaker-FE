@@ -1,4 +1,4 @@
-import React, { Children, useContext } from "react";
+import React, { Children, useContext, useState } from "react";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import NavBar from "./NavBar";
 import TopicSection from "./TopicSection";
@@ -7,13 +7,20 @@ import Main from "./Main";
 
 const AppLayout = () => {
   const { width, height } = useContext(ScreenSizeContext);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  console.log(isSearchOpen);
+
+  function handleSearchOpen() {
+    return setIsSearchOpen(!isSearchOpen);
+  }
 
   return (
     <>
       {width < 640 ? (
         <div className="w-full h-full  grid grid-rows-[44px_auto] grid-cols-[100%] ">
-          <NavBar />
-          <Main>{Children}</Main>
+          <NavBar handleSearchOpen={handleSearchOpen} />
+          <Main isSearchOpen={isSearchOpen}>{Children}</Main>
         </div>
       ) : (
         <div

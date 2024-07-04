@@ -4,9 +4,9 @@ const Input = () => {
   return (
     <div
       style={{ width: "460px" }}
-      className="h-7 sm:h-8 sm:ml-8 bg-gray-100 rounded-full flex items-center"
+      className="h-8 sm:h-8    sm:ml-8 bg-gray-100 rounded-full flex items-center"
     >
-      <span className="h-7 sm:h-9 sm:w-12  rounded-full flex justify-center items-center">
+      <span className="h-8 w-10 sm:h-9 sm:w-12  rounded-full flex justify-center items-center">
         {<FaSearch className="text-primary text-sm" />}
       </span>
       <input
