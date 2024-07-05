@@ -6,8 +6,9 @@ import ComposeContainer from "../components/ComposeContainer";
 import MainArticlesList from "../components/MainArticlesList";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import articlesArray from "../../data/articles";
+import ComposeForm from "../components/ComposeForm";
 
-const Home = ({ isSearchOpen }) => {
+const Home = ({ isSearchOpen, handleComposeOpen, isComposeOpen }) => {
   const { width, height } = useContext(ScreenSizeContext);
   const [articles, setArticles] = useState(articlesArray);
   return (
@@ -15,7 +16,13 @@ const Home = ({ isSearchOpen }) => {
       {width < 640 && isSearchOpen && <SearchContainer />}
       {width < 640 && <OptionsContainer />}
       {width < 640 && <FeaturedSection />}
-      {width > 640 && <ComposeContainer />}
+      {width > 640 && isComposeOpen ? (
+        <ComposeForm handleComposeOpen={handleComposeOpen} />
+      ) : (
+        width > 640 && (
+          <ComposeContainer handleComposeOpen={handleComposeOpen} />
+        )
+      )}
       {width > 640 && <OptionsContainer />}
       <MainArticlesList articles={articles} />
     </div>

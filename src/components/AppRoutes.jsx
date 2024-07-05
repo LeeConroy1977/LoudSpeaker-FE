@@ -29,7 +29,11 @@ const AppRoutes = () => {
         <Route
           index
           element={
-            <Home isSearchOpen={isSearchOpen} isComposeOpen={isComposeOpen} />
+            <Home
+              isSearchOpen={isSearchOpen}
+              isComposeOpen={isComposeOpen}
+              handleComposeOpen={handleComposeOpen}
+            />
           }
         />
         <Route path="/article" element={<Article />} />
