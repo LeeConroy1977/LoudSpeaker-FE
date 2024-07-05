@@ -2,7 +2,7 @@ import React from "react";
 import articles from "../../data/articles";
 import FeaturedCard from "./FeaturedCard";
 
-const FeaturedList = () => {
+const FeaturedList = ({ handleSelectedArticle }) => {
   const featuredArticles = articles.filter((article) => article.featured);
 
   console.log(featuredArticles);
@@ -13,7 +13,13 @@ const FeaturedList = () => {
     "
     >
       {featuredArticles.map((article) => {
-        return <FeaturedCard key={article.title} article={article} />;
+        return (
+          <FeaturedCard
+            key={article.title}
+            article={article}
+            handleSelectedArticle={handleSelectedArticle}
+          />
+        );
       })}
     </div>
   );
