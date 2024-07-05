@@ -5,8 +5,9 @@ import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 
 const OptionsContainer = () => {
   const { width, height } = useContext(ScreenSizeContext);
+
   return (
-    <div className="w-full h-[54px] flex justify-between items-center p-2 border-b  sm:border-gray-200">
+    <div className="w-full h-[54px] flex justify-between items-center p-2 sm:pl-[4.6rem] border-b  sm:border-gray-200">
       <div className=" flex">
         <SelectComponent selectStyle="selectMobile" />
         <SelectComponent selectStyle="selectMobile" />

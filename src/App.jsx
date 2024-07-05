@@ -1,9 +1,9 @@
-import AppLayout from "./components/AppLayout";
+import AppRoutes from "./components/AppRoutes";
 
 function App() {
   return (
     <div className="w-full h-screen flex justify-center ">
-      <AppLayout />
+      <AppRoutes />
     </div>
   );
 }
