@@ -2,11 +2,10 @@ import React from "react";
 import { FaRegCommentAlt } from "react-icons/fa";
 
 const CommentsContainer = ({
-  comments,
   commentStyle,
   commentsNumStyle,
   commentsIconStyle,
-  comment_count,
+  comment_count = 123,
 }) => {
   return (
     <div className={`${commentStyle} flex items-center rounded-xl`}>

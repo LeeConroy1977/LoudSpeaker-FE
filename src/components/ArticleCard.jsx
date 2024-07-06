@@ -6,6 +6,7 @@ import CommentsContainer from "./CommentsContainer";
 import VotesContainer from "./VotesContainer";
 import { timeSince } from "../../utilities/time";
 import CommentPostContainer from "./CommentPostContainer";
+import ArticleCommentsList from "./ArticleCommentsList";
 
 const ArticleCard = ({ article, comment_count = 12 }) => {
   const { width, height } = useContext(ScreenSizeContext);
@@ -15,6 +16,7 @@ const ArticleCard = ({ article, comment_count = 12 }) => {
 
   users.map((user) => {
     if (user.username === author) {
+      user = user;
       return (userAvatar = user.avatar_url);
     }
   });
@@ -69,6 +71,8 @@ const ArticleCard = ({ article, comment_count = 12 }) => {
             </p>
           </div>
           <CommentPostContainer />
+          {/* change from user to article id and pass article as props instead!! */}
+          <ArticleCommentsList author={author} />
         </div>
       )}
     </>
