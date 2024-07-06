@@ -6,7 +6,7 @@ import FeaturedSection from "./FeaturedSection";
 import Main from "./Main";
 import { Outlet } from "react-router-dom";
 
-const AppLayout = ({ handleSearchOpen }) => {
+const AppLayout = ({ handleSearchOpen, handleSelectedArticle }) => {
   const { width, height } = useContext(ScreenSizeContext);
 
   return (
@@ -23,7 +23,9 @@ const AppLayout = ({ handleSearchOpen }) => {
       <main className="sm:overflow-auto">
         <Outlet />
       </main>
-      {width > 640 && <FeaturedSection />}
+      {width > 640 && (
+        <FeaturedSection handleSelectedArticle={handleSelectedArticle} />
+      )}
     </div>
   );
 };

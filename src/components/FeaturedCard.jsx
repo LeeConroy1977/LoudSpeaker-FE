@@ -5,7 +5,7 @@ import VotesContainer from "./VotesContainer";
 import CommentsContainer from "./CommentsContainer";
 import users from "../../data/users";
 
-const FeaturedCard = ({ article }) => {
+const FeaturedCard = ({ article, handleSelectedArticle }) => {
   const { width, height } = useContext(ScreenSizeContext);
   const { title, article_img_url, author, votes } = article;
 
