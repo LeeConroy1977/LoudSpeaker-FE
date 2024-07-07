@@ -15,7 +15,7 @@ const VotesContainer = ({
           className={`${votesIconStyle} font-bold text-black fill-red-600`}
         />
       </span>
-      <p className={`${votesNumStyle}  `}>631</p>
+      <p className={`${votesNumStyle}  `}>{votes ? votes : "621"}</p>
       <span>
         <TbArrowBigUp
           className={`${votesIconStyle}  font-bold text-black fill-green-600`}

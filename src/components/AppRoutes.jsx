@@ -10,6 +10,7 @@ const AppRoutes = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isComposeOpen, setIscomposeOpen] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState({});
+  const [isTopicContainerOpen, setIsTopicContainerOpen] = useState(false);
 
   // change to ID when fetching from DB
   function handleSelectedArticle(title) {
@@ -23,11 +24,17 @@ const AppRoutes = () => {
   console.log(selectedArticle);
 
   function handleSearchOpen() {
-    return setIsSearchOpen(!isSearchOpen);
+    setIsSearchOpen(!isSearchOpen);
+    setIsTopicContainerOpen(false);
   }
 
   function handleComposeOpen() {
     return setIscomposeOpen(!isComposeOpen);
+  }
+
+  function handleTopicContainer() {
+    setIsTopicContainerOpen(!isTopicContainerOpen);
+    setIsSearchOpen(false);
   }
   return (
     <Routes>
@@ -38,6 +45,7 @@ const AppRoutes = () => {
             handleSearchOpen={handleSearchOpen}
             handleComposeOpen={handleComposeOpen}
             handleSelectedArticle={handleSelectedArticle}
+            isTopicContainerOpen={isTopicContainerOpen}
           />
         }
       >
@@ -46,9 +54,12 @@ const AppRoutes = () => {
           element={
             <Home
               isSearchOpen={isSearchOpen}
+              setIsSearchOpen={setIsSearchOpen}
               isComposeOpen={isComposeOpen}
               handleComposeOpen={handleComposeOpen}
               handleSelectedArticle={handleSelectedArticle}
+              isTopicContainerOpen={isTopicContainerOpen}
+              handleTopicContainer={handleTopicContainer}
             />
           }
         />

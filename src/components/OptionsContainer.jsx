@@ -3,7 +3,7 @@ import SelectComponent from "../reuseable-components/SelectComponent";
 import { IoIosOptions } from "react-icons/io";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 
-const OptionsContainer = () => {
+const OptionsContainer = ({ handleTopicContainer }) => {
   const { width, height } = useContext(ScreenSizeContext);
 
   return (
@@ -14,7 +14,10 @@ const OptionsContainer = () => {
       </div>
       {width < 640 && (
         <span>
-          <IoIosOptions className="text-primary text-[22px] mr-1" />
+          <IoIosOptions
+            className="text-primary text-[22px] mr-1 cursor-pointer"
+            onClick={handleTopicContainer}
+          />
         </span>
       )}
     </div>
