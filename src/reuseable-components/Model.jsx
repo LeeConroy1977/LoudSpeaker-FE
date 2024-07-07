@@ -9,7 +9,7 @@ const Model = ({ children, handleClick }) => {
         onClick={handleClick}
       >
         <IoIosCloseCircleOutline
-          className=" text-primary text-[25px] font-bold"
+          className=" text-primary text-[28px] font-bold"
           onClick={handleClick}
         />
       </div>

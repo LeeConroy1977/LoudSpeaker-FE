@@ -7,43 +7,31 @@ import MainArticlesList from "../components/MainArticlesList";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import articlesArray from "../../data/articles";
 import ComposeForm from "../components/ComposeForm";
-import TopicAccordion from "../components/TopicAccordion";
-import Model from "../reuseable-components/Model";
 
 const Home = ({
   isSearchOpen,
   handleComposeOpen,
   isComposeOpen,
   handleSelectedArticle,
-  isTopicContainerOpen,
-  handleTopicContainer,
 }) => {
   const { width, height } = useContext(ScreenSizeContext);
   const [articles, setArticles] = useState(articlesArray);
-
   return (
-    <div className="sm:col-span-1 sm:row-span-1 sm:overflow-hidden relative">
-      {width < 640 && isSearchOpen && <SearchContainer />}
-      {width < 640 && (
-        <OptionsContainer handleTopicContainer={handleTopicContainer} />
-      )}
-      {width < 640 && isTopicContainerOpen && (
-        <>
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60  z-40"></div>
-          <Model handleClick={handleTopicContainer}>
-            <TopicAccordion handleTopicContainer={handleTopicContainer} />
-          </Model>
-        </>
-      )}
-      {width < 640 && <FeaturedSection />}
-      {width > 640 && isComposeOpen ? (
+    <div className="sm:col-span-1 sm:row-span-1 sm:overflow-hidden">
+      {width < 640 && !isComposeOpen && isSearchOpen && <SearchContainer />}
+      {width < 640 && !isComposeOpen && <OptionsContainer />}
+      {width < 640 && !isComposeOpen && <FeaturedSection />}
+      {isComposeOpen ? (
         <ComposeForm handleComposeOpen={handleComposeOpen} />
       ) : (
         width > 640 && (
-          <ComposeContainer handleComposeOpen={handleComposeOpen} />
+          <ComposeContainer
+            handleComposeOpen={handleComposeOpen}
+            isComposeOpen={isComposeOpen}
+          />
         )
       )}
-      {width > 640 && <OptionsContainer />}
+      {width > 640 && !isComposeOpen && <OptionsContainer />}
       <MainArticlesList
         articles={articles}
         handleSelectedArticle={handleSelectedArticle}

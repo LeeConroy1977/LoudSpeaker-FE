@@ -7,7 +7,7 @@ import Avatar from "../reuseable-components/Avatar";
 import { FaSearch } from "react-icons/fa";
 import { IoIosAddCircle } from "react-icons/io";
 
-const NavBar = ({ handleSearchOpen }) => {
+const NavBar = ({ handleSearchOpen, handleComposeOpen }) => {
   const { width, height } = useContext(ScreenSizeContext);
   return (
     <nav className=" row-span-1 col-span-3  flex justify-between items-center border-b border-l border-r border-gray-200">
@@ -21,7 +21,12 @@ const NavBar = ({ handleSearchOpen }) => {
             onClick={handleSearchOpen}
           />
         )}
-        {width < 640 && <IoIosAddCircle className="w-7 h-7 text-primary" />}
+        {width < 640 && (
+          <IoIosAddCircle
+            className="w-7 h-7 text-primary"
+            onClick={() => handleComposeOpen()}
+          />
+        )}
         <Avatar avatarStyle="avatarMobile sm:avatarLarge" />
       </div>
     </nav>
