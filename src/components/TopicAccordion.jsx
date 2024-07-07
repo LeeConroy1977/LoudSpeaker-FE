@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import categories from "../../data/categories";
+import { MdPlayArrow } from "react-icons/md";
 
 const TopicAccordion = ({ handleTopicContainer }) => {
   const [topicIndex, setTopicIndex] = useState(null);
@@ -27,8 +28,16 @@ const TopicAccordion = ({ handleTopicContainer }) => {
             className={`${
               topicIndex === index ? "bg-gray-100 font-semibold" : "bg-white"
             } w-full h-[2.5rem] flex 
-           items-center pl-4 border-b border-gray-200 text-primary text-[0.9rem] last:border-b-0 cursor-pointer`}
+           items-center pl-2 border-b border-gray-200 text-primary text-[0.9rem] last:border-b-0 cursor-pointer`}
           >
+            {topic.subcategories.length > 0 && (
+              <span
+                className={`${topicIndex === index ? "rotate-90" : null} mr-3`}
+              >
+                <MdPlayArrow />
+              </span>
+            )}
+
             {topic.category}
           </div>
           <div>

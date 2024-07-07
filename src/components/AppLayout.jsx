@@ -10,6 +10,7 @@ const AppLayout = ({
   handleSearchOpen,
   handleSelectedArticle,
   isTopicContainerOpen,
+  handleComposeOpen,
 }) => {
   const { width, height } = useContext(ScreenSizeContext);
 
@@ -23,7 +24,10 @@ const AppLayout = ({
           : "w-[76%] h-full grid grid-rows-[10%_90%]  grid-cols-[21%_54%_25%]"
       }
     >
-      <NavBar handleSearchOpen={handleSearchOpen} />
+      <NavBar
+        handleSearchOpen={handleSearchOpen}
+        handleComposeOpen={handleComposeOpen}
+      />
       {width > 640 && <TopicSection />}
 
       <main className="sm:overflow-auto">

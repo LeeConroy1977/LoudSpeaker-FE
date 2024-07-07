@@ -29,7 +29,8 @@ const AppRoutes = () => {
   }
 
   function handleComposeOpen() {
-    return setIscomposeOpen(!isComposeOpen);
+    setIscomposeOpen(!isComposeOpen);
+    setIsSearchOpen(false);
   }
 
   function handleTopicContainer() {
