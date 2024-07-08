@@ -10,17 +10,27 @@ import ComposeForm from "../components/ComposeForm";
 
 const Home = ({
   isSearchOpen,
+  setIsSearchOpen,
   handleComposeOpen,
   isComposeOpen,
   handleSelectedArticle,
+  popularArticles,
 }) => {
   const { width, height } = useContext(ScreenSizeContext);
   const [articles, setArticles] = useState(articlesArray);
   return (
-    <div className="sm:col-span-1 sm:row-span-1 sm:overflow-hidden">
-      {width < 640 && !isComposeOpen && isSearchOpen && <SearchContainer />}
+    <div className="sm:col-span-1 sm:row-span-1 sm:overflow-hidden flex flex-col h-auto">
+      {width < 640 && !isComposeOpen && isSearchOpen && (
+        <SearchContainer
+          isSearchOpen={isSearchOpen}
+          setIsSearchOpen={setIsSearchOpen}
+          popularArticles={popularArticles}
+        />
+      )}
       {width < 640 && !isComposeOpen && <OptionsContainer />}
-      {width < 640 && !isComposeOpen && <FeaturedSection />}
+      {width < 640 && !isComposeOpen && (
+        <FeaturedSection isSearchOpen={isSearchOpen} />
+      )}
       {isComposeOpen ? (
         <ComposeForm handleComposeOpen={handleComposeOpen} />
       ) : (

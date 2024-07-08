@@ -11,6 +11,13 @@ const AppLayout = ({
   handleSelectedArticle,
   isTopicContainerOpen,
   handleComposeOpen,
+  handleSearchInput,
+  searchInput,
+  filteredArticles,
+  handlePopularArticles,
+  popularArticles,
+  isSearchOpen,
+  setIsSearchOpen,
 }) => {
   const { width, height } = useContext(ScreenSizeContext);
 
@@ -27,6 +34,13 @@ const AppLayout = ({
       <NavBar
         handleSearchOpen={handleSearchOpen}
         handleComposeOpen={handleComposeOpen}
+        handleSearchInput={handleSearchInput}
+        searchInput={searchInput}
+        filteredArticles={filteredArticles}
+        handlePopularArticles={handlePopularArticles}
+        popularArticles={popularArticles}
+        isSearchOpen={isSearchOpen}
+        setIsSearchOpen={setIsSearchOpen}
       />
       {width > 640 && <TopicSection />}
 

@@ -4,13 +4,33 @@ import AppLayout from "./AppLayout";
 import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Article from "../pages/Article";
-import articles from "../../data/articles";
+import articlesArray from "../../data/articles";
 
 const AppRoutes = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isComposeOpen, setIscomposeOpen] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState({});
   const [isTopicContainerOpen, setIsTopicContainerOpen] = useState(false);
+  const [articles, setArticles] = useState(articlesArray);
+  const [searchInput, setSearchInput] = useState("");
+  const [popularArticles, setPopularArticles] = useState([]);
+
+  console.log(articles);
+
+  let filteredArticles = [];
+
+  function handleSearchInput(e) {
+    setSearchInput(e.target.value);
+  }
+
+  articles &&
+    articles.filter((article) => {
+      if (article.body.toLowerCase().includes(searchInput.toLowerCase())) {
+        filteredArticles.push(article);
+      }
+    });
+
+  console.log(searchInput.length);
 
   // change to ID when fetching from DB
   function handleSelectedArticle(title) {
@@ -21,11 +41,20 @@ const AppRoutes = () => {
     });
   }
 
-  console.log(selectedArticle);
+  console.log(isSearchOpen);
+  function handlePopularArticles() {
+    const popularArticlesArray = articles
+      .slice()
+      .sort((a, b) => b.votes - a.votes)
+      .slice(0, 6);
+    setPopularArticles(popularArticlesArray);
+  }
 
   function handleSearchOpen() {
     setIsSearchOpen(!isSearchOpen);
     setIsTopicContainerOpen(false);
+    setIscomposeOpen(false);
+    handlePopularArticles();
   }
 
   function handleComposeOpen() {
@@ -37,6 +66,7 @@ const AppRoutes = () => {
     setIsTopicContainerOpen(!isTopicContainerOpen);
     setIsSearchOpen(false);
   }
+
   return (
     <Routes>
       <Route
@@ -47,6 +77,13 @@ const AppRoutes = () => {
             handleComposeOpen={handleComposeOpen}
             handleSelectedArticle={handleSelectedArticle}
             isTopicContainerOpen={isTopicContainerOpen}
+            handleSearchInput={handleSearchInput}
+            searchInput={searchInput}
+            filteredArticles={filteredArticles}
+            handlePopularArticles={handlePopularArticles}
+            popularArticles={popularArticles}
+            isSearchOpen={isSearchOpen}
+            setIsSearchOpen={setIsSearchOpen}
           />
         }
       >
@@ -61,6 +98,7 @@ const AppRoutes = () => {
               handleSelectedArticle={handleSelectedArticle}
               isTopicContainerOpen={isTopicContainerOpen}
               handleTopicContainer={handleTopicContainer}
+              popularArticles={popularArticles}
             />
           }
         />

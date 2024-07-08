@@ -2,7 +2,7 @@ import React from "react";
 import articles from "../../data/articles";
 import FeaturedCard from "./FeaturedCard";
 
-const FeaturedList = ({ handleSelectedArticle }) => {
+const FeaturedList = ({ handleSelectedArticle, isSearchOpen }) => {
   const featuredArticles = articles.filter((article) => article.featured);
 
   console.log(featuredArticles);
@@ -18,6 +18,7 @@ const FeaturedList = ({ handleSelectedArticle }) => {
             key={article.title}
             article={article}
             handleSelectedArticle={handleSelectedArticle}
+            isSearchOpen={isSearchOpen}
           />
         );
       })}
