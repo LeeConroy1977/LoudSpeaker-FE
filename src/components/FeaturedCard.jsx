@@ -5,7 +5,7 @@ import VotesContainer from "./VotesContainer";
 import CommentsContainer from "./CommentsContainer";
 import users from "../../data/users";
 
-const FeaturedCard = ({ article, handleSelectedArticle }) => {
+const FeaturedCard = ({ article, handleSelectedArticle, isSearchOpen }) => {
   const { width, height } = useContext(ScreenSizeContext);
   const { title, article_img_url, author, votes } = article;
 
@@ -18,12 +18,21 @@ const FeaturedCard = ({ article, handleSelectedArticle }) => {
   const reducedTitle = title.split(" ").slice(0, 4).join(" ");
 
   return (
-    <div className="h-full w-[140px] sm:w-full sm:h-[138px] relative">
-      <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center p-4 rounded-lg"></div>
-      <img className="h-full w-full rounded-lg" src={article_img_url} alt="" />
-      <h4 className="absolute top-16 sm:top-20 left-0 px-2 text-white text-[11px] sm:text-[13px] sm:font-bold">
-        {reducedTitle}...
-      </h4>
+    <div className="h-full w-[140px] sm:w-full sm:h-[138px] relative z-10">
+      {!isSearchOpen && (
+        <>
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center p-4 rounded-lg"></div>
+          <img
+            className="h-full w-full rounded-lg"
+            src={article_img_url}
+            alt=""
+          />
+          <h4 className="absolute top-16 sm:top-20 left-0 px-2 text-white text-[11px] sm:text-[13px] sm:font-bold">
+            {reducedTitle}...
+          </h4>
+        </>
+      )}
+
       {width > 640 && (
         <>
           <div className="w-full h-[38px] items-center flex absolute top-[98px] pl-2">

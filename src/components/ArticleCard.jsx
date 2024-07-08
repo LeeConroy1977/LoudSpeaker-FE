@@ -58,15 +58,15 @@ const ArticleCard = ({ article, comment_count = 12 }) => {
                 />
               </div>
             </div>
-            <h3 className=" font-bold text-[0.9rem] mt-3 sm:mt-1 sm:ml-[62px] sm:pb-1">
+            <h3 className=" font-bold text-[0.9rem] mt-3 sm:mt-1  sm:pb-1">
               {title}
             </h3>
             <img
               src={article_img_url}
               alt=""
-              className="w-full h-[200px] sm:w-[90%] sm:h-[330px] mt-2 mb-1 sm:ml-auto rounded-xl cursor-pointer"
+              className="w-full h-[200px] sm:w-[100%] sm:h-[330px] mt-2 mb-1 sm:ml-auto rounded-xl cursor-pointer"
             />
-            <p className="sm:ml-[4rem] sm:mr-1 ml-1 mt-3 sm:mt-3  text-[0.825rem]  sm:text-[0.9rem] font-semibold">
+            <p className=" sm:mr-1 ml-1 mt-3 sm:mt-3  text-[0.825rem]  sm:text-[0.9rem] font-semibold">
               {body}
             </p>
           </div>
