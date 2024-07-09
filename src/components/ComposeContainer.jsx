@@ -2,7 +2,10 @@ import React from "react";
 import Avatar from "../reuseable-components/Avatar";
 import Button from "../reuseable-components/Button";
 
-const ComposeContainer = ({ handleComposeOpen }) => {
+const ComposeContainer = ({
+  handleComposeOpen,
+  handleSignInContainerToggle,
+}) => {
   return (
     <div
       className="w-full h-[80px] flex items-center justify-between p-4 border-gray-200 border-b"
