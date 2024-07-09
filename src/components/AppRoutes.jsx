@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import AppLayout from "./AppLayout";
 import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Article from "../pages/Article";
 import articlesArray from "../../data/articles";
+import { UserContext } from "../contexts/UserContext";
 
 const AppRoutes = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -14,8 +15,13 @@ const AppRoutes = () => {
   const [articles, setArticles] = useState(articlesArray);
   const [searchInput, setSearchInput] = useState("");
   const [popularArticles, setPopularArticles] = useState([]);
+  const [isSignInContainerOpen, setIsSignInContainerOpen] = useState(false);
+  const [hasSignInContainerClosed, setHasSignInContainerClosed] =
+    useState(false);
 
-  console.log(articles);
+  const { user, setUser } = useContext(UserContext);
+
+  console.log(user);
 
   let filteredArticles = [];
 
@@ -30,8 +36,6 @@ const AppRoutes = () => {
       }
     });
 
-  console.log(searchInput.length);
-
   // change to ID when fetching from DB
   function handleSelectedArticle(title) {
     articles.map((article) => {
@@ -41,7 +45,6 @@ const AppRoutes = () => {
     });
   }
 
-  console.log(isSearchOpen);
   function handlePopularArticles() {
     const popularArticlesArray = articles
       .slice()
@@ -58,14 +61,26 @@ const AppRoutes = () => {
   }
 
   function handleComposeOpen() {
-    setIscomposeOpen(!isComposeOpen);
-    setIsSearchOpen(false);
+    if (!user.username && !isSignInContainerOpen) {
+      setIsSignInContainerOpen(true);
+      setHasSignInContainerClosed(false);
+    }
+    if (user.username) {
+      setIscomposeOpen(!isComposeOpen);
+      setIsSearchOpen(false);
+    }
   }
 
   function handleTopicContainer() {
     setIsTopicContainerOpen(!isTopicContainerOpen);
     setIsSearchOpen(false);
   }
+
+  function handleSignInContainerClosed() {
+    setHasSignInContainerClosed(true);
+  }
+
+  console.log(isSignInContainerOpen);
 
   return (
     <Routes>
@@ -99,6 +114,11 @@ const AppRoutes = () => {
               isTopicContainerOpen={isTopicContainerOpen}
               handleTopicContainer={handleTopicContainer}
               popularArticles={popularArticles}
+              isSignInContainerOpen={isSignInContainerOpen}
+              handleSignInContainerClosed={handleSignInContainerClosed}
+              setHasSignInContainerClosed={setHasSignInContainerClosed}
+              hasSignInContainerClosed={hasSignInContainerClosed}
+              user={user}
             />
           }
         />

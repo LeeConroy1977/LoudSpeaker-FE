@@ -24,6 +24,20 @@
     border: 2px solid #456990;
     border-radius: 50%;
   }
+  .avatarMobileLarge {
+    width: 55px;
+    height: 55px;
+    border: 3.5px solid #456990;
+    border-radius: 50%;
+  }
+
+  .avatarMobileExtraLarge {
+    width: 65px;
+    height: 65px;
+    border: 3.5px solid #456990;
+    border-radius: 50%;
+  }
+
   .avatarMain {
     width: 48px;
     height: 48px;
