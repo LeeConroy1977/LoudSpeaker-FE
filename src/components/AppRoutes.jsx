@@ -4,24 +4,39 @@ import AppLayout from "./AppLayout";
 import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Article from "../pages/Article";
-import articlesArray from "../../data/articles";
 import { UserContext } from "../contexts/UserContext";
+import { ArticlesContext } from "../contexts/ArticlesContext";
+import { getAllArticles } from "../../utilities/api/articlesApi";
+import { ExistingUserContext } from "../contexts/ExistingUsersContext";
+import { getAllUsers } from "../../utilities/api/usersApi";
 
 const AppRoutes = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isComposeOpen, setIscomposeOpen] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState({});
   const [isTopicContainerOpen, setIsTopicContainerOpen] = useState(false);
-  const [articles, setArticles] = useState(articlesArray);
   const [searchInput, setSearchInput] = useState("");
   const [popularArticles, setPopularArticles] = useState([]);
   const [isSignInContainerOpen, setIsSignInContainerOpen] = useState(false);
   const [hasSignInContainerClosed, setHasSignInContainerClosed] =
     useState(false);
 
-  const { user, setUser } = useContext(UserContext);
+  const { user} = useContext(UserContext);
+  const { articles, setArticles } = useContext(ArticlesContext);
+  const { setExistingUsers } = useContext(ExistingUserContext);
 
-  console.log(user);
+  useEffect(() => {
+    getAllArticles().then(({ data }) => {
+      console.log(data.results.articles);
+      setArticles(data.results.articles);
+    });
+    getAllUsers().then(({ data }) => {
+      console.log(data.users);
+      setExistingUsers(data.users);
+    });
+  }, []);
+
+  console.log(articles);
 
   let filteredArticles = [];
 
@@ -31,6 +46,7 @@ const AppRoutes = () => {
 
   articles &&
     articles.filter((article) => {
+      console.log(article);
       if (article.body.toLowerCase().includes(searchInput.toLowerCase())) {
         filteredArticles.push(article);
       }
@@ -118,7 +134,6 @@ const AppRoutes = () => {
               handleSignInContainerClosed={handleSignInContainerClosed}
               setHasSignInContainerClosed={setHasSignInContainerClosed}
               hasSignInContainerClosed={hasSignInContainerClosed}
-              user={user}
             />
           }
         />

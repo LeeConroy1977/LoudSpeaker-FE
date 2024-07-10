@@ -6,14 +6,10 @@ import { timeSince } from "../../utilities/time.js";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext.jsx";
 import { Link } from "react-router-dom";
 
-const MainArticlesCard = ({
-  article,
-  users,
-  handleSelectedArticle,
-  comment_count = 123,
-}) => {
+const MainArticlesCard = ({ article, users, handleSelectedArticle }) => {
   const { width, height } = useContext(ScreenSizeContext);
-  const { title, author, created_at, votes, article_img_url } = article;
+  const { title, author, created_at, votes, article_img_url, comment_count } =
+    article;
 
   let userAvatar;
 
@@ -58,6 +54,7 @@ const MainArticlesCard = ({
               votesStyle="mobileVotes"
               votesNumStyle="mobileVotesNum"
               votesIconStyle="mobileVotesIcon"
+              votes={votes}
             />
           </div>
         </div>

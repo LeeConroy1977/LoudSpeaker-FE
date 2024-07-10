@@ -24,9 +24,9 @@ const Home = ({
   isSignInContainerOpen,
   handleSignInContainerClosed,
   hasSignInContainerClosed,
+ 
 }) => {
   const { width, height } = useContext(ScreenSizeContext);
-  const [articles, setArticles] = useState(articlesArray);
   const { user, setUser } = useContext(UserContext);
   return (
     <div className="sm:col-span-1 sm:row-span-1 sm:overflow-hidden flex flex-col h-auto">
@@ -73,7 +73,7 @@ const Home = ({
       )}
       {width > 640 && !isComposeOpen && <OptionsContainer />}
       <MainArticlesList
-        articles={articles}
+       
         handleSelectedArticle={handleSelectedArticle}
       />
     </div>
