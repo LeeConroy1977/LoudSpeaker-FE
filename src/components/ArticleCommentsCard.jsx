@@ -1,18 +1,21 @@
 import React, { useContext } from "react";
-import users from "../../data/users";
 import Avatar from "../reuseable-components/Avatar";
 import { timeSince } from "../../utilities/time";
 import CommentsContainer from "./CommentsContainer";
 import VotesContainer from "./VotesContainer";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
+import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 
-const ArticleCommentsCard = ({ comment, author }) => {
-  const { body, created_at, votes } = comment;
+const ArticleCommentsCard = ({ comment }) => {
+  const { body, created_at, votes, comment_id } = comment;
   const { width, height } = useContext(ScreenSizeContext);
+  const { existingUsers } = useContext(ExistingUserContext);
+
+  const { author } = comment;
 
   let userAvatar;
 
-  users.map((user) => {
+  existingUsers.map((user) => {
     if (user.username === author) {
       user = user;
       return (userAvatar = user.avatar_url);

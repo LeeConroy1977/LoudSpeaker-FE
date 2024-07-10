@@ -8,6 +8,7 @@ import { FaSearch } from "react-icons/fa";
 import { IoIosAddCircle } from "react-icons/io";
 import SearchBarList from "./SearchBarList";
 import useOutsideClick from "../hooks/useOutsideClick";
+import { Link } from "react-router-dom";
 
 const NavBar = ({
   handleSearchOpen,
@@ -20,7 +21,7 @@ const NavBar = ({
   isSearchOpen,
   setIsSearchOpen,
 }) => {
-  const { width, height } = useContext(ScreenSizeContext);
+  const { width } = useContext(ScreenSizeContext);
 
   const extendedComponentRef = useRef(null);
 
@@ -32,7 +33,9 @@ const NavBar = ({
 
   return (
     <nav className=" row-span-1 col-span-3  flex justify-between items-center border-b border-l border-r border-gray-200">
-      <Logo />
+      <Link to="/">
+        <Logo />
+      </Link>
       {width > 640 && (
         <div className="relative">
           <Input

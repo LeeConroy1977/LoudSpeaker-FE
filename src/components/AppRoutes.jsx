@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import AppLayout from "./AppLayout";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import Home from "../pages/Home";
 import Article from "../pages/Article";
 import { UserContext } from "../contexts/UserContext";
 import { ArticlesContext } from "../contexts/ArticlesContext";
-import { getAllArticles } from "../../utilities/api/articlesApi";
+import { getAllArticles, getArticle } from "../../utilities/api/articlesApi";
 import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 import { getAllUsers } from "../../utilities/api/usersApi";
+import { getArticleComments } from "../../utilities/api/commentsApi";
 
 const AppRoutes = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isComposeOpen, setIscomposeOpen] = useState(false);
-  const [selectedArticle, setSelectedArticle] = useState({});
   const [isTopicContainerOpen, setIsTopicContainerOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [popularArticles, setPopularArticles] = useState([]);
@@ -21,22 +21,18 @@ const AppRoutes = () => {
   const [hasSignInContainerClosed, setHasSignInContainerClosed] =
     useState(false);
 
-  const { user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { articles, setArticles } = useContext(ArticlesContext);
   const { setExistingUsers } = useContext(ExistingUserContext);
 
   useEffect(() => {
     getAllArticles().then(({ data }) => {
-      console.log(data.results.articles);
       setArticles(data.results.articles);
     });
     getAllUsers().then(({ data }) => {
-      console.log(data.users);
       setExistingUsers(data.users);
     });
   }, []);
-
-  console.log(articles);
 
   let filteredArticles = [];
 
@@ -46,20 +42,10 @@ const AppRoutes = () => {
 
   articles &&
     articles.filter((article) => {
-      console.log(article);
       if (article.body.toLowerCase().includes(searchInput.toLowerCase())) {
         filteredArticles.push(article);
       }
     });
-
-  // change to ID when fetching from DB
-  function handleSelectedArticle(title) {
-    articles.map((article) => {
-      if (title === article.title) {
-        setSelectedArticle(article);
-      }
-    });
-  }
 
   function handlePopularArticles() {
     const popularArticlesArray = articles
@@ -106,7 +92,6 @@ const AppRoutes = () => {
           <AppLayout
             handleSearchOpen={handleSearchOpen}
             handleComposeOpen={handleComposeOpen}
-            handleSelectedArticle={handleSelectedArticle}
             isTopicContainerOpen={isTopicContainerOpen}
             handleSearchInput={handleSearchInput}
             searchInput={searchInput}
@@ -126,7 +111,6 @@ const AppRoutes = () => {
               setIsSearchOpen={setIsSearchOpen}
               isComposeOpen={isComposeOpen}
               handleComposeOpen={handleComposeOpen}
-              handleSelectedArticle={handleSelectedArticle}
               isTopicContainerOpen={isTopicContainerOpen}
               handleTopicContainer={handleTopicContainer}
               popularArticles={popularArticles}
@@ -137,10 +121,7 @@ const AppRoutes = () => {
             />
           }
         />
-        <Route
-          path="/article"
-          element={<Article selectedArticle={selectedArticle} />}
-        />
+        <Route path="/articles/:article_id" element={<Article />} />
       </Route>
     </Routes>
   );
