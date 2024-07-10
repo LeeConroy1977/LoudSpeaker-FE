@@ -12,7 +12,6 @@ const topics = [
     subcategories: [
       "Architecture",
       "Art",
-      "Design",
       "Digital art",
       "Filmmaking",
       "Performing arts",
@@ -21,12 +20,7 @@ const topics = [
   },
   {
     category: "Business",
-    subcategories: [
-      "Advertising",
-      "Entrepreneurship",
-      "Insurance",
-      "Marketing",
-    ],
+    subcategories: ["Advertising", "Entrepreneurship", "Marketing"],
   },
   {
     category: "Education",
@@ -34,30 +28,18 @@ const topics = [
   },
   {
     category: "Fashion",
-    subcategories: [
-      "Accessories",
-      "Beauty",
-      "Fashion",
-      "Hair Care",
-      "Makeup",
-      "Filmmaking",
-      "Performing arts",
-      "Photography",
-      "Tattoos",
-    ],
+    subcategories: ["Accessories", "Beauty", "Fashion"],
   },
   {
     category: "Food",
-    subcategories: ["Baking", "Recipes", "Vegan"],
+    subcategories: ["cooking", "Recipes", "Vegan"],
   },
   {
     category: "Movies",
     subcategories: [
       "Action",
       "Comedy",
-      "Documentary",
       "Drama",
-      "Fantasy",
       "Horror",
       "romance",
       "Sci-Fi",
@@ -67,20 +49,11 @@ const topics = [
 
   {
     category: "Music",
-    subcategories: [
-      "Classical",
-      "Dance",
-      "Hip-Hop",
-      "Indie",
-      "Jazz",
-      "Metal",
-      "Pop",
-      "Rock",
-    ],
+    subcategories: ["Classical", "Dance", "Jazz", "Metal", "Pop", "Rock"],
   },
   {
     category: "Nature",
-    subcategories: ["Hiking", "Fishing", "Nature", "Wildlife"],
+    subcategories: ["Hiking", "Fishing", "Nature"],
   },
   {
     category: "Places",
@@ -94,37 +67,27 @@ const topics = [
     ],
   },
   {
-    category: "Placeholde1",
-    subcategories: [
-      "Africa",
-      "Asia",
-      "Oceania",
-      "Europe",
-      "North America",
-      "South America",
-    ],
-  },
-
-  {
     category: "Sport",
     subcategories: [
       "Baseball",
-      "Cycling",
       "Cricket",
       "Football",
       "Golf",
       "Motor Sports",
       "Rugby",
-      "Other Sports",
     ],
   },
   {
     category: "Technology",
-    subcategories: ["A.I.", "Computers", "Electronics", "Programming"],
+    subcategories: ["A.I.", "Electronics", "Programming"],
   },
   {
     category: "Travel",
     subcategories: ["Travel", "Holiday"],
+  },
+  {
+    category: "Vehicles",
+    subcategories: ["Aviation", "Boats", "Cars", "Motorcycles"],
   },
 ];
 

@@ -5,7 +5,7 @@ const CommentsContainer = ({
   commentStyle,
   commentsNumStyle,
   commentsIconStyle,
-  comment_count = 123,
+  comment_count,
 }) => {
   return (
     <div className={`${commentStyle} flex items-center rounded-xl`}>

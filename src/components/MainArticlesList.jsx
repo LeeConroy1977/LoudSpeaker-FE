@@ -1,19 +1,23 @@
-import React, { useState } from "react";
-import articlesArray from "../../data/articles";
-import users from "../../data/users";
-import MainArticlesCard from "./MainArticlesCard";
+import React, { useContext, useState } from "react";
 
-const MainArticlesList = ({ articles, handleSelectedArticle }) => {
+import MainArticlesCard from "./MainArticlesCard";
+import { ArticlesContext } from "../contexts/ArticlesContext";
+import { ExistingUserContext } from "../contexts/ExistingUsersContext";
+
+const MainArticlesList = ({ handleSelectedArticle }) => {
+  const { articles } = useContext(ArticlesContext);
+  const { existingUsers } = useContext(ExistingUserContext);
+
   return (
     <div className="sm:w-full sm:h-full sm:overflow-auto">
       {articles &&
-        users &&
+        existingUsers &&
         articles.map((article) => {
           return (
             <MainArticlesCard
               key={article.title}
               article={article}
-              users={users}
+              users={existingUsers}
               handleSelectedArticle={handleSelectedArticle}
             />
           );

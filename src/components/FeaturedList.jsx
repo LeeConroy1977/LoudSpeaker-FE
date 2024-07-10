@@ -1,8 +1,10 @@
-import React from "react";
-import articles from "../../data/articles";
+import React, { useContext } from "react";
+
 import FeaturedCard from "./FeaturedCard";
+import { ArticlesContext } from "../contexts/ArticlesContext";
 
 const FeaturedList = ({ handleSelectedArticle, isSearchOpen }) => {
+  const { articles, setArticles } = useContext(ArticlesContext);
   const featuredArticles = articles.filter((article) => article.featured);
 
   return (
@@ -10,16 +12,17 @@ const FeaturedList = ({ handleSelectedArticle, isSearchOpen }) => {
       className="h-[100px] w-[580px] sm:h-full sm:w-full flex flex-row  sm:flex-col  m-2 mt-1 mb-2 gap-2  sm:gap-3 
     "
     >
-      {featuredArticles.map((article) => {
-        return (
-          <FeaturedCard
-            key={article.title}
-            article={article}
-            handleSelectedArticle={handleSelectedArticle}
-            isSearchOpen={isSearchOpen}
-          />
-        );
-      })}
+      {featuredArticles &&
+        featuredArticles.map((article) => {
+          return (
+            <FeaturedCard
+              key={article.title}
+              article={article}
+              handleSelectedArticle={handleSelectedArticle}
+              isSearchOpen={isSearchOpen}
+            />
+          );
+        })}
     </div>
   );
 };

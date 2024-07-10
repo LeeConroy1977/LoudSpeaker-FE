@@ -3,13 +3,14 @@ import Avatar from "../reuseable-components/Avatar";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import VotesContainer from "./VotesContainer";
 import CommentsContainer from "./CommentsContainer";
-import users from "../../data/users";
+import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 
 const FeaturedCard = ({ article, handleSelectedArticle, isSearchOpen }) => {
   const { width, height } = useContext(ScreenSizeContext);
   const { title, article_img_url, author, votes } = article;
+  const { existingUsers } = useContext(ExistingUserContext);
 
-  const userAvatar = users.map((user) => {
+  const userAvatar = existingUsers.map((user) => {
     if (user.username === author) {
       return user.avatar_url;
     }
