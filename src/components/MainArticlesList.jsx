@@ -15,7 +15,7 @@ const MainArticlesList = ({ handleSelectedArticle }) => {
         articles.map((article) => {
           return (
             <MainArticlesCard
-              key={article.title}
+              key={article.article_id}
               article={article}
               users={existingUsers}
               handleSelectedArticle={handleSelectedArticle}

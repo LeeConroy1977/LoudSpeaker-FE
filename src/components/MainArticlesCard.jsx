@@ -6,10 +6,17 @@ import { timeSince } from "../../utilities/time.js";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext.jsx";
 import { Link } from "react-router-dom";
 
-const MainArticlesCard = ({ article, users, handleSelectedArticle }) => {
+const MainArticlesCard = ({ article, users }) => {
   const { width, height } = useContext(ScreenSizeContext);
-  const { title, author, created_at, votes, article_img_url, comment_count } =
-    article;
+  const {
+    title,
+    author,
+    created_at,
+    votes,
+    article_img_url,
+    comment_count,
+    article_id,
+  } = article;
 
   let userAvatar;
 
@@ -23,11 +30,8 @@ const MainArticlesCard = ({ article, users, handleSelectedArticle }) => {
   const userDetail = `${author} . ${timeDetail}`;
 
   return (
-    <Link to="/article">
-      <div
-        className="w-full border-b border-gray-200 p-3 cursor-pointer"
-        onClick={() => handleSelectedArticle(title)}
-      >
+    <Link to={`/articles/${article_id}`}>
+      <div className="w-full border-b border-gray-200 p-3 cursor-pointer">
         <div className="flex items-center mt-1 ml-1">
           {userAvatar && width < 640 && (
             <Avatar
@@ -65,7 +69,6 @@ const MainArticlesCard = ({ article, users, handleSelectedArticle }) => {
           src={article_img_url}
           alt=""
           className="w-full h-[200px] sm:w-[90%] sm:h-[330px] mt-1 mb-1 sm:ml-auto rounded-xl cursor-pointer"
-          onClick={() => handleSelectedArticle(title)}
         />
       </div>
     </Link>

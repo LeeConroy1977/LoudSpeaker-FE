@@ -24,7 +24,6 @@ const Home = ({
   isSignInContainerOpen,
   handleSignInContainerClosed,
   hasSignInContainerClosed,
- 
 }) => {
   const { width, height } = useContext(ScreenSizeContext);
   const { user, setUser } = useContext(UserContext);
@@ -72,10 +71,7 @@ const Home = ({
         )
       )}
       {width > 640 && !isComposeOpen && <OptionsContainer />}
-      <MainArticlesList
-       
-        handleSelectedArticle={handleSelectedArticle}
-      />
+      <MainArticlesList handleSelectedArticle={handleSelectedArticle} />
     </div>
   );
 };

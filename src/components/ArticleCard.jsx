@@ -1,20 +1,29 @@
 import React, { useContext } from "react";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
-import users from "../../data/users";
 import Avatar from "../reuseable-components/Avatar";
 import CommentsContainer from "./CommentsContainer";
 import VotesContainer from "./VotesContainer";
 import { timeSince } from "../../utilities/time";
 import CommentPostContainer from "./CommentPostContainer";
 import ArticleCommentsList from "./ArticleCommentsList";
+import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 
-const ArticleCard = ({ article, comment_count = 12 }) => {
+const ArticleCard = ({ article, comments }) => {
   const { width, height } = useContext(ScreenSizeContext);
-  const { title, body, author, created_at, votes, article_img_url } = article;
+  const { existingUsers } = useContext(ExistingUserContext);
+  const {
+    title,
+    body,
+    author,
+    created_at,
+    votes,
+    article_img_url,
+    comment_count,
+  } = article;
 
   let userAvatar;
 
-  users.map((user) => {
+  existingUsers.map((user) => {
     if (user.username === author) {
       user = user;
       return (userAvatar = user.avatar_url);
@@ -25,9 +34,10 @@ const ArticleCard = ({ article, comment_count = 12 }) => {
   const userDetail = `${author} . ${timeDetail}`;
 
   return (
-    <>
-      {article && (
-        <div>
+    <div>
+      {article && comments && (
+        <>
+          {" "}
           <div className="w-full border-b border-gray-200 p-3 cursor-pointer">
             <div className="flex items-center mt-1 ml-1">
               {userAvatar && width < 640 && (
@@ -55,6 +65,7 @@ const ArticleCard = ({ article, comment_count = 12 }) => {
                   votesStyle="mobileVotes"
                   votesNumStyle="mobileVotesNum"
                   votesIconStyle="mobileVotesIcon"
+                  votes={votes}
                 />
               </div>
             </div>
@@ -72,10 +83,10 @@ const ArticleCard = ({ article, comment_count = 12 }) => {
           </div>
           <CommentPostContainer />
           {/* change from user to article id and pass article as props instead!! */}
-          <ArticleCommentsList author={author} />
-        </div>
+          <ArticleCommentsList article={article} comments={comments} />{" "}
+        </>
       )}
-    </>
+    </div>
   );
 };
 
