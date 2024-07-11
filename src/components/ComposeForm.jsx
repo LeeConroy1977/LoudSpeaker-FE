@@ -4,20 +4,23 @@ import Avatar from "../reuseable-components/Avatar";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import SelectComponent from "../reuseable-components/SelectComponent";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
+import { UserContext } from "../contexts/UserContext";
+import { CgProfile } from "react-icons/cg";
 
 const ComposeForm = ({ handleComposeOpen, isComposeOpen }) => {
-  const { width, height } = useContext(ScreenSizeContext);
+  const { width } = useContext(ScreenSizeContext);
+  const { user } = useContext(UserContext);
   return (
     <div
       className="flex flex-col items-center justify-start
        w-full h-[420px] sm:w-full sm:h-[480px]  border-gray-200 border-b  sm:p-4 p-3 pt-0"
     >
       <div className="flex items-center justify-between w-full h-[4.4rem] ">
-        <div className="w-[50px] sm:w-[70px]">
-          <Avatar
-            avatarStyle={`${width < 640 ? "avatarMobile" : "avatarMain"}`}
-          />
-        </div>
+        <Avatar
+          avatarStyle={width < 640 ? "avatarMobile" : "avatarMain"}
+          avatarURL={user.avatar_url}
+        />
+
         <div className="flex items-center  w-full h-[22%] ml-2">
           <SelectComponent selectStyle="selectMobile" />
           <SelectComponent selectStyle="selectMobile" />

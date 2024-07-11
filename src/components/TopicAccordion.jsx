@@ -20,7 +20,7 @@ const TopicAccordion = ({ handleTopicContainer }) => {
     );
   }
   return (
-    <div className="w-full mb-2 mt-2 bg-white z-50 rounded-xl pt-2 pb-2 sm:rounded-none sm:pt-0">
+    <div className="w-full mb-2 mt-2 bg-white  rounded-xl pt-2 pb-2 sm:rounded-none sm:pt-0">
       {width < 640 && (
         <h4 className="border-b border-gray-200 h-[44px] font-semibold text-primary">
           Select a topic

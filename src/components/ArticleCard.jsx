@@ -8,7 +8,7 @@ import CommentPostContainer from "./CommentPostContainer";
 import ArticleCommentsList from "./ArticleCommentsList";
 import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 
-const ArticleCard = ({ article, comments }) => {
+const ArticleCard = ({ article, comments, handlePostCommentContainerOpen }) => {
   const { width, height } = useContext(ScreenSizeContext);
   const { existingUsers } = useContext(ExistingUserContext);
   const {
@@ -81,7 +81,9 @@ const ArticleCard = ({ article, comments }) => {
               {body}
             </p>
           </div>
-          <CommentPostContainer />
+          <CommentPostContainer
+            handlePostCommentContainerOpen={handlePostCommentContainerOpen}
+          />
           {/* change from user to article id and pass article as props instead!! */}
           <ArticleCommentsList article={article} comments={comments} />{" "}
         </>

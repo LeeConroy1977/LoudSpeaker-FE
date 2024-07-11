@@ -1,10 +1,15 @@
 import AppRoutes from "./components/AppRoutes";
+import { ModalProvider } from "./contexts/ModalContext";
+import Modal from "./reuseable-components/Modal";
 
 function App() {
   return (
-    <div className="w-full h-screen flex justify-center ">
-      <AppRoutes />
-    </div>
+    <ModalProvider>
+      <div className="w-full h-screen flex justify-center ">
+        <AppRoutes />
+        <Modal />
+      </div>
+    </ModalProvider>
   );
 }
 

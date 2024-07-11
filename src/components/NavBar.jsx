@@ -9,6 +9,10 @@ import { IoIosAddCircle } from "react-icons/io";
 import SearchBarList from "./SearchBarList";
 import useOutsideClick from "../hooks/useOutsideClick";
 import { Link } from "react-router-dom";
+import { CgProfile } from "react-icons/cg";
+import { UserContext } from "../contexts/UserContext";
+import { useModal } from "../contexts/ModalContext";
+import SignIn from "./SignIn";
 
 const NavBar = ({
   handleSearchOpen,
@@ -16,12 +20,13 @@ const NavBar = ({
   handleSearchInput,
   searchInput,
   filteredArticles,
-  handlePopularArticles,
   popularArticles,
   isSearchOpen,
   setIsSearchOpen,
 }) => {
   const { width } = useContext(ScreenSizeContext);
+  const { user, setUser } = useContext(UserContext);
+  const { showModal } = useModal();
 
   const extendedComponentRef = useRef(null);
 
@@ -30,6 +35,15 @@ const NavBar = ({
   useEffect(() => {}, [searchInput]);
 
   const searchInputLength = searchInput.length;
+
+  function handleSignOut() {
+    if (!user.username) {
+      return showModal(<SignIn />);
+    }
+    if (user.username) {
+      return setUser({});
+    }
+  }
 
   return (
     <nav className=" row-span-1 col-span-3  flex justify-between items-center border-b border-l border-r border-gray-200">
@@ -72,7 +86,11 @@ const NavBar = ({
         </div>
       )}
       <div className="flex items-center mx-2.5 sm:mx-8 gap-3 sm:gap-8">
-        {width > 640 && <Button buttonStyle="buttonLarge">Sign In</Button>}
+        {width > 640 && (
+          <Button buttonStyle="buttonLarge" handleClick={handleSignOut}>
+            {user.username ? "Sign Out" : "Sign In"}
+          </Button>
+        )}
         {width < 640 && (
           <FaSearch
             className="w-5 h-5 text-primary cursor-pointer"
@@ -85,7 +103,21 @@ const NavBar = ({
             onClick={() => handleComposeOpen()}
           />
         )}
-        <Avatar avatarStyle="avatarMobile sm:avatarLarge" />
+        <div className="sm:w-[65px] sm:h-[65px] flex justify-center items-center">
+          {user.username ? (
+            <Avatar
+              avatarURL={user.avatar_url}
+              avatarStyle="avatarMobile sm:avatarLarge"
+            />
+          ) : (
+            <div>
+              <CgProfile
+                className="avatarMobile sm:w-[58px] sm:h-[58px] border-none text-primary"
+                onClick={() => showModal(<SignIn />)}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </nav>
   );

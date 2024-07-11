@@ -19,7 +19,7 @@ const FeaturedCard = ({ article, handleSelectedArticle, isSearchOpen }) => {
   const reducedTitle = title.split(" ").slice(0, 4).join(" ");
 
   return (
-    <div className="h-full w-[140px] sm:w-full sm:h-[138px] relative z-10">
+    <div className="h-full w-[140px] sm:w-full sm:h-[138px] relative ">
       {!isSearchOpen && (
         <>
           <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center p-4 rounded-lg"></div>

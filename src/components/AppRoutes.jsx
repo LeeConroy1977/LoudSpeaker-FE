@@ -6,24 +6,27 @@ import Home from "../pages/Home";
 import Article from "../pages/Article";
 import { UserContext } from "../contexts/UserContext";
 import { ArticlesContext } from "../contexts/ArticlesContext";
-import { getAllArticles, getArticle } from "../../utilities/api/articlesApi";
+import { getAllArticles } from "../../utilities/api/articlesApi";
 import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 import { getAllUsers } from "../../utilities/api/usersApi";
-import { getArticleComments } from "../../utilities/api/commentsApi";
+import SignIn from "./SignIn";
+import { useModal } from "../contexts/ModalContext";
 
 const AppRoutes = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isComposeOpen, setIscomposeOpen] = useState(false);
-  const [isTopicContainerOpen, setIsTopicContainerOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [popularArticles, setPopularArticles] = useState([]);
   const [isSignInContainerOpen, setIsSignInContainerOpen] = useState(false);
+  const [isPostCommentContainerOpen, setIsPostCommentContainerOpen] =
+    useState(false);
   const [hasSignInContainerClosed, setHasSignInContainerClosed] =
     useState(false);
 
   const { user } = useContext(UserContext);
   const { articles, setArticles } = useContext(ArticlesContext);
   const { setExistingUsers } = useContext(ExistingUserContext);
+  const { showModal } = useModal();
 
   useEffect(() => {
     getAllArticles().then(({ data }) => {
@@ -33,6 +36,8 @@ const AppRoutes = () => {
       setExistingUsers(data.users);
     });
   }, []);
+
+  console.log(articles);
 
   let filteredArticles = [];
 
@@ -57,15 +62,15 @@ const AppRoutes = () => {
 
   function handleSearchOpen() {
     setIsSearchOpen(!isSearchOpen);
-    setIsTopicContainerOpen(false);
+
     setIscomposeOpen(false);
     handlePopularArticles();
   }
 
   function handleComposeOpen() {
-    if (!user.username && !isSignInContainerOpen) {
-      setIsSignInContainerOpen(true);
-      setHasSignInContainerClosed(false);
+    if (!user.username) {
+      setIsSearchOpen(false);
+      showModal(<SignIn />);
     }
     if (user.username) {
       setIscomposeOpen(!isComposeOpen);
@@ -73,16 +78,13 @@ const AppRoutes = () => {
     }
   }
 
-  function handleTopicContainer() {
-    setIsTopicContainerOpen(!isTopicContainerOpen);
-    setIsSearchOpen(false);
-  }
-
   function handleSignInContainerClosed() {
     setHasSignInContainerClosed(true);
   }
 
-  console.log(isSignInContainerOpen);
+  function handlePostCommentContainerOpen() {
+    setIsPostCommentContainerOpen(true);
+  }
 
   return (
     <Routes>
@@ -92,7 +94,6 @@ const AppRoutes = () => {
           <AppLayout
             handleSearchOpen={handleSearchOpen}
             handleComposeOpen={handleComposeOpen}
-            isTopicContainerOpen={isTopicContainerOpen}
             handleSearchInput={handleSearchInput}
             searchInput={searchInput}
             filteredArticles={filteredArticles}
@@ -111,17 +112,26 @@ const AppRoutes = () => {
               setIsSearchOpen={setIsSearchOpen}
               isComposeOpen={isComposeOpen}
               handleComposeOpen={handleComposeOpen}
-              isTopicContainerOpen={isTopicContainerOpen}
-              handleTopicContainer={handleTopicContainer}
               popularArticles={popularArticles}
               isSignInContainerOpen={isSignInContainerOpen}
               handleSignInContainerClosed={handleSignInContainerClosed}
               setHasSignInContainerClosed={setHasSignInContainerClosed}
               hasSignInContainerClosed={hasSignInContainerClosed}
+              isPostCommentContainerOpen={isPostCommentContainerOpen}
             />
           }
         />
-        <Route path="/articles/:article_id" element={<Article />} />
+        <Route
+          path="/articles/:article_id"
+          element={
+            <Article
+              isPostCommentContainerOpen={isPostCommentContainerOpen}
+              handlePostCommentContainerOpen={handlePostCommentContainerOpen}
+              handleSignInContainerClosed={handleSignInContainerClosed}
+              hasSignInContainerClosed={hasSignInContainerClosed}
+            />
+          }
+        />
       </Route>
     </Routes>
   );
