@@ -6,10 +6,13 @@ import { UserContext } from "../contexts/UserContext";
 import Button from "../reuseable-components/Button";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { useModal } from "../contexts/ModalContext";
 
-const SignIn = ({ handleSignInContainerClosed }) => {
+const SignIn = () => {
   const { user, setUser } = useContext(UserContext);
   const { width, height } = useContext(ScreenSizeContext);
+
+  const { hideModal } = useModal();
 
   useEffect(() => {}, [handleSelectUser]);
 
@@ -23,24 +26,19 @@ const SignIn = ({ handleSignInContainerClosed }) => {
 
   return (
     <div className="flex flex-col w-full h-full items-center relative ">
-      {width > 640 && (
-        <div
-          className="w-[30px] h-[30px]  flex justify-center items-center sm:items-start sm:ml-auto bg-white rounded-full cursor-pointer absolute right-0"
-          onClick={() => handleSignInContainerClosed(true)}
-        >
-          <IoIosCloseCircleOutline className=" text-primary text-[28px] font-bold " />
-        </div>
-      )}
+      <div
+        className="w-[30px] h-[30px]  flex justify-center items-center sm:items-start sm:ml-auto bg-white rounded-full cursor-pointer absolute right-0"
+        onClick={hideModal}
+      >
+        <IoIosCloseCircleOutline className=" text-primary text-[28px] font-bold " />
+      </div>
 
-      <div className="flex justify-center ">
+      <div className="flex justify-center mt-5 sm:mt-4 ">
         <Logo />
       </div>
       {!user.username ? (
         <>
-          <p className="text-[0.85rem] text-primary text-center font-semibold  mt-6 sm:mt-8 pl-2 pr-2">
-            You must be logged-in to access this feature!
-          </p>
-          <p className="text-[0.85rem] text-primary  text-center font-semibold  mt-2 pl-2 pr-2">
+          <p className="text-[0.85rem] text-primary  text-center font-semibold  mt-5 mb-5 sm:mb-0 sm:mt-8 pl-2 pr-2">
             Please select an existing user to sign in.
           </p>
           <div className="w-full h-[70%]  flex gap-4 justify-center flex-row items-start flex-wrap mt-4 sm:mt-7">
@@ -90,8 +88,10 @@ const SignIn = ({ handleSignInContainerClosed }) => {
           "
           >
             <Button
-              buttonStyle={width < 640 ? "buttonMedium" : "buttonLarge"}
-              handleClick={handleSignInContainerClosed}
+              buttonStyle={
+                width < 640 ? "buttonSignInMobile" : "buttonSignInLarge"
+              }
+              handleClick={hideModal}
             >
               Continue
             </Button>

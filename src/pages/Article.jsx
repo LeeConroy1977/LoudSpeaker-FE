@@ -4,7 +4,7 @@ import { getArticle } from "../../utilities/api/articlesApi";
 import { getArticleComments } from "../../utilities/api/commentsApi";
 import { useEffect, useState } from "react";
 
-const Article = () => {
+const Article = ({ handlePostCommentContainerOpen }) => {
   const [article, setArticle] = useState({});
   const [comments, setComments] = useState([]);
   const { article_id } = useParams();
@@ -19,12 +19,14 @@ const Article = () => {
     });
   }, [article_id]);
 
-  console.log(article_id);
-  console.log(article);
   return (
     <div>
       {article && comments && (
-        <ArticleCard article={article} comments={comments} />
+        <ArticleCard
+          article={article}
+          comments={comments}
+          handlePostCommentContainerOpen={handlePostCommentContainerOpen}
+        />
       )}
     </div>
   );
