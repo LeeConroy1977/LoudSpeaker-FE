@@ -20,7 +20,7 @@ const MainArticlesCard = ({ article, users }) => {
 
   let userAvatar;
 
-  users.map((user) => {
+  users.forEach((user) => {
     if (user.username === author) {
       return (userAvatar = user.avatar_url);
     }
@@ -58,7 +58,8 @@ const MainArticlesCard = ({ article, users }) => {
               votesStyle="mobileVotes"
               votesNumStyle="mobileVotesNum"
               votesIconStyle="mobileVotesIcon"
-              votes={votes}
+              initialVotes={votes}
+              handleShouldSignIn={false}
             />
           </div>
         </div>

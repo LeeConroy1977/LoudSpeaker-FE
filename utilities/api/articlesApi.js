@@ -13,3 +13,11 @@ export async function getArticle(id) {
     return data.article;
   });
 }
+
+export async function patchArticle(id, inc_votes) {
+  return loudSpeakerApi
+    .patch(`/api/articles/${id}`, { inc_votes })
+    .then(({ data }) => {
+      return data.article;
+    });
+}
