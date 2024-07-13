@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 const MainArticlesCard = ({ article, users }) => {
   const { width, height } = useContext(ScreenSizeContext);
+
   const {
     title,
     author,
@@ -52,7 +53,7 @@ const MainArticlesCard = ({ article, users }) => {
               commentStyle="mobileComments"
               commentsNumStyle="mobileCommentsNum"
               commentsIconStyle="mobileCommentsIcon"
-              comment_count={comment_count}
+              commentCount={comment_count}
             />
             <VotesContainer
               votesStyle="mobileVotes"

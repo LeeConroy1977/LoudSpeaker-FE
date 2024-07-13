@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import AppLayout from "./AppLayout";
-import { Route, Routes, useParams } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Article from "../pages/Article";
 import { UserContext } from "../contexts/UserContext";
@@ -18,11 +18,9 @@ const AppRoutes = () => {
   const [searchInput, setSearchInput] = useState("");
   const [popularArticles, setPopularArticles] = useState([]);
   const [isSignInContainerOpen, setIsSignInContainerOpen] = useState(false);
-  const [isPostCommentContainerOpen, setIsPostCommentContainerOpen] =
-    useState(false);
   const [hasSignInContainerClosed, setHasSignInContainerClosed] =
     useState(false);
-
+  const [commentCount, setCommentCount] = useState(null);
   const { user } = useContext(UserContext);
   const { articles, setArticles } = useContext(ArticlesContext);
   const { setExistingUsers } = useContext(ExistingUserContext);
@@ -31,11 +29,12 @@ const AppRoutes = () => {
   useEffect(() => {
     getAllArticles().then(({ data }) => {
       setArticles(data.results.articles);
+      console.log(articles);
     });
     getAllUsers().then(({ data }) => {
       setExistingUsers(data.users);
     });
-  }, []);
+  }, [commentCount]);
 
   console.log(articles);
 
@@ -82,10 +81,6 @@ const AppRoutes = () => {
     setHasSignInContainerClosed(true);
   }
 
-  function handlePostCommentContainerOpen() {
-    setIsPostCommentContainerOpen(true);
-  }
-
   return (
     <Routes>
       <Route
@@ -117,7 +112,6 @@ const AppRoutes = () => {
               handleSignInContainerClosed={handleSignInContainerClosed}
               setHasSignInContainerClosed={setHasSignInContainerClosed}
               hasSignInContainerClosed={hasSignInContainerClosed}
-              isPostCommentContainerOpen={isPostCommentContainerOpen}
             />
           }
         />
@@ -125,10 +119,10 @@ const AppRoutes = () => {
           path="/articles/:article_id"
           element={
             <Article
-              isPostCommentContainerOpen={isPostCommentContainerOpen}
-              handlePostCommentContainerOpen={handlePostCommentContainerOpen}
               handleSignInContainerClosed={handleSignInContainerClosed}
               hasSignInContainerClosed={hasSignInContainerClosed}
+              setCommentCount={setCommentCount}
+              commentCount={commentCount}
             />
           }
         />

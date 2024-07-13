@@ -14,6 +14,7 @@ const VotesContainer = ({
   handleClick,
   article,
   handleShouldSignIn,
+  votes,
 }) => {
   const { user } = useContext(UserContext);
   const { showModal } = useModal();
@@ -81,7 +82,6 @@ const VotesContainer = ({
       localStorage.setItem(`voteStatus-${article_id}`, "down");
     }
   };
-  console.log(voteStatus, "voteStatus /////////////////");
 
   return (
     <div className={`${votesStyle} flex items-center  rounded-xl`}>

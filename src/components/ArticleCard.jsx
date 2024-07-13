@@ -9,27 +9,58 @@ import ArticleCommentsList from "./ArticleCommentsList";
 import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 import { MainArticleContext } from "../contexts/MainArticleContext";
 import { patchArticle } from "../../utilities/api/articlesApi";
+import {
+  deleteArticleComment,
+  postArticleComment,
+} from "../../utilities/api/commentsApi";
+import { UserContext } from "../contexts/UserContext";
+import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
 
 const ArticleCard = ({
-  comments,
-  handlePostCommentContainerOpen,
   handleVoteCount,
   voteCount,
   article,
+  commentCount,
+  setCommentCount,
 }) => {
   const { width } = useContext(ScreenSizeContext);
   const { existingUsers } = useContext(ExistingUserContext);
+  const { comments, setComments } = useContext(ArticleCommentsContext);
+  const { user } = useContext(UserContext);
+  const [deletedCommentId, setDeletedCommentId] = useState(null);
+  const [userComment, setUserComment] = useState({
+    body: "",
+  });
+  const { title, body, author, created_at, article_img_url, article_id } =
+    article;
+  const { body: commentBody } = userComment;
 
-  const {
-    title,
-    body,
-    author,
-    created_at,
-    votes,
-    article_img_url,
-    comment_count,
-    article_id,
-  } = article;
+  const isFirstDelete = useRef(true);
+  const isFirstPost = useRef(true);
+
+  useEffect(() => {
+    if (!isFirstDelete.current) {
+      deleteArticleComment(deletedCommentId).then(() => {});
+      setCommentCount((count) => count - 1);
+    }
+  }, [deletedCommentId]);
+
+  useEffect(() => {
+    if (!isFirstPost.current) {
+      postArticleComment(article_id, commentBody, user.username).then(
+        (comment) => {
+          console.log(comment);
+          setComments([comment, ...comments]);
+          setCommentCount((count) => count + 1);
+        }
+      );
+    }
+  }, [userComment]);
+
+  useEffect(() => {
+    isFirstDelete.current = false;
+    isFirstPost.current = false;
+  }, []);
 
   let userAvatar;
 
@@ -47,7 +78,7 @@ const ArticleCard = ({
     <>
       {article !== undefined &&
         voteCount !== undefined &&
-        comment_count !== undefined && (
+        comments !== undefined && (
           <div>
             <div className="w-full border-b border-gray-200 p-3 cursor-pointer">
               <div className="flex items-center mt-1 ml-1">
@@ -70,7 +101,7 @@ const ArticleCard = ({
                     commentStyle="mobileComments"
                     commentsNumStyle="mobileCommentsNum"
                     commentsIconStyle="mobileCommentsIcon"
-                    comment_count={comment_count}
+                    commentCount={commentCount}
                   />
 
                   <VotesContainer
@@ -96,11 +127,11 @@ const ArticleCard = ({
                 {body}
               </p>
             </div>
-            <CommentPostContainer
-              handlePostCommentContainerOpen={handlePostCommentContainerOpen}
-            />
-            {/* change from user to article id and pass article as props instead!! */}
-            <ArticleCommentsList article={article} comments={comments} />{" "}
+            <CommentPostContainer setUserComment={setUserComment} />
+            <ArticleCommentsList
+              article={article}
+              setDeletedCommentId={setDeletedCommentId}
+            />{" "}
           </div>
         )}
     </>

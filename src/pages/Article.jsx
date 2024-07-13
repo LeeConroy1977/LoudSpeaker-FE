@@ -4,10 +4,11 @@ import { getArticle, patchArticle } from "../../utilities/api/articlesApi";
 import { getArticleComments } from "../../utilities/api/commentsApi";
 import { useContext, useEffect, useRef, useState } from "react";
 import { MainArticleContext } from "../contexts/MainArticleContext";
+import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
 
-const Article = ({ handlePostCommentContainerOpen }) => {
-  const [comments, setComments] = useState([]);
+const Article = ({ setCommentCount, commentCount }) => {
   const { article, setArticle } = useContext(MainArticleContext);
+  const { setComments } = useContext(ArticleCommentsContext);
   const [incVotes, setIncVotes] = useState(0);
   const { article_id } = useParams();
   const { votes } = article;
@@ -20,16 +21,14 @@ const Article = ({ handlePostCommentContainerOpen }) => {
       console.log(article);
       setArticle(article);
       setVoteCount(article.votes);
-      console.log(voteCount);
+      setCommentCount(article.comment_count);
+      console.log(commentCount);
     });
 
     getArticleComments(article_id).then((articleComments) => {
-      console.log(articleComments);
       setComments(articleComments);
     });
-  }, [article_id, setArticle]);
-
-  console.log(voteCount);
+  }, [article_id, setArticle, commentCount]);
 
   useEffect(() => {
     if (!isFirst.current) {
@@ -47,6 +46,10 @@ const Article = ({ handlePostCommentContainerOpen }) => {
     isFirst.current = false;
   }, []);
 
+  useEffect(() => {
+    setVoteCount(article.comment_count);
+  }, []);
+
   const handleVoteCount = (change) => {
     setIncVotes(change);
     setVoteCount(voteCount + change);
@@ -57,10 +60,10 @@ const Article = ({ handlePostCommentContainerOpen }) => {
       {article && (
         <ArticleCard
           article={article}
-          comments={comments}
-          handlePostCommentContainerOpen={handlePostCommentContainerOpen}
           handleVoteCount={handleVoteCount}
           voteCount={voteCount}
+          commentCount={commentCount}
+          setCommentCount={setCommentCount}
         />
       )}
     </div>

@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import ArticleCommentsCard from "./ArticleCommentsCard";
-import ArticleComments from "../../data/comments";
+import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
 
-const ArticleCommentsList = ({ comments }) => {
+const ArticleCommentsList = ({ setDeletedCommentId }) => {
+  const { comments } = useContext(ArticleCommentsContext);
   return (
     <div>
       {comments.map((comment) => {
         return (
-          <ArticleCommentsCard key={comment.comment_id} comment={comment} />
+          <ArticleCommentsCard
+            key={comment.comment_id}
+            comment={comment}
+            setDeletedCommentId={setDeletedCommentId}
+          />
         );
       })}
     </div>
