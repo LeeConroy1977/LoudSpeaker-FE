@@ -1,15 +1,19 @@
 import React, { useContext } from "react";
 import Avatar from "../reuseable-components/Avatar";
 import { timeSince } from "../../utilities/time";
-import CommentsContainer from "./CommentsContainer";
 import VotesContainer from "./VotesContainer";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { ExistingUserContext } from "../contexts/ExistingUsersContext";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { UserContext } from "../contexts/UserContext";
+import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
 
-const ArticleCommentsCard = ({ comment }) => {
+const ArticleCommentsCard = ({ comment, setDeletedCommentId }) => {
   const { body, created_at, votes, comment_id } = comment;
-  const { width, height } = useContext(ScreenSizeContext);
+  const { width } = useContext(ScreenSizeContext);
   const { existingUsers } = useContext(ExistingUserContext);
+  const { user } = useContext(UserContext);
+  const { setComments } = useContext(ArticleCommentsContext);
 
   const { author } = comment;
 
@@ -25,6 +29,17 @@ const ArticleCommentsCard = ({ comment }) => {
   const timeDetail = timeSince(created_at);
   const userDetail = `${author} . ${timeDetail}`;
 
+  function handleDeleteCommentClick(id) {
+    if (Number(id) === comment_id) {
+      console.log(Number(id), comment_id);
+      console.log("this ran!!");
+      setDeletedCommentId(id);
+      setComments((comment) =>
+        comment.filter((comment) => comment.comment_id !== Number(id))
+      );
+    }
+  }
+
   return (
     <div className="w-full h-auto border-gray-200 border-b p-2 ">
       <div className="flex justify-between items-center ml-2 mr-2 mt-1">
@@ -39,11 +54,19 @@ const ArticleCommentsCard = ({ comment }) => {
           votesStyle="mobileVotes"
           votesNumStyle="mobileVotesNum"
           votesIconStyle="mobileVotesIcon"
-          votes={votes}
+          initialVotes={votes}
         />
       </div>
       <div className="sm:ml-[4rem] sm:mr-1 ml-2 mr-2 mb-1 mt-3 sm:mt-3  text-[0.75rem]  sm:text-[0.8rem] font-semibold">
         {body}
+      </div>
+      <div className="flex justify-end mr-2">
+        {user.username === author && (
+          <RiDeleteBin6Line
+            className="text-primary cursor-pointer"
+            onClick={() => handleDeleteCommentClick(comment.comment_id)}
+          />
+        )}
       </div>
     </div>
   );

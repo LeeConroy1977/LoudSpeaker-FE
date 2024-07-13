@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { FaRegCommentAlt } from "react-icons/fa";
+import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
 
 const CommentsContainer = ({
   commentStyle,
   commentsNumStyle,
   commentsIconStyle,
-  comment_count,
+  commentCount,
 }) => {
   return (
     <div className={`${commentStyle} flex items-center rounded-xl`}>
       <span>
         <FaRegCommentAlt className={`${commentsIconStyle} font-bold`} />
       </span>
-      <p className={`${commentsNumStyle} `}>{comment_count}</p>
+      <p className={`${commentsNumStyle} `}>{commentCount}</p>
     </div>
   );
 };

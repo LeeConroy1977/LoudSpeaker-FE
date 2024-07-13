@@ -56,6 +56,17 @@
     border: 3.5px solid #456990;
     border-radius: 50%;
   }
+
+  .buttonLarge,
+  .buttonSignInLarge,
+  .buttonSignInMobile,
+  .buttonMedium,
+  .buttonMobile {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+  }
+
   .buttonLarge {
     width: 100px;
     height: 40px;
@@ -82,6 +93,16 @@
     width: 74px;
     height: 30px;
     font-size: 0.7rem;
+    cursor: pointer;
+  }
+
+  .buttonMobileDisabled {
+    width: 74px;
+    height: 30px;
+    font-size: 0.7rem;
+    background-color: #f3f4f6;
+    color: black;
+    font-weight: bold;
   }
 
   .featuredSectionMobile {
@@ -180,6 +201,9 @@
 
   .input {
     border: 1px solid #d2d2d2;
+  }
+  .placeholder-13px::placeholder {
+    font-size: 16px;
   }
   /* ... */
 }
