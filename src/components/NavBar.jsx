@@ -47,7 +47,7 @@ const NavBar = ({
 
   return (
     <nav className=" row-span-1 col-span-3  flex justify-between items-center border-b border-l border-r border-gray-200">
-      <Link to="/">
+      <Link to="/articles">
         <Logo />
       </Link>
       {width > 640 && (

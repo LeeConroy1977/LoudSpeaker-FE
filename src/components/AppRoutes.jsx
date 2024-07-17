@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import AppLayout from "./AppLayout";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useSearchParams } from "react-router-dom";
 import Home from "../pages/Home";
 import Article from "../pages/Article";
 import { UserContext } from "../contexts/UserContext";
@@ -11,6 +11,7 @@ import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 import { getAllUsers } from "../../utilities/api/usersApi";
 import SignIn from "./SignIn";
 import { useModal } from "../contexts/ModalContext";
+import { SelectedTopicContext } from "../contexts/SelectedTopicContext";
 
 const AppRoutes = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -24,19 +25,29 @@ const AppRoutes = () => {
   const { user } = useContext(UserContext);
   const { articles, setArticles } = useContext(ArticlesContext);
   const { setExistingUsers } = useContext(ExistingUserContext);
+  const { selectedTopic } = useContext(SelectedTopicContext);
   const { showModal } = useModal();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [limit, setLimit] = useState(6);
+  const [page, setPage] = useState(1);
+  const [totalAricles, setTotalArticles] = useState(0);
+
+  const topicParam = searchParams.get("topic");
+  const sortedByParam = null;
+  const orderedByParam = "desc";
 
   useEffect(() => {
-    getAllArticles().then(({ data }) => {
-      setArticles(data.results.articles);
-      console.log(articles);
-    });
-    getAllUsers().then(({ data }) => {
-      setExistingUsers(data.users);
-    });
-  }, [commentCount]);
+    getAllArticles(topicParam, sortedByParam, orderedByParam, limit, page).then(
+      (results) => {
+        setArticles(results.articles);
 
-  console.log(articles);
+        setTotalArticles(results.total_count.total_count);
+        console.log(page);
+      }
+    );
+  }, [topicParam, sortedByParam, orderedByParam, limit, page, commentCount]);
+
+  console.log(topicParam);
 
   let filteredArticles = [];
 
@@ -101,6 +112,22 @@ const AppRoutes = () => {
       >
         <Route
           index
+          element={
+            <Home
+              isSearchOpen={isSearchOpen}
+              setIsSearchOpen={setIsSearchOpen}
+              isComposeOpen={isComposeOpen}
+              handleComposeOpen={handleComposeOpen}
+              popularArticles={popularArticles}
+              isSignInContainerOpen={isSignInContainerOpen}
+              handleSignInContainerClosed={handleSignInContainerClosed}
+              setHasSignInContainerClosed={setHasSignInContainerClosed}
+              hasSignInContainerClosed={hasSignInContainerClosed}
+            />
+          }
+        />
+        <Route
+          path="/articles"
           element={
             <Home
               isSearchOpen={isSearchOpen}

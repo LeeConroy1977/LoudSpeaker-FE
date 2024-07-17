@@ -2,13 +2,16 @@ import React, { useContext, useState } from "react";
 import categories from "../../data/categories";
 import { MdPlayArrow } from "react-icons/md";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
+import { SelectedTopicContext } from "../contexts/SelectedTopicContext";
+import { Link } from "react-router-dom";
 
 const TopicAccordion = ({ handleTopicContainer }) => {
   const [topicIndex, setTopicIndex] = useState(null);
   const [subTopicIndex, setSubTopicIndex] = useState(null);
   const [topics, setTopics] = useState(categories);
 
-  const { width, height } = useContext(ScreenSizeContext);
+  const { selectedTopic, setSelectedTopic } = useContext(SelectedTopicContext);
+  const { width } = useContext(ScreenSizeContext);
 
   function handleTopicToggle(index) {
     setTopicIndex((topicIndex) => (topicIndex === index ? null : index));
@@ -19,6 +22,11 @@ const TopicAccordion = ({ handleTopicContainer }) => {
       subTopicIndex === index ? null : index
     );
   }
+
+  function handleTopicSelection(topic) {
+    setSelectedTopic(topic.toLowerCase());
+  }
+  console.log(selectedTopic);
   return (
     <div className="w-full mb-2 mt-2 bg-white  rounded-xl pt-2 pb-2 sm:rounded-none sm:pt-0">
       {width < 640 && (
@@ -49,20 +57,29 @@ const TopicAccordion = ({ handleTopicContainer }) => {
           <div>
             {topicIndex === index && (
               <div>
-                {topic.subcategories.map((subcategory, subIndex) => (
-                  <div
-                    key={subIndex}
-                    onClick={() => {
-                      handleSubTopicToggle(subIndex);
-                      handleTopicContainer();
-                    }}
-                    className={`${
-                      subTopicIndex === subIndex ? "bg-gray-100" : "bg-white"
-                    } w-[90%] h-[2.4rem] flex items-center ml-auto pl-3 border-b border-gray-200 text-[0.8rem] text-primary cursor-pointer`}
-                  >
-                    {subcategory}
-                  </div>
-                ))}
+                {topic.subcategories.map((subcategory, subIndex) => {
+                  return (
+                    <>
+                      <Link to={`/articles?topic=${subcategory.toLowerCase()}`}>
+                        <div
+                          key={subIndex}
+                          onClick={() => {
+                            handleSubTopicToggle(subIndex);
+
+                            handleTopicSelection(subcategory);
+                          }}
+                          className={`${
+                            subTopicIndex === subIndex
+                              ? "bg-gray-100"
+                              : "bg-white"
+                          } w-[90%] h-[2.4rem] flex items-center ml-auto pl-3 border-b border-gray-200 text-[0.8rem] text-primary cursor-pointer`}
+                        >
+                          {subcategory}
+                        </div>
+                      </Link>
+                    </>
+                  );
+                })}
               </div>
             )}
           </div>
