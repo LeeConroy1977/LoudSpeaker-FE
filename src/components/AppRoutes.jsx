@@ -12,6 +12,7 @@ import { getAllUsers } from "../../utilities/api/usersApi";
 import SignIn from "./SignIn";
 import { useModal } from "../contexts/ModalContext";
 import { SelectedTopicContext } from "../contexts/SelectedTopicContext";
+import { SearchParamsContext } from "../contexts/searchParamsContext";
 
 const AppRoutes = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -27,17 +28,17 @@ const AppRoutes = () => {
   const { setExistingUsers } = useContext(ExistingUserContext);
   const { selectedTopic } = useContext(SelectedTopicContext);
   const { showModal } = useModal();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { searchParams } = useContext(SearchParamsContext);
   const [limit, setLimit] = useState(6);
   const [page, setPage] = useState(1);
   const [totalAricles, setTotalArticles] = useState(0);
 
   const topicParam = searchParams.get("topic");
-  const sortedByParam = null;
-  const orderedByParam = "desc";
+  const sortByParam = searchParams.get("sort_by");
+  const orderParam = searchParams.get("order");
 
   useEffect(() => {
-    getAllArticles(topicParam, sortedByParam, orderedByParam, limit, page).then(
+    getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
       (results) => {
         setArticles(results.articles);
 
@@ -45,7 +46,7 @@ const AppRoutes = () => {
         console.log(page);
       }
     );
-  }, [topicParam, sortedByParam, orderedByParam, limit, page, commentCount]);
+  }, [topicParam, sortByParam, orderParam, limit, page, commentCount]);
 
   console.log(topicParam);
 
