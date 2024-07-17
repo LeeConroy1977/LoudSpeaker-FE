@@ -9,6 +9,8 @@ import { ArticlesProvider } from "./contexts/ArticlesContext.jsx";
 import { ExistingUsersProvider } from "./contexts/ExistingUsersContext.jsx";
 import { MainArticleProvider } from "./contexts/MainArticleContext.jsx";
 import { ArticleCommentsProvider } from "./contexts/ArticleCommentsContext.jsx";
+import { SelectedTopicProvider } from "./contexts/SelectedTopicContext.jsx";
+import { SearchParamsProvider } from "./contexts/searchParamsContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ScreenSizeProvider>
@@ -18,7 +20,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <ArticleCommentsProvider>
             <ExistingUsersProvider>
               <UserProvider>
-                <App />
+                <SelectedTopicProvider>
+                  <SearchParamsProvider>
+                    <App />
+                  </SearchParamsProvider>
+                </SelectedTopicProvider>
               </UserProvider>
             </ExistingUsersProvider>
           </ArticleCommentsProvider>

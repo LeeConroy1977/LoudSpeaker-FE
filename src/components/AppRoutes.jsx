@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import AppLayout from "./AppLayout";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useSearchParams } from "react-router-dom";
 import Home from "../pages/Home";
 import Article from "../pages/Article";
 import { UserContext } from "../contexts/UserContext";
@@ -11,6 +11,8 @@ import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 import { getAllUsers } from "../../utilities/api/usersApi";
 import SignIn from "./SignIn";
 import { useModal } from "../contexts/ModalContext";
+import { SelectedTopicContext } from "../contexts/SelectedTopicContext";
+import { SearchParamsContext } from "../contexts/searchParamsContext";
 
 const AppRoutes = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -24,19 +26,29 @@ const AppRoutes = () => {
   const { user } = useContext(UserContext);
   const { articles, setArticles } = useContext(ArticlesContext);
   const { setExistingUsers } = useContext(ExistingUserContext);
+  const { selectedTopic } = useContext(SelectedTopicContext);
   const { showModal } = useModal();
+  const { searchParams } = useContext(SearchParamsContext);
+  const [limit, setLimit] = useState(6);
+  const [page, setPage] = useState(1);
+  const [totalAricles, setTotalArticles] = useState(0);
+
+  const topicParam = searchParams.get("topic");
+  const sortByParam = searchParams.get("sort_by");
+  const orderParam = searchParams.get("order");
 
   useEffect(() => {
-    getAllArticles().then(({ data }) => {
-      setArticles(data.results.articles);
-      console.log(articles);
-    });
-    getAllUsers().then(({ data }) => {
-      setExistingUsers(data.users);
-    });
-  }, [commentCount]);
+    getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
+      (results) => {
+        setArticles(results.articles);
 
-  console.log(articles);
+        setTotalArticles(results.total_count.total_count);
+        console.log(page);
+      }
+    );
+  }, [topicParam, sortByParam, orderParam, limit, page, commentCount]);
+
+  console.log(topicParam);
 
   let filteredArticles = [];
 
@@ -101,6 +113,22 @@ const AppRoutes = () => {
       >
         <Route
           index
+          element={
+            <Home
+              isSearchOpen={isSearchOpen}
+              setIsSearchOpen={setIsSearchOpen}
+              isComposeOpen={isComposeOpen}
+              handleComposeOpen={handleComposeOpen}
+              popularArticles={popularArticles}
+              isSignInContainerOpen={isSignInContainerOpen}
+              handleSignInContainerClosed={handleSignInContainerClosed}
+              setHasSignInContainerClosed={setHasSignInContainerClosed}
+              hasSignInContainerClosed={hasSignInContainerClosed}
+            />
+          }
+        />
+        <Route
+          path="/articles"
           element={
             <Home
               isSearchOpen={isSearchOpen}

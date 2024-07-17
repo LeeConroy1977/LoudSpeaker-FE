@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 
-const SelectComponent = ({ selectStyle }) => {
+const SelectComponent = ({
+  selectStyle,
+  defaultOption,
+  optionArray,
+  handleChange,
+  selectedOption,
+}) => {
   return (
-    <select className={`${selectStyle} rounded-xl`}>
-      <option value="">Published</option>
+    <select
+      value={selectedOption}
+      onChange={handleChange}
+      className={`${selectStyle} rounded-xl`}
+    >
+      <option value="">{defaultOption}</option>
+      {optionArray &&
+        optionArray.map((option, index) => {
+          return (
+            <option key={index} value={option.sort}>
+              {option.title}
+            </option>
+          );
+        })}
     </select>
   );
 };
