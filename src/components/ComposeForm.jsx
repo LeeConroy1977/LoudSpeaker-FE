@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Button from "../reuseable-components/Button";
 import Avatar from "../reuseable-components/Avatar";
 import { IoIosCloseCircleOutline } from "react-icons/io";
@@ -6,10 +6,32 @@ import SelectComponent from "../reuseable-components/SelectComponent";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { UserContext } from "../contexts/UserContext";
 import { CgProfile } from "react-icons/cg";
+import categoriesArr from "../../data/categories";
 
-const ComposeForm = ({ handleComposeOpen, isComposeOpen }) => {
+const ComposeForm = ({ handleComposeOpen }) => {
   const { width } = useContext(ScreenSizeContext);
   const { user } = useContext(UserContext);
+  const [selectedTopic, setSelectedTopic] = useState("");
+  const [selectedSubTopic, setSelectedSubTopic] = useState("");
+  const [subTopicOptions, setSubTopicOptions] = useState([]);
+
+  const handleTopicChange = (event) => {
+    setSelectedTopic(event.target.value);
+
+    categoriesArr.map((category) => {
+      if (category.category === event.target.value) {
+        setSubTopicOptions(category.subcategories);
+      }
+    });
+  };
+  const handleSubTopicChange = (event) => {
+    setSelectedSubTopic(event.target.value);
+  };
+
+  console.log(selectedTopic);
+
+  const mainCategories = categoriesArr.map((category) => category.category);
+
   return (
     <div
       className="flex flex-col items-center justify-start
@@ -22,8 +44,37 @@ const ComposeForm = ({ handleComposeOpen, isComposeOpen }) => {
         />
 
         <div className="flex items-center  w-full h-[22%] ml-2">
-          <SelectComponent selectStyle="selectMobile" />
-          <SelectComponent selectStyle="selectMobile" />
+          {mainCategories && (
+            <select
+              className="selectMobile rounded-xl"
+              value={selectedTopic}
+              onChange={handleTopicChange}
+            >
+              <option value="" disabled>
+                Topic
+              </option>
+              {mainCategories.map((topic, index) => (
+                <option key={index} value={topic}>
+                  {topic}
+                </option>
+              ))}
+            </select>
+          )}
+          <select
+            className="selectMobile rounded-xl"
+            value={selectedSubTopic}
+            onChange={handleSubTopicChange}
+          >
+            <option value="" disabled>
+              Sub-Topic
+            </option>
+            {subTopicOptions &&
+              subTopicOptions.map((topic, index) => (
+                <option key={index} value={topic}>
+                  {topic}
+                </option>
+              ))}
+          </select>
         </div>
         <IoIosCloseCircleOutline
           onClick={handleComposeOpen}

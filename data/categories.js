@@ -1,13 +1,5 @@
 const topics = [
   {
-    category: "All Topics",
-    subcategories: [],
-  },
-  {
-    category: "Featured",
-    subcategories: [],
-  },
-  {
     category: "Arts",
     subcategories: [
       "Architecture",

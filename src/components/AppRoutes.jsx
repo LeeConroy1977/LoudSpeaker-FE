@@ -81,7 +81,7 @@ const AppRoutes = () => {
   function handleComposeOpen() {
     if (!user.username) {
       setIsSearchOpen(false);
-      showModal(<SignIn />);
+      // showModal(<SignIn />);
     }
     if (user.username) {
       setIscomposeOpen(!isComposeOpen);
