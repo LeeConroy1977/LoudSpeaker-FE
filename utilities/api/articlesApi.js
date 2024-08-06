@@ -54,7 +54,7 @@ export async function getArticle(id) {
 
 export async function postArticle(body) {
   try {
-    const { data } = await loudSpeakerApi.post(`/api/articles`, { body });
+    const { data } = await loudSpeakerApi.post(`/api/articles`, body);
     return data.article;
   } catch (error) {
     console.error("Error posting article:", error);

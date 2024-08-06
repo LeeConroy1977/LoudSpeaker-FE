@@ -1,14 +1,7 @@
 const topics = [
   {
     category: "Arts",
-    subcategories: [
-      "Architecture",
-      "Art",
-      "Digital art",
-      "Filmmaking",
-      "Performing arts",
-      "Photography",
-    ],
+    subcategories: ["Architecture", "Art", "Literature", "Performing arts"],
   },
   {
     category: "Business",

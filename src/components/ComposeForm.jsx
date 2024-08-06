@@ -18,7 +18,7 @@ const ComposeForm = ({ handleComposeOpen }) => {
   const [selectedTopic, setSelectedTopic] = useState("");
   const [selectedSubTopic, setSelectedSubTopic] = useState("");
   const [subTopicOptions, setSubTopicOptions] = useState([]);
-  const [postObject, setPostObject] = useState({});
+  const [postObject, setPostObject] = useState(null);
   const [articleObject, setArticleObject] = useState({
     author: user.username,
     title: "",
@@ -27,17 +27,9 @@ const ComposeForm = ({ handleComposeOpen }) => {
     article_img_url: "",
   });
 
-  useEffect(() => {
-    postArticle(postObject)
-      .then((article) => {
-        console.log(article);
-        setArticles([article, ...articles]);
-      })
-      .catch((error) => {
-        console.error("Failed to create article:", error);
-        setError("Failed to create article. Please try again."); // Update error state for user feedback
-      });
-  }, [postObject]);
+  // useEffect(() => {
+  //   console.log("this ran!!!!");
+  // }, [postObject]);
 
   const handleTopicChange = (event) => {
     setSelectedTopic(event.target.value);
@@ -64,6 +56,16 @@ const ComposeForm = ({ handleComposeOpen }) => {
       articleObject.author &&
       articleObject.article_img_url
     ) {
+      console.log(articleObject);
+      postArticle(articleObject)
+        .then((article) => {
+          console.log(article);
+          setArticles([article, ...articles]);
+        })
+        .catch((error) => {
+          console.error("Failed to create article:", error);
+          setError("Failed to create article. Please try again.");
+        });
       setArticleObject({
         author: "",
         title: "",
@@ -75,7 +77,7 @@ const ComposeForm = ({ handleComposeOpen }) => {
     handleComposeOpen();
   }
 
-  console.log(articleObject);
+  console.log(postObject);
 
   const mainCategories = categoriesArr.map((category) => category.category);
 
