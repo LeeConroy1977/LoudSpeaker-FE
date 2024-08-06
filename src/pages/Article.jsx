@@ -16,19 +16,30 @@ const Article = ({ setCommentCount, commentCount }) => {
 
   const isFirst = useRef(true);
 
-  useEffect(() => {
-    getArticle(article_id).then((article) => {
-      console.log(article);
-      setArticle(article);
-      setVoteCount(article.votes);
-      setCommentCount(article.comment_count);
-      console.log(commentCount);
-    });
+  console.log(article_id);
 
+  useEffect(() => {
+    if (article_id) {
+      getArticle(article_id)
+        .then((article) => {
+          setArticle(article);
+
+          console.log(article, "<<<<<<<<<<<<<<<<<<");
+          setVoteCount(article.votes);
+          setCommentCount(article.comment_count);
+          console.log(commentCount);
+        })
+        .catch((error) => console.error("Error:", error));
+    }
+  }, [article_id, setArticle]);
+
+  useEffect(() => {
     getArticleComments(article_id).then((articleComments) => {
       setComments(articleComments);
     });
-  }, [article_id, setArticle, commentCount]);
+  }, [article_id, commentCount]);
+
+  console.log(article.title);
 
   useEffect(() => {
     if (!isFirst.current) {
@@ -54,6 +65,8 @@ const Article = ({ setCommentCount, commentCount }) => {
     setIncVotes(change);
     setVoteCount(voteCount + change);
   };
+
+  console.log(article.article_id);
 
   return (
     <div>

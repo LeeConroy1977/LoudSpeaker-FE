@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Button from "../reuseable-components/Button";
 import Avatar from "../reuseable-components/Avatar";
 import { IoIosCloseCircleOutline } from "react-icons/io";
@@ -7,13 +7,37 @@ import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { UserContext } from "../contexts/UserContext";
 import { CgProfile } from "react-icons/cg";
 import categoriesArr from "../../data/categories";
+import { postArticle } from "../../utilities/api/articlesApi";
+import { ArticlesContext } from "../contexts/ArticlesContext";
 
 const ComposeForm = ({ handleComposeOpen }) => {
   const { width } = useContext(ScreenSizeContext);
   const { user } = useContext(UserContext);
+  const { articles, setArticles } = useContext(ArticlesContext);
+
   const [selectedTopic, setSelectedTopic] = useState("");
   const [selectedSubTopic, setSelectedSubTopic] = useState("");
   const [subTopicOptions, setSubTopicOptions] = useState([]);
+  const [postObject, setPostObject] = useState({});
+  const [articleObject, setArticleObject] = useState({
+    author: user.username,
+    title: "",
+    body: "",
+    topic: "",
+    article_img_url: "",
+  });
+
+  useEffect(() => {
+    postArticle(postObject)
+      .then((article) => {
+        console.log(article);
+        setArticles([article, ...articles]);
+      })
+      .catch((error) => {
+        console.error("Failed to create article:", error);
+        setError("Failed to create article. Please try again."); // Update error state for user feedback
+      });
+  }, [postObject]);
 
   const handleTopicChange = (event) => {
     setSelectedTopic(event.target.value);
@@ -26,9 +50,32 @@ const ComposeForm = ({ handleComposeOpen }) => {
   };
   const handleSubTopicChange = (event) => {
     setSelectedSubTopic(event.target.value);
+    setArticleObject({
+      ...articleObject,
+      topic: event.target.value.toLowerCase(),
+    });
   };
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (
+      articleObject.topic &&
+      articleObject.title &&
+      articleObject.body &&
+      articleObject.author &&
+      articleObject.article_img_url
+    ) {
+      setArticleObject({
+        author: "",
+        title: "",
+        body: "",
+        topic: "",
+        article_img_url: "",
+      });
+    }
+    handleComposeOpen();
+  }
 
-  console.log(selectedTopic);
+  console.log(articleObject);
 
   const mainCategories = categoriesArr.map((category) => category.category);
 
@@ -88,6 +135,10 @@ const ComposeForm = ({ handleComposeOpen }) => {
         <input
           type="text"
           className="input h-[2.6rem] rounded-xl sm:mt-1 border border-gray-200 focus:outline-none focus:border-primary focus:border-2 "
+          value={articleObject.title}
+          onChange={(e) =>
+            setArticleObject({ ...articleObject, title: e.target.value })
+          }
         />
         <label className="text-[0.65rem] font-semibold mt-4 ml-2 sm:mt-3  text-primary ">
           Body
@@ -95,6 +146,10 @@ const ComposeForm = ({ handleComposeOpen }) => {
         <input
           type="text"
           className="input h-[8rem] rounded-xl sm:mt-1  border border-gray-200 focus:outline-none focus:border-primary focus:border-2"
+          value={articleObject.body}
+          onChange={(e) =>
+            setArticleObject({ ...articleObject, body: e.target.value })
+          }
         />
         <label className="text-[0.65rem] font-semibold mt-4 ml-2 sm:mt-3  text-primary">
           Image URL
@@ -102,10 +157,18 @@ const ComposeForm = ({ handleComposeOpen }) => {
         <input
           type="text"
           className="input h-[2.6rem] rounded-xl sm:mt-1  border border-gray-200 focus:outline-none focus:border-primary focus:border-2"
+          value={articleObject.article_img_url}
+          onChange={(e) =>
+            setArticleObject({
+              ...articleObject,
+              article_img_url: e.target.value,
+            })
+          }
         />
       </form>
       <div className="flex justify-end items-center sm:w-full sm:h-[240px] mt-4">
         <Button
+          handleClick={handleSubmit}
           buttonStyle={`${width < 640 ? "buttonMobile" : "buttonMedium"}`}
         >
           Post

@@ -33,7 +33,7 @@ const topics = [
       "Comedy",
       "Drama",
       "Horror",
-      "romance",
+      "Romance",
       "Sci-Fi",
       "Thriller",
     ],

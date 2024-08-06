@@ -48,7 +48,7 @@ const AppRoutes = () => {
     );
   }, [topicParam, sortByParam, orderParam, limit, page, commentCount]);
 
-  console.log(topicParam);
+  console.log(totalAricles);
 
   let filteredArticles = [];
 
