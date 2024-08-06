@@ -48,7 +48,7 @@ const AppRoutes = () => {
     );
   }, [topicParam, sortByParam, orderParam, limit, page, commentCount]);
 
-  console.log(topicParam);
+  console.log(totalAricles);
 
   let filteredArticles = [];
 
@@ -81,7 +81,7 @@ const AppRoutes = () => {
   function handleComposeOpen() {
     if (!user.username) {
       setIsSearchOpen(false);
-      showModal(<SignIn />);
+      // showModal(<SignIn />);
     }
     if (user.username) {
       setIscomposeOpen(!isComposeOpen);

@@ -14,8 +14,8 @@ const ComposeContainer = ({ handleComposeOpen }) => {
     <div
       className="w-full h-[80px] flex items-center justify-between p-4 border-gray-200 border-b "
       onClick={() => {
-        handleComposeOpen;
-        showModal(<SignIn />);
+        !user.username && showModal(<SignIn />);
+        handleComposeOpen();
       }}
     >
       <div className="sm:w-[54px] sm:h-[54px] flex justify-start items-center ">

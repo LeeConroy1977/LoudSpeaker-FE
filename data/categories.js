@@ -1,13 +1,5 @@
 const topics = [
   {
-    category: "All Topics",
-    subcategories: [],
-  },
-  {
-    category: "Featured",
-    subcategories: [],
-  },
-  {
     category: "Arts",
     subcategories: [
       "Architecture",
@@ -41,7 +33,7 @@ const topics = [
       "Comedy",
       "Drama",
       "Horror",
-      "romance",
+      "Romance",
       "Sci-Fi",
       "Thriller",
     ],
