@@ -2,13 +2,10 @@ import React, { useContext } from "react";
 
 import FeaturedCard from "./FeaturedCard";
 import { ArticlesContext } from "../contexts/ArticlesContext";
-import TemporaryFeaturedArticles from "../../data/articles";
+import { FeaturedArticlesContext } from "../contexts/FeaturedArticlesContext";
 
 const FeaturedList = ({ handleSelectedArticle, isSearchOpen }) => {
-  const { articles, setArticles } = useContext(ArticlesContext);
-  const featuredArticles = TemporaryFeaturedArticles.filter(
-    (article) => article.featured
-  );
+  const { featuredArticles } = useContext(FeaturedArticlesContext);
 
   return (
     <div
