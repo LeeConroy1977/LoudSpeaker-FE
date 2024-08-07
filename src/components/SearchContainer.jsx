@@ -4,47 +4,48 @@ import articlesArray from "../../data/articles";
 import useOutsideClick from "../hooks/useOutsideClick";
 import SearchBarList from "./SearchBarList";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
+import { FilteredArticlesContext } from "../contexts/FilteredArticlesContext";
+import { SearchBarInputContext } from "../contexts/SearchBarInputContext";
 
 const SearchContainer = ({
   isSearchOpen,
   setIsSearchOpen,
   popularArticles,
 }) => {
-  const [articles, setArticles] = useState(articlesArray);
-  const [searchInput, setSearchInput] = useState("");
+  const { input, setInput } = useContext(SearchBarInputContext);
 
   const { width, height } = useContext(ScreenSizeContext);
+  const { filteredArticles } = useContext(FilteredArticlesContext);
   const extendedComponentRef = useRef(null);
 
   useOutsideClick(extendedComponentRef, () => setIsSearchOpen(false));
 
-  useEffect(() => {}, [searchInput]);
+  // useEffect(() => {}, [input]);
 
-  const searchInputLength = searchInput.length;
-
-  let filteredArticles = [];
+  const searchInputLength = input.length;
 
   function handleSearchInput(e) {
-    setSearchInput(e.target.value);
+    setInput(e.target.value);
   }
 
-  articles &&
-    articles.filter((article) => {
-      if (article.body.toLowerCase().includes(searchInput.toLowerCase())) {
-        filteredArticles.push(article);
+  let filteredArticlesArr = [];
+  filteredArticles &&
+    filteredArticles.filter((article) => {
+      if (article.body.toLowerCase().includes(input.toLowerCase())) {
+        filteredArticlesArr.push(article);
       }
     });
 
-  console.log(filteredArticles);
+  console.log(filteredArticlesArr);
 
   return (
     <div className="relative w-full h-auto border-gray-200 border-b flex flex-col justify-center items-center p-2 ">
-      <Input handleChange={handleSearchInput} searchInput={searchInput} />
+      <Input handleChange={handleSearchInput} searchInput={input} />
       {isSearchOpen ? (
-        searchInputLength > 0 && filteredArticles.length > 0 ? (
+        searchInputLength > 0 && filteredArticlesArr.length > 0 ? (
           <div className="w-[100%] max-h-[600px] shadow-xl overflow-y-auto sm:ml-8 bg-white absolute rounded-xl p-4 top-[44px]">
             <SearchBarList
-              articles={filteredArticles}
+              articles={filteredArticlesArr}
               searchInputLength={searchInputLength}
             />
           </div>

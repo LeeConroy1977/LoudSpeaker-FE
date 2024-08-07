@@ -13,28 +13,34 @@ import { CgProfile } from "react-icons/cg";
 import { UserContext } from "../contexts/UserContext";
 import { useModal } from "../contexts/ModalContext";
 import SignIn from "./SignIn";
+import { FilteredArticlesContext } from "../contexts/FilteredArticlesContext";
+import { SearchBarInputContext } from "../contexts/SearchBarInputContext";
 
 const NavBar = ({
   handleSearchOpen,
   handleComposeOpen,
   handleSearchInput,
   searchInput,
-  filteredArticles,
+
   popularArticles,
   isSearchOpen,
   setIsSearchOpen,
 }) => {
   const { width } = useContext(ScreenSizeContext);
   const { user, setUser } = useContext(UserContext);
+  const { input, setInput } = useContext(SearchBarInputContext);
+  const { filteredArticles } = useContext(FilteredArticlesContext);
   const { showModal } = useModal();
 
   const extendedComponentRef = useRef(null);
 
   useOutsideClick(extendedComponentRef, () => setIsSearchOpen(false));
 
-  useEffect(() => {}, [searchInput]);
+  const searchInputLength = input.length;
 
-  const searchInputLength = searchInput.length;
+  function handleSearchInput(e) {
+    setInput(e.target.value);
+  }
 
   function handleSignOut() {
     if (!user.username) {
@@ -45,6 +51,15 @@ const NavBar = ({
     }
   }
 
+  let filteredArticlesArr = [];
+
+  filteredArticles &&
+    filteredArticles.filter((article) => {
+      if (article.body.toLowerCase().includes(input.toLowerCase())) {
+        filteredArticlesArr.push(article);
+      }
+    });
+
   return (
     <nav className=" row-span-1 col-span-3  flex justify-between items-center border-b border-l border-r border-gray-200">
       <Link to="/articles">
@@ -54,21 +69,21 @@ const NavBar = ({
         <div className="relative">
           <Input
             handleSearchOpen={handleSearchOpen}
-            searchInput={searchInput}
+            searchInput={input}
             handleChange={handleSearchInput}
           />
           {isSearchOpen ? (
-            searchInputLength > 0 && filteredArticles.length > 0 ? (
-              <div className="w-[460px] max-h-[500px] shadow-xl overflow-y-auto sm:ml-8 bg-white absolute rounded-xl p-4">
+            searchInputLength > 0 && filteredArticlesArr.length > 0 ? (
+              <div className="w-[460px] max-h-[500px] shadow-xl overflow-y-auto z-50 sm:ml-8 bg-white absolute rounded-xl p-4">
                 <SearchBarList
-                  articles={filteredArticles}
+                  articles={filteredArticlesArr}
                   searchInputLength={searchInputLength}
                 />
               </div>
             ) : isSearchOpen && searchInputLength < 1 ? (
               <div
                 ref={extendedComponentRef}
-                className="w-[460px] max-h-[560px] shadow-xl overflow-y-auto sm:ml-8 bg-white absolute rounded-xl p-4"
+                className="w-[460px] max-h-[560px] shadow-xl overflow-y-auto sm:ml-8 bg-white absolute rounded-xl p-4 z-50"
               >
                 <SearchBarList articles={popularArticles && popularArticles} />
               </div>

@@ -13,6 +13,7 @@ import SignIn from "./SignIn";
 import { useModal } from "../contexts/ModalContext";
 import { SelectedTopicContext } from "../contexts/SelectedTopicContext";
 import { SearchParamsContext } from "../contexts/searchParamsContext";
+import { FilteredArticlesContext } from "../contexts/FilteredArticlesContext";
 
 const AppRoutes = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -25,6 +26,9 @@ const AppRoutes = () => {
   const [commentCount, setCommentCount] = useState(null);
   const { user } = useContext(UserContext);
   const { articles, setArticles } = useContext(ArticlesContext);
+  const { filteredArticles, setFilteredArticles } = useContext(
+    FilteredArticlesContext
+  );
   const { setExistingUsers } = useContext(ExistingUserContext);
   const { selectedTopic } = useContext(SelectedTopicContext);
   const { showModal } = useModal();
@@ -43,25 +47,25 @@ const AppRoutes = () => {
         setArticles(results.articles);
 
         setTotalArticles(results.total_count.total_count);
-        console.log(page);
       }
     );
-  }, [topicParam, sortByParam, orderParam, limit, page, commentCount]);
+  }, [topicParam, sortByParam, orderParam, page, commentCount]);
 
-  console.log(totalAricles);
-
-  let filteredArticles = [];
-
-  function handleSearchInput(e) {
-    setSearchInput(e.target.value);
-  }
-
-  articles &&
-    articles.filter((article) => {
-      if (article.body.toLowerCase().includes(searchInput.toLowerCase())) {
-        filteredArticles.push(article);
-      }
-    });
+  console.log(totalAricles, "totalArticles!!!!!!!!!!!!");
+  useEffect(() => {
+    {
+      setLimit(totalAricles);
+      getAllArticles(
+        topicParam,
+        sortByParam,
+        orderParam,
+        totalAricles,
+        page
+      ).then((results) => {
+        setFilteredArticles(results.articles);
+      });
+    }
+  }, [totalAricles]);
 
   function handlePopularArticles() {
     const popularArticlesArray = articles
@@ -101,9 +105,7 @@ const AppRoutes = () => {
           <AppLayout
             handleSearchOpen={handleSearchOpen}
             handleComposeOpen={handleComposeOpen}
-            handleSearchInput={handleSearchInput}
             searchInput={searchInput}
-            filteredArticles={filteredArticles}
             handlePopularArticles={handlePopularArticles}
             popularArticles={popularArticles}
             isSearchOpen={isSearchOpen}

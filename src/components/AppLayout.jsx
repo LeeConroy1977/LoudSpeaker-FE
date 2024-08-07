@@ -13,7 +13,6 @@ const AppLayout = ({
   handleComposeOpen,
   handleSearchInput,
   searchInput,
-  filteredArticles,
   handlePopularArticles,
   popularArticles,
   isSearchOpen,
@@ -37,7 +36,6 @@ const AppLayout = ({
         handleComposeOpen={handleComposeOpen}
         handleSearchInput={handleSearchInput}
         searchInput={searchInput}
-        filteredArticles={filteredArticles}
         handlePopularArticles={handlePopularArticles}
         popularArticles={popularArticles}
         isSearchOpen={isSearchOpen}
