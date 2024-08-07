@@ -7,6 +7,7 @@ import { UserContext } from "../contexts/UserContext";
 import { useModal } from "../contexts/ModalContext";
 import SignIn from "./SignIn";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { PopupContext } from "../contexts/PopupContext";
 
 const CommentPostContainer = ({ setUserComment }) => {
   const { width } = useContext(ScreenSizeContext);
@@ -15,6 +16,7 @@ const CommentPostContainer = ({ setUserComment }) => {
   const [isPostCommentOpen, setIsPostCommentOpen] = useState(false);
   const [commentBody, setCommentBody] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
+  const showPopup = useContext(PopupContext);
 
   useEffect(() => {
     handleIsDisabled();
@@ -25,6 +27,7 @@ const CommentPostContainer = ({ setUserComment }) => {
     setUserComment((obj) => (obj = { ...obj, body: commentBody }));
     setCommentBody("");
     setIsPostCommentOpen(false);
+    showPopup("Comment posted successfully!");
   }
 
   console.log(commentBody);
