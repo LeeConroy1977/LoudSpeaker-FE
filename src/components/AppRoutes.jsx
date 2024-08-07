@@ -40,10 +40,19 @@ const AppRoutes = () => {
   const [limit, setLimit] = useState(12);
   const [page, setPage] = useState(1);
   const [totalAricles, setTotalArticles] = useState(0);
+  const [allArticles, setAllArticles] = useState(0);
 
   const topicParam = searchParams.get("topic");
   const sortByParam = searchParams.get("sort_by");
   const orderParam = searchParams.get("order");
+
+  useEffect(() => {
+    getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
+      (results) => {
+        setAllArticles(results.total_count.total_count);
+      }
+    );
+  }, []);
 
   useEffect(() => {
     getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
@@ -56,18 +65,12 @@ const AppRoutes = () => {
 
   useEffect(() => {
     {
-      setLimit(totalAricles);
-      getAllArticles(
-        topicParam,
-        sortByParam,
-        orderParam,
-        totalAricles,
-        page
-      ).then((results) => {
+      setLimit(allArticles);
+      getAllArticles(null, null, null, allArticles, null).then((results) => {
         setFilteredArticles(results.articles);
       });
     }
-  }, [totalAricles]);
+  }, [topicParam]);
 
   useEffect(() => {
     const featured = filteredArticles.filter(

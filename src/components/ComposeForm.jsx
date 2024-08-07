@@ -35,8 +35,7 @@ const ComposeForm = ({ handleComposeOpen }) => {
     if (!selectedSubTopic) formErrors.topic = "Please select a sub-category";
     if (!articleObject.title.trim()) formErrors.title = "Title cannot be empty";
     if (!articleObject.body.trim()) formErrors.body = "Body cannot be empty";
-    const imageUrlRegex =
-      /^https:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp)(\?.*)?$/i;
+    const imageUrlRegex = /^https:/;
     if (!imageUrlRegex.test(articleObject.article_img_url))
       formErrors.article_img_url =
         "Please enter a valid image URL (e.g., http://example.com/image.jpg)";
