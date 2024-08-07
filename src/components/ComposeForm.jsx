@@ -9,16 +9,19 @@ import { CgProfile } from "react-icons/cg";
 import categoriesArr from "../../data/categories";
 import { postArticle } from "../../utilities/api/articlesApi";
 import { ArticlesContext } from "../contexts/ArticlesContext";
+import { PopupContext } from "../contexts/PopupContext";
 
 const ComposeForm = ({ handleComposeOpen }) => {
   const { width } = useContext(ScreenSizeContext);
   const { user } = useContext(UserContext);
   const { articles, setArticles } = useContext(ArticlesContext);
-
   const [selectedTopic, setSelectedTopic] = useState("");
   const [selectedSubTopic, setSelectedSubTopic] = useState("");
   const [subTopicOptions, setSubTopicOptions] = useState([]);
-  const [postObject, setPostObject] = useState(null);
+  const [postObject] = useState(null);
+  const [errors, setErrors] = useState({});
+  const showPopup = useContext(PopupContext);
+
   const [articleObject, setArticleObject] = useState({
     author: user.username,
     title: "",
@@ -27,9 +30,18 @@ const ComposeForm = ({ handleComposeOpen }) => {
     article_img_url: "",
   });
 
-  // useEffect(() => {
-  //   console.log("this ran!!!!");
-  // }, [postObject]);
+  const validateForm = () => {
+    let formErrors = {};
+    if (!selectedSubTopic) formErrors.topic = "Please select a sub-category";
+    if (!articleObject.title.trim()) formErrors.title = "Title cannot be empty";
+    if (!articleObject.body.trim()) formErrors.body = "Body cannot be empty";
+    const imageUrlRegex =
+      /^https:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp)(\?.*)?$/i;
+    if (!imageUrlRegex.test(articleObject.article_img_url))
+      formErrors.article_img_url =
+        "Please enter a valid image URL (e.g., http://example.com/image.jpg)";
+    return formErrors;
+  };
 
   const handleTopicChange = (event) => {
     setSelectedTopic(event.target.value);
@@ -49,31 +61,29 @@ const ComposeForm = ({ handleComposeOpen }) => {
   };
   function handleSubmit(e) {
     e.preventDefault();
-    if (
-      articleObject.topic &&
-      articleObject.title &&
-      articleObject.body &&
-      articleObject.author &&
-      articleObject.article_img_url
-    ) {
-      console.log(articleObject);
-      postArticle(articleObject)
-        .then((article) => {
-          console.log(article);
-          setArticles([article, ...articles]);
-        })
-        .catch((error) => {
-          console.error("Failed to create article:", error);
-          setError("Failed to create article. Please try again.");
-        });
-      setArticleObject({
-        author: "",
-        title: "",
-        body: "",
-        topic: "",
-        article_img_url: "",
-      });
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
     }
+
+    postArticle(articleObject)
+      .then((article) => {
+        console.log(article);
+        setArticles([article, ...articles]);
+      })
+      .catch((error) => {
+        console.error("Failed to create article:", error);
+        // setError("Failed to create article. Please try again.");
+      });
+    setArticleObject({
+      author: "",
+      title: "",
+      body: "",
+      topic: "",
+      article_img_url: "",
+    });
+    showPopup("Article posted successfully!");
     handleComposeOpen();
   }
 
@@ -83,7 +93,7 @@ const ComposeForm = ({ handleComposeOpen }) => {
 
   return (
     <div
-      className="flex flex-col items-center justify-start
+      className=" relative flex flex-col items-center justify-start
        w-full h-[420px] sm:w-full sm:h-[480px]  border-gray-200 border-b  sm:p-4 p-3 pt-0"
     >
       <div className="flex items-center justify-between w-full h-[4.4rem] ">
@@ -124,6 +134,11 @@ const ComposeForm = ({ handleComposeOpen }) => {
                 </option>
               ))}
           </select>
+          {errors.topic && (
+            <div className="text-[0.65rem] font-semibold ml-10  text-red-500">
+              {errors.topic}
+            </div>
+          )}
         </div>
         <IoIosCloseCircleOutline
           onClick={handleComposeOpen}
@@ -131,9 +146,17 @@ const ComposeForm = ({ handleComposeOpen }) => {
         />
       </div>
       <form className=" flex flex-col   w-full h-[80%] sm:w-[80%] mt-2 pl-2 pr-2 sm:pl-0 sm:pr:0  sm:ml-2 ">
-        <label className="text-[0.65rem] font-semibold mt-1 ml-2 sm:mt-4  text-primary ">
-          Title
-        </label>
+        <div className="flex w-[100%] justify-between">
+          <label className="text-[0.65rem] font-semibold mt-1 ml-2 sm:mt-4  text-primary ">
+            Title
+          </label>
+
+          {errors.title && (
+            <div className="text-[0.65rem] font-semibold mt-1 mr-2 sm:mt-4 text-red-500 ">
+              {errors.title}
+            </div>
+          )}
+        </div>
         <input
           type="text"
           className="input h-[2.6rem] rounded-xl sm:mt-1 border border-gray-200 focus:outline-none focus:border-primary focus:border-2 "
@@ -142,9 +165,17 @@ const ComposeForm = ({ handleComposeOpen }) => {
             setArticleObject({ ...articleObject, title: e.target.value })
           }
         />
-        <label className="text-[0.65rem] font-semibold mt-4 ml-2 sm:mt-3  text-primary ">
-          Body
-        </label>
+        <div className="flex w-[100%] justify-between">
+          <label className="text-[0.65rem] font-semibold mt-1 ml-2 sm:mt-4  text-primary ">
+            Body
+          </label>
+
+          {errors.body && (
+            <div className="text-[0.65rem] font-semibold mt-1 mr-2 sm:mt-4 text-red-500 ">
+              {errors.body}
+            </div>
+          )}
+        </div>
         <input
           type="text"
           className="input h-[8rem] rounded-xl sm:mt-1  border border-gray-200 focus:outline-none focus:border-primary focus:border-2"
@@ -153,9 +184,17 @@ const ComposeForm = ({ handleComposeOpen }) => {
             setArticleObject({ ...articleObject, body: e.target.value })
           }
         />
-        <label className="text-[0.65rem] font-semibold mt-4 ml-2 sm:mt-3  text-primary">
-          Image URL
-        </label>
+        <div className="flex w-[100%] justify-between">
+          <label className="text-[0.65rem] font-semibold mt-1 ml-2 sm:mt-4  text-primary ">
+            Image URL
+          </label>
+
+          {errors.article_img_url && (
+            <div className="text-[0.65rem] font-semibold mt-1 mr-2 sm:mt-4 text-red-500 ">
+              {errors.article_img_url}
+            </div>
+          )}
+        </div>
         <input
           type="text"
           className="input h-[2.6rem] rounded-xl sm:mt-1  border border-gray-200 focus:outline-none focus:border-primary focus:border-2"
