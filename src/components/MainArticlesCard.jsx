@@ -21,8 +21,6 @@ const MainArticlesCard = ({ article, users }) => {
 
   let userAvatar;
 
-  console.log(article);
-
   users.forEach((user) => {
     if (user.username === author) {
       return (userAvatar = user.avatar_url);

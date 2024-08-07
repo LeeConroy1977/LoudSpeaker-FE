@@ -14,6 +14,7 @@ import { SearchParamsProvider } from "./contexts/searchParamsContext.jsx";
 import { PopupProvider } from "./contexts/PopupContext.jsx";
 import { FilteredArticlesProvider } from "./contexts/FilteredArticlesContext.jsx";
 import { SearchBarInputProvider } from "./contexts/SearchBarInputContext.jsx";
+import { FeaturedArticlesProvider } from "./contexts/FeaturedArticlesContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ScreenSizeProvider>
@@ -26,11 +27,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <SelectedTopicProvider>
                   <SearchParamsProvider>
                     <PopupProvider>
-                      <FilteredArticlesProvider>
-                        <SearchBarInputProvider>
-                          <App />
-                        </SearchBarInputProvider>
-                      </FilteredArticlesProvider>
+                      <FeaturedArticlesProvider>
+                        <FilteredArticlesProvider>
+                          <SearchBarInputProvider>
+                            <App />
+                          </SearchBarInputProvider>
+                        </FilteredArticlesProvider>
+                      </FeaturedArticlesProvider>
                     </PopupProvider>
                   </SearchParamsProvider>
                 </SelectedTopicProvider>

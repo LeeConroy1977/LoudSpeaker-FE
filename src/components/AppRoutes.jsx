@@ -14,6 +14,7 @@ import { useModal } from "../contexts/ModalContext";
 import { SelectedTopicContext } from "../contexts/SelectedTopicContext";
 import { SearchParamsContext } from "../contexts/searchParamsContext";
 import { FilteredArticlesContext } from "../contexts/FilteredArticlesContext";
+import { FeaturedArticlesContext } from "../contexts/FeaturedArticlesContext";
 
 const AppRoutes = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -29,11 +30,14 @@ const AppRoutes = () => {
   const { filteredArticles, setFilteredArticles } = useContext(
     FilteredArticlesContext
   );
+  const { featuredArticles, setFeaturedArticles } = useContext(
+    FeaturedArticlesContext
+  );
   const { setExistingUsers } = useContext(ExistingUserContext);
   const { selectedTopic } = useContext(SelectedTopicContext);
   const { showModal } = useModal();
   const { searchParams } = useContext(SearchParamsContext);
-  const [limit, setLimit] = useState(6);
+  const [limit, setLimit] = useState(12);
   const [page, setPage] = useState(1);
   const [totalAricles, setTotalArticles] = useState(0);
 
@@ -45,13 +49,11 @@ const AppRoutes = () => {
     getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
       (results) => {
         setArticles(results.articles);
-
         setTotalArticles(results.total_count.total_count);
       }
     );
   }, [topicParam, sortByParam, orderParam, page, commentCount]);
 
-  console.log(totalAricles, "totalArticles!!!!!!!!!!!!");
   useEffect(() => {
     {
       setLimit(totalAricles);
@@ -66,6 +68,15 @@ const AppRoutes = () => {
       });
     }
   }, [totalAricles]);
+
+  useEffect(() => {
+    const featured = filteredArticles.filter(
+      (article) => article.featured === true
+    );
+    setFeaturedArticles(featured);
+
+    console.log(featuredArticles, "featuredArticles!!!!!!!!!!!!!");
+  }, [filteredArticles]);
 
   function handlePopularArticles() {
     const popularArticlesArray = articles
