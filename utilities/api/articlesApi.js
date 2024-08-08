@@ -9,7 +9,7 @@ export async function getAllArticles(
   sorted_by,
   order = "desc",
   limit,
-  p
+  p = page
 ) {
   const topicParam = topic || "";
 

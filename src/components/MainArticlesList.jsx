@@ -4,7 +4,12 @@ import MainArticlesCard from "./MainArticlesCard";
 import { ArticlesContext } from "../contexts/ArticlesContext";
 import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 
-const MainArticlesList = ({ handleSelectedArticle }) => {
+const MainArticlesList = ({
+  handleSelectedArticle,
+  allArticles,
+  handleOnLoadMore,
+  visible,
+}) => {
   const { articles } = useContext(ArticlesContext);
   const { existingUsers } = useContext(ExistingUserContext);
 
@@ -22,6 +27,17 @@ const MainArticlesList = ({ handleSelectedArticle }) => {
             />
           );
         })}
+      {allArticles > 0 ? (
+        visible < allArticles ? (
+          <div>
+            <button onClick={() => handleOnLoadMore()}>Load More</button>
+          </div>
+        ) : (
+          <div>
+            <div>Sorry, that's all folks! No more to load.</div>
+          </div>
+        )
+      ) : null}
     </div>
   );
 };

@@ -14,6 +14,9 @@ const Home = ({
   isComposeOpen,
   handleSelectedArticle,
   popularArticles,
+  allArticles,
+  handleOnLoadMore,
+  visible,
 }) => {
   const { width } = useContext(ScreenSizeContext);
 
@@ -42,7 +45,12 @@ const Home = ({
         )
       )}
       {width > 640 && !isComposeOpen && <OptionsContainer />}
-      <MainArticlesList handleSelectedArticle={handleSelectedArticle} />
+      <MainArticlesList
+        handleSelectedArticle={handleSelectedArticle}
+        allArticles={allArticles}
+        handleOnLoadMore={handleOnLoadMore}
+        visible={visible}
+      />
     </div>
   );
 };
