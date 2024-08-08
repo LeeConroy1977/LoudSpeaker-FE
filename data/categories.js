@@ -20,6 +20,10 @@ const topics = [
     subcategories: ["cooking", "Recipes", "Vegan"],
   },
   {
+    category: "Games",
+    subcategories: ["Action games", "Adventure games", "Sports games"],
+  },
+  {
     category: "Literature",
     subcategories: [
       "Classics",
