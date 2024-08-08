@@ -15,6 +15,7 @@ import { useModal } from "../contexts/ModalContext";
 import SignIn from "./SignIn";
 import { FilteredArticlesContext } from "../contexts/FilteredArticlesContext";
 import { SearchBarInputContext } from "../contexts/SearchBarInputContext";
+import { SearchBarListContext } from "../contexts/SearchBarList";
 
 const NavBar = ({
   handleSearchOpen,
@@ -29,6 +30,7 @@ const NavBar = ({
   const { width } = useContext(ScreenSizeContext);
   const { user, setUser } = useContext(UserContext);
   const { input, setInput } = useContext(SearchBarInputContext);
+  const { searchBarList } = useContext(SearchBarListContext);
   const { filteredArticles } = useContext(FilteredArticlesContext);
   const { showModal } = useModal();
 
@@ -85,7 +87,7 @@ const NavBar = ({
                 ref={extendedComponentRef}
                 className="w-[460px] max-h-[560px] shadow-xl overflow-y-auto sm:ml-8 bg-white absolute rounded-xl p-4 z-50"
               >
-                <SearchBarList articles={popularArticles && popularArticles} />
+                <SearchBarList articles={searchBarList && searchBarList} />
               </div>
             ) : (
               <div

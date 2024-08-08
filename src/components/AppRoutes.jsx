@@ -15,6 +15,7 @@ import { SelectedTopicContext } from "../contexts/SelectedTopicContext";
 import { SearchParamsContext } from "../contexts/searchParamsContext";
 import { FilteredArticlesContext } from "../contexts/FilteredArticlesContext";
 import { FeaturedArticlesContext } from "../contexts/FeaturedArticlesContext";
+import { SearchBarListContext } from "../contexts/SearchBarList";
 
 const AppRoutes = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -33,6 +34,7 @@ const AppRoutes = () => {
   const { featuredArticles, setFeaturedArticles } = useContext(
     FeaturedArticlesContext
   );
+  const { searchBarList, setSearchBarList } = useContext(SearchBarListContext);
   const { setExistingUsers } = useContext(ExistingUserContext);
   const { selectedTopic } = useContext(SelectedTopicContext);
   const { showModal } = useModal();
@@ -70,7 +72,27 @@ const AppRoutes = () => {
         setFilteredArticles(results.articles);
       });
     }
-  }, [topicParam]);
+  }, [topicParam, setAllArticles]);
+
+  useEffect(() => {
+    async function fetchMostCommentedArticles() {
+      try {
+        const mostCommentedArticles = await getAllArticles(
+          null,
+          "comment_count",
+          "desc",
+          6,
+          1
+        );
+
+        setSearchBarList(mostCommentedArticles.articles);
+      } catch (error) {
+        console.error("Error fetching most commented articles:", error);
+      }
+    }
+
+    fetchMostCommentedArticles();
+  }, []);
 
   useEffect(() => {
     const featured = filteredArticles.filter(

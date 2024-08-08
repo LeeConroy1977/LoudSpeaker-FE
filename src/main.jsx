@@ -15,6 +15,7 @@ import { PopupProvider } from "./contexts/PopupContext.jsx";
 import { FilteredArticlesProvider } from "./contexts/FilteredArticlesContext.jsx";
 import { SearchBarInputProvider } from "./contexts/SearchBarInputContext.jsx";
 import { FeaturedArticlesProvider } from "./contexts/FeaturedArticlesContext.jsx";
+import { SearchBarListProvider } from "./contexts/SearchBarList.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ScreenSizeProvider>
@@ -30,7 +31,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                       <FeaturedArticlesProvider>
                         <FilteredArticlesProvider>
                           <SearchBarInputProvider>
-                            <App />
+                            <SearchBarListProvider>
+                              <App />
+                            </SearchBarListProvider>
                           </SearchBarInputProvider>
                         </FilteredArticlesProvider>
                       </FeaturedArticlesProvider>

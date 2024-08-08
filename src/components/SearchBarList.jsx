@@ -6,7 +6,7 @@ const SearchBarList = ({ articles, searchInputLength }) => {
     <div className="sm-mb-2">
       {!searchInputLength && (
         <h4 className="text-[0.85rem] text-primary mt-1 mb-1 sm:mt-0 sm:mb-0 sm:ml-2">
-          Most Popular
+          Most Discussed
         </h4>
       )}
 

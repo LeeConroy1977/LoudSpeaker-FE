@@ -6,6 +6,7 @@ import SearchBarList from "./SearchBarList";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { FilteredArticlesContext } from "../contexts/FilteredArticlesContext";
 import { SearchBarInputContext } from "../contexts/SearchBarInputContext";
+import { SearchBarListContext } from "../contexts/SearchBarList";
 
 const SearchContainer = ({
   isSearchOpen,
@@ -13,6 +14,7 @@ const SearchContainer = ({
   popularArticles,
 }) => {
   const { input, setInput } = useContext(SearchBarInputContext);
+  const { searchBarList } = useContext(SearchBarListContext);
 
   const { width, height } = useContext(ScreenSizeContext);
   const { filteredArticles } = useContext(FilteredArticlesContext);
@@ -54,7 +56,7 @@ const SearchContainer = ({
             ref={width > 640 ? extendedComponentRef : null}
             className="w-[100%] max-h-[600px] shadow-xl overflow-y-auto sm:ml-8  absolute rounded-xl p-4 pb-4 top-[44px] bg-white "
           >
-            <SearchBarList articles={popularArticles && popularArticles} />
+            <SearchBarList articles={searchBarList && searchBarList} />
           </div>
         ) : (
           <div
