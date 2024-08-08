@@ -1,7 +1,7 @@
 const topics = [
   {
     category: "Arts",
-    subcategories: ["Architecture", "Art", "Literature", "Performing arts"],
+    subcategories: ["Architecture", "Art", "Performing arts"],
   },
   {
     category: "Business",
@@ -18,6 +18,16 @@ const topics = [
   {
     category: "Food",
     subcategories: ["cooking", "Recipes", "Vegan"],
+  },
+  {
+    category: "Literature",
+    subcategories: [
+      "Classics",
+      "Dystopian fiction",
+      "Fantasy",
+      "Non-fiction",
+      "Science fiction",
+    ],
   },
   {
     category: "Movies",
