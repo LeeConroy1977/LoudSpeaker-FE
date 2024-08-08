@@ -88,6 +88,13 @@
     height: 38px;
     font-size: 0.85rem;
   }
+  .buttonMediumShowMore {
+    width: 140px;
+    height: 38px;
+    font-size: 0.75rem;
+    background-color: black;
+    color: white;
+  }
 
   .buttonMobile {
     width: 74px;

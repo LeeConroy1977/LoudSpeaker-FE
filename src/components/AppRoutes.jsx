@@ -49,8 +49,6 @@ const AppRoutes = () => {
   const sortByParam = searchParams.get("sort_by");
   const orderParam = searchParams.get("order");
 
-  console.log(page);
-
   useEffect(() => {
     getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
       (results) => {
@@ -58,26 +56,24 @@ const AppRoutes = () => {
       }
     );
   }, []);
-
-  console.log(allArticles);
-
   useEffect(() => {
-    console.log("Fetching articles with params:", {
-      topicParam,
-      sortByParam,
-      orderParam,
-      limit,
-      page,
-      commentCount,
-    });
     getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
       (results) => {
         setArticles((prev) => [...prev, ...results.articles]);
-        setTotalArticles(results.total_count.total_count);
+
         setVisible((prev) => prev + results.articles.length);
       }
     );
-  }, [topicParam, sortByParam, orderParam, page, commentCount]);
+  }, [page]);
+
+  useEffect(() => {
+    getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
+      (results) => {
+        setArticles(results.articles);
+        setTotalArticles(results.total_count.total_count);
+      }
+    );
+  }, [topicParam, sortByParam, orderParam, commentCount]);
 
   useEffect(() => {
     {

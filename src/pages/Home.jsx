@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import SearchContainer from "../components/SearchContainer";
 import OptionsContainer from "../components/OptionsContainer";
 import FeaturedSection from "../components/FeaturedSection";
@@ -19,9 +19,13 @@ const Home = ({
   visible,
 }) => {
   const { width } = useContext(ScreenSizeContext);
+  const divRef = useRef(null);
 
   return (
-    <div className="sm:col-span-1 sm:row-span-1 sm:overflow-hidden flex flex-col h-auto">
+    <div
+      className="sm:col-span-1 sm:row-span-1 sm:overflow-hidden flex flex-col h-auto"
+      ref={divRef}
+    >
       {width < 640 && !isComposeOpen && isSearchOpen && (
         <SearchContainer
           isSearchOpen={isSearchOpen}
@@ -50,6 +54,7 @@ const Home = ({
         allArticles={allArticles}
         handleOnLoadMore={handleOnLoadMore}
         visible={visible}
+        divRef={divRef}
       />
     </div>
   );

@@ -1,17 +1,26 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
 import MainArticlesCard from "./MainArticlesCard";
 import { ArticlesContext } from "../contexts/ArticlesContext";
 import { ExistingUserContext } from "../contexts/ExistingUsersContext";
+import Button from "../reuseable-components/Button";
 
 const MainArticlesList = ({
   handleSelectedArticle,
   allArticles,
   handleOnLoadMore,
   visible,
+  divRef,
 }) => {
   const { articles } = useContext(ArticlesContext);
   const { existingUsers } = useContext(ExistingUserContext);
+
+  const scrollToTop = () => {
+    divRef.current.scrollIntoView({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <div className="sm:w-full sm:h-full sm:overflow-auto">
@@ -27,17 +36,29 @@ const MainArticlesList = ({
             />
           );
         })}
-      {allArticles > 0 ? (
-        visible < allArticles ? (
-          <div>
-            <button onClick={() => handleOnLoadMore()}>Load More</button>
-          </div>
-        ) : (
-          <div>
-            <div>Sorry, that's all folks! No more to load.</div>
-          </div>
-        )
-      ) : null}
+      <div className="w-[100%] h-[80px] sm:h-[60px] flex items-center justify-center">
+        {allArticles > 0 ? (
+          visible < allArticles ? (
+            <div>
+              <Button
+                handleClick={handleOnLoadMore}
+                buttonStyle="buttonMediumShowMore"
+              >
+                Load More Articles
+              </Button>
+            </div>
+          ) : (
+            <div>
+              <Button
+                handleClick={scrollToTop}
+                buttonStyle="buttonMediumShowMore"
+              >
+                Back To Top
+              </Button>
+            </div>
+          )
+        ) : null}
+      </div>
     </div>
   );
 };
