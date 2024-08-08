@@ -43,6 +43,7 @@ const AppRoutes = () => {
   const [page, setPage] = useState(1);
   const [totalAricles, setTotalArticles] = useState(0);
   const [allArticles, setAllArticles] = useState(0);
+  const [visible, setVisible] = useState(0);
 
   const topicParam = searchParams.get("topic");
   const sortByParam = searchParams.get("sort_by");
@@ -55,6 +56,15 @@ const AppRoutes = () => {
       }
     );
   }, []);
+  useEffect(() => {
+    getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
+      (results) => {
+        setArticles((prev) => [...prev, ...results.articles]);
+
+        setVisible((prev) => prev + results.articles.length);
+      }
+    );
+  }, [page]);
 
   useEffect(() => {
     getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
@@ -63,16 +73,15 @@ const AppRoutes = () => {
         setTotalArticles(results.total_count.total_count);
       }
     );
-  }, [topicParam, sortByParam, orderParam, page, commentCount]);
+  }, [topicParam, sortByParam, orderParam, commentCount]);
 
   useEffect(() => {
     {
-      setLimit(allArticles);
       getAllArticles(null, null, null, allArticles, null).then((results) => {
         setFilteredArticles(results.articles);
       });
     }
-  }, [topicParam, setAllArticles]);
+  }, [setAllArticles]);
 
   useEffect(() => {
     async function fetchMostCommentedArticles() {
@@ -102,6 +111,11 @@ const AppRoutes = () => {
 
     console.log(featuredArticles, "featuredArticles!!!!!!!!!!!!!");
   }, [filteredArticles]);
+
+  function handleOnLoadMore() {
+    console.log("this ran!!!!");
+    return setPage((prev) => prev + 1);
+  }
 
   function handlePopularArticles() {
     const popularArticlesArray = articles
@@ -162,6 +176,9 @@ const AppRoutes = () => {
               handleSignInContainerClosed={handleSignInContainerClosed}
               setHasSignInContainerClosed={setHasSignInContainerClosed}
               hasSignInContainerClosed={hasSignInContainerClosed}
+              allArticles={allArticles}
+              handleOnLoadMore={handleOnLoadMore}
+              visible={visible}
             />
           }
         />
@@ -178,6 +195,9 @@ const AppRoutes = () => {
               handleSignInContainerClosed={handleSignInContainerClosed}
               setHasSignInContainerClosed={setHasSignInContainerClosed}
               hasSignInContainerClosed={hasSignInContainerClosed}
+              allArticles={allArticles}
+              handleOnLoadMore={handleOnLoadMore}
+              visible={visible}
             />
           }
         />
