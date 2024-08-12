@@ -26,6 +26,7 @@ const Article = ({ setCommentCount, commentCount }) => {
     if (article_id) {
       getArticle(article_id)
         .then((article) => {
+          setComments([]);
           setArticle(article);
           setVoteCount(article.votes);
           setCommentCount(article.comment_count);
