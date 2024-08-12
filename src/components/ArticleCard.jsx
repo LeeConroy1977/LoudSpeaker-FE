@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import Avatar from "../reuseable-components/Avatar";
 import CommentsContainer from "./CommentsContainer";
-import VotesContainer from "./VotesContainer";
+import VotesContainer from "../reuseable-components/VotesContainer";
 import { timeSince } from "../../utilities/time";
 import CommentPostContainer from "./CommentPostContainer";
 import ArticleCommentsList from "./ArticleCommentsList";
@@ -15,6 +15,7 @@ import {
 } from "../../utilities/api/commentsApi";
 import { UserContext } from "../contexts/UserContext";
 import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
+import UserDetail from "../reuseable-components/UserDetail";
 
 const ArticleCard = ({
   handleVoteCount,
@@ -63,16 +64,14 @@ const ArticleCard = ({
   }, []);
 
   let userAvatar;
+  let name;
 
   existingUsers.map((user) => {
     if (user.username === author) {
-      user = user;
+      name = user.name;
       return (userAvatar = user.avatar_url);
     }
   });
-
-  const timeDetail = timeSince(created_at);
-  const userDetail = `${author} . ${timeDetail}`;
 
   return (
     <>
@@ -91,9 +90,11 @@ const ArticleCard = ({
                 <Avatar avatarStyle="avatarMain " avatarURL={userAvatar} />
               )}
 
-              <p className="text-[10px] text-primary font-bold ml-3">
-                {userDetail}
-              </p>
+              <UserDetail
+                createdAt={created_at}
+                username={author}
+                name={name}
+              />
               <div className="flex justify-end ml-auto w-[100px]">
                 <CommentsContainer
                   commentStyle="mobileComments"

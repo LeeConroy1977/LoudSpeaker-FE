@@ -4,7 +4,7 @@ import { TbArrowBigUp } from "react-icons/tb";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import { useModal } from "../contexts/ModalContext";
-import SignIn from "./SignIn";
+import SignIn from "../components/SignIn";
 
 const VotesContainer = ({
   votesStyle,
@@ -15,7 +15,6 @@ const VotesContainer = ({
   handleId,
   article,
   handleShouldSignIn,
-  votes,
 }) => {
   const { user } = useContext(UserContext);
   const { showModal } = useModal();
