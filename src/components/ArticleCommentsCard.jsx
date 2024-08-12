@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Avatar from "../reuseable-components/Avatar";
 import { timeSince } from "../../utilities/time";
-import VotesContainer from "./VotesContainer";
+import VotesContainer from "../reuseable-components/VotesContainer";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 import { RiDeleteBin6Line } from "react-icons/ri";

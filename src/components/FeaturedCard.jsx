@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Avatar from "../reuseable-components/Avatar";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
-import VotesContainer from "./VotesContainer";
+import VotesContainer from "../reuseable-components/VotesContainer";
 import CommentsContainer from "./CommentsContainer";
 import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 import { Link } from "react-router-dom";

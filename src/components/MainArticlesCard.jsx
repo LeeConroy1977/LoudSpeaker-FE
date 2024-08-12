@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import CommentsContainer from "./CommentsContainer";
 import Avatar from "../reuseable-components/Avatar";
-import VotesContainer from "./VotesContainer";
+import VotesContainer from "../reuseable-components/VotesContainer.jsx";
 import { timeSince } from "../../utilities/time.js";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext.jsx";
 import { Link } from "react-router-dom";
+import UserDetail from "../reuseable-components/UserDetail.jsx";
 
 const MainArticlesCard = ({ article, users }) => {
   const { width, height } = useContext(ScreenSizeContext);
@@ -20,15 +21,14 @@ const MainArticlesCard = ({ article, users }) => {
   } = article;
 
   let userAvatar;
+  let name;
 
   users.forEach((user) => {
     if (user.username === author) {
+      name = user.name;
       return (userAvatar = user.avatar_url);
     }
   });
-
-  const timeDetail = timeSince(created_at);
-  const userDetail = `${author} . ${timeDetail}`;
 
   return (
     <Link to={`/articles/${article_id}`}>
@@ -45,9 +45,7 @@ const MainArticlesCard = ({ article, users }) => {
             <Avatar avatarStyle="avatarMain" avatarURL={userAvatar} />
           )}
 
-          <p className="text-[10px] text-primary font-bold ml-3">
-            {userDetail}
-          </p>
+          <UserDetail createdAt={created_at} username={author} name={name} />
           <div className="flex justify-end ml-auto w-[100px]">
             <CommentsContainer
               commentStyle="mobileComments"
