@@ -6,6 +6,7 @@ import { timeSince } from "../../utilities/time.js";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext.jsx";
 import { Link } from "react-router-dom";
 import UserDetail from "../reuseable-components/UserDetail.jsx";
+import { IoArrowBack } from "react-icons/io5";
 
 const MainArticlesCard = ({ article, users }) => {
   const { width, height } = useContext(ScreenSizeContext);

@@ -5,6 +5,8 @@ import { getArticleComments } from "../../utilities/api/commentsApi";
 import { useContext, useEffect, useRef, useState } from "react";
 import { MainArticleContext } from "../contexts/MainArticleContext";
 import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
+import { FaLessThanEqual } from "react-icons/fa6";
+import { Oval } from "react-loader-spinner";
 
 const Article = ({ setCommentCount, commentCount }) => {
   const { article, setArticle } = useContext(MainArticleContext);
@@ -13,21 +15,21 @@ const Article = ({ setCommentCount, commentCount }) => {
   const { article_id } = useParams();
   const { votes } = article;
   const [voteCount, setVoteCount] = useState(votes);
+  const [isLoading, setIsLoading] = useState(FaLessThanEqual);
 
   const isFirst = useRef(true);
 
   console.log(article_id);
 
   useEffect(() => {
+    setIsLoading(true);
     if (article_id) {
       getArticle(article_id)
         .then((article) => {
           setArticle(article);
-
-          console.log(article, "<<<<<<<<<<<<<<<<<<");
           setVoteCount(article.votes);
           setCommentCount(article.comment_count);
-          console.log(commentCount);
+          setIsLoading(false);
         })
         .catch((error) => console.error("Error:", error));
     }
@@ -70,7 +72,11 @@ const Article = ({ setCommentCount, commentCount }) => {
 
   return (
     <div>
-      {article && (
+      {isLoading ? (
+        <div className="w-[100%] h-[600px] flex items-center justify-center">
+          <Oval color="#456990" secondaryColor="#456990" />
+        </div>
+      ) : (
         <ArticleCard
           article={article}
           handleVoteCount={handleVoteCount}

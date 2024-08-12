@@ -35,15 +35,14 @@ const AppRoutes = () => {
     FeaturedArticlesContext
   );
   const { searchBarList, setSearchBarList } = useContext(SearchBarListContext);
-  const { setExistingUsers } = useContext(ExistingUserContext);
-  const { selectedTopic } = useContext(SelectedTopicContext);
-  const { showModal } = useModal();
+
   const { searchParams } = useContext(SearchParamsContext);
   const [limit, setLimit] = useState(12);
   const [page, setPage] = useState(1);
   const [totalAricles, setTotalArticles] = useState(0);
   const [allArticles, setAllArticles] = useState(0);
   const [visible, setVisible] = useState(0);
+  const [isMainArticlesLoading, setIsMainArticlesLoading] = useState(false);
 
   const topicParam = searchParams.get("topic");
   const sortByParam = searchParams.get("sort_by");
@@ -56,6 +55,9 @@ const AppRoutes = () => {
       }
     );
   }, []);
+
+  console.log(allArticles);
+
   useEffect(() => {
     getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
       (results) => {
@@ -67,10 +69,12 @@ const AppRoutes = () => {
   }, [page]);
 
   useEffect(() => {
+    setIsMainArticlesLoading(true);
     getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
       (results) => {
         setArticles(results.articles);
         setTotalArticles(results.total_count.total_count);
+        setIsMainArticlesLoading(false);
       }
     );
   }, [topicParam, sortByParam, orderParam, commentCount]);
@@ -81,7 +85,7 @@ const AppRoutes = () => {
         setFilteredArticles(results.articles);
       });
     }
-  }, [setAllArticles]);
+  }, [allArticles]);
 
   useEffect(() => {
     async function fetchMostCommentedArticles() {
@@ -179,6 +183,7 @@ const AppRoutes = () => {
               allArticles={allArticles}
               handleOnLoadMore={handleOnLoadMore}
               visible={visible}
+              isMainArticlesLoading={isMainArticlesLoading}
             />
           }
         />
@@ -198,6 +203,7 @@ const AppRoutes = () => {
               allArticles={allArticles}
               handleOnLoadMore={handleOnLoadMore}
               visible={visible}
+              isMainArticlesLoading={isMainArticlesLoading}
             />
           }
         />

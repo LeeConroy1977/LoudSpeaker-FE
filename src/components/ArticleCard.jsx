@@ -16,6 +16,8 @@ import {
 import { UserContext } from "../contexts/UserContext";
 import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
 import UserDetail from "../reuseable-components/UserDetail";
+import { IoArrowBack } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const ArticleCard = ({
   handleVoteCount,
@@ -38,6 +40,7 @@ const ArticleCard = ({
 
   const isFirstDelete = useRef(true);
   const isFirstPost = useRef(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isFirstDelete.current) {
@@ -75,6 +78,15 @@ const ArticleCard = ({
 
   return (
     <>
+      <div
+        className="flex items-center mt-4 cursor-pointer"
+        onClick={() => navigate(-1)}
+      >
+        <IoArrowBack className="cursor-pointer ml-4 text-primary font-bold" />
+        <p className="ml-4 text-[12px] text-primary font-bold">
+          Back to articles...
+        </p>
+      </div>
       {article !== undefined && voteCount !== undefined && (
         <div>
           <div className="w-full border-b border-gray-200 p-3 cursor-pointer">
