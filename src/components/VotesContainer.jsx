@@ -12,6 +12,7 @@ const VotesContainer = ({
   votesIconStyle,
   initialVotes,
   handleClick,
+  handleId,
   article,
   handleShouldSignIn,
   votes,
@@ -84,18 +85,27 @@ const VotesContainer = ({
   };
 
   return (
-    <div className={`${votesStyle} flex items-center  rounded-xl`}>
+    <div
+      className={`${votesStyle} flex items-center  rounded-xl`}
+      onClick={handleId}
+    >
       <span>
         <TbArrowBigDown
           className={`${votesIconStyle} font-bold text-black fill-red-600`}
-          onClick={handleDownVote}
+          onClick={() => {
+            handleDownVote();
+            handleId();
+          }}
         />
       </span>
       <p className={`${votesNumStyle}  `}>{initialVotes}</p>
       <span>
         <TbArrowBigUp
           className={`${votesIconStyle}  font-bold text-black fill-green-600`}
-          onClick={handleUpVote}
+          onClick={() => {
+            handleUpVote();
+            handleId();
+          }}
         />
       </span>
     </div>

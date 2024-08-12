@@ -16,10 +16,18 @@ export async function postArticleComment(id, body, username) {
       return data.comment;
     });
 }
+export async function patchComment(id, inc_votes) {
+  try {
+    const { data } = await loudSpeakerApi.patch(`/api/comments/${id}`, {
+      inc_votes,
+    });
+    return data.comment;
+  } catch (error) {
+    console.error("Error patching comment:", error);
+    throw error;
+  }
+}
 
 export async function deleteArticleComment(id) {
   return loudSpeakerApi.delete(`/api/comments/${id}`);
-  // .then(({ data }) => {
-  //   return data.comment;
-  // });
 }

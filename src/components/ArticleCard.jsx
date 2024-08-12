@@ -8,7 +8,7 @@ import CommentPostContainer from "./CommentPostContainer";
 import ArticleCommentsList from "./ArticleCommentsList";
 import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 import { MainArticleContext } from "../contexts/MainArticleContext";
-import { patchArticle } from "../../utilities/api/articlesApi";
+
 import {
   deleteArticleComment,
   postArticleComment,
@@ -19,7 +19,6 @@ import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
 const ArticleCard = ({
   handleVoteCount,
   voteCount,
-
   commentCount,
   setCommentCount,
 }) => {
