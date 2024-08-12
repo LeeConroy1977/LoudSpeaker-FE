@@ -58,7 +58,7 @@ const Article = ({ setCommentCount, commentCount }) => {
   }, []);
 
   useEffect(() => {
-    setVoteCount(article.comment_count);
+    setVoteCount(article.votes);
   }, []);
 
   const handleVoteCount = (change) => {

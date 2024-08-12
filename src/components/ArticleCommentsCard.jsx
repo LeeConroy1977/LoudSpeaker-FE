@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Avatar from "../reuseable-components/Avatar";
 import { timeSince } from "../../utilities/time";
 import VotesContainer from "./VotesContainer";
@@ -7,15 +7,45 @@ import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { UserContext } from "../contexts/UserContext";
 import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
+import { patchComment } from "../../utilities/api/commentsApi";
 
 const ArticleCommentsCard = ({ comment, setDeletedCommentId }) => {
-  const { body, created_at, votes, comment_id } = comment;
+  const { body, created_at, author, votes, comment_id } = comment;
   const { width } = useContext(ScreenSizeContext);
   const { existingUsers } = useContext(ExistingUserContext);
   const { user } = useContext(UserContext);
+  const [commentId, setCommentId] = useState(null);
   const { setComments } = useContext(ArticleCommentsContext);
+  const [voteCount, setVoteCount] = useState(votes);
+  const [incVotes, setIncVotes] = useState(0);
 
-  const { author } = comment;
+  const isFirst = useRef(true);
+
+  console.log(commentId);
+  useEffect(() => {
+    if (!isFirst.current) {
+      patchComment(comment_id, incVotes)
+        .then((comment) => {
+          setVoteCount(comment.votes);
+        })
+        .catch(() => {
+          setVoteCount(voteCount - incVotes);
+        });
+    }
+  }, [incVotes]);
+
+  useEffect(() => {
+    isFirst.current = false;
+  }, []);
+
+  useEffect(() => {
+    setVoteCount(comment.votes);
+  }, []);
+
+  const handleVoteCount = (change) => {
+    setIncVotes(change);
+    setVoteCount(voteCount + change);
+  };
 
   let userAvatar;
 
@@ -29,10 +59,14 @@ const ArticleCommentsCard = ({ comment, setDeletedCommentId }) => {
   const timeDetail = timeSince(created_at);
   const userDetail = `${author} . ${timeDetail}`;
 
+  function handleCommentId(id) {
+    if (Number(id) === comment_id) {
+      setCommentId(id);
+    }
+  }
+
   function handleDeleteCommentClick(id) {
     if (Number(id) === comment_id) {
-      console.log(Number(id), comment_id);
-      console.log("this ran!!");
       setDeletedCommentId(id);
       setComments((comment) =>
         comment.filter((comment) => comment.comment_id !== Number(id))
@@ -54,7 +88,10 @@ const ArticleCommentsCard = ({ comment, setDeletedCommentId }) => {
           votesStyle="mobileVotes"
           votesNumStyle="mobileVotesNum"
           votesIconStyle="mobileVotesIcon"
-          initialVotes={votes}
+          initialVotes={voteCount}
+          handleClick={handleVoteCount}
+          handleId={() => handleCommentId(comment.comment_id)}
+          handleShouldSignIn={true}
         />
       </div>
       <div className="sm:ml-[4rem] sm:mr-1 ml-2 mr-2 mb-1 mt-3 sm:mt-3  text-[0.75rem]  sm:text-[0.8rem] font-semibold">
