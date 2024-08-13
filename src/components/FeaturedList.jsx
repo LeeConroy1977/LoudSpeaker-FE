@@ -1,10 +1,8 @@
 import React, { useContext } from "react";
-
 import FeaturedCard from "./FeaturedCard";
-import { ArticlesContext } from "../contexts/ArticlesContext";
 import { FeaturedArticlesContext } from "../contexts/FeaturedArticlesContext";
 
-const FeaturedList = ({ handleSelectedArticle, isSearchOpen }) => {
+const FeaturedList = ({ handleSelectedArticle }) => {
   const { featuredArticles } = useContext(FeaturedArticlesContext);
 
   return (
@@ -19,7 +17,7 @@ const FeaturedList = ({ handleSelectedArticle, isSearchOpen }) => {
               key={article.title}
               article={article}
               handleSelectedArticle={handleSelectedArticle}
-              isSearchOpen={isSearchOpen}
+              
             />
           );
         })}

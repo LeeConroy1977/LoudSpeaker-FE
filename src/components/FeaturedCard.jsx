@@ -5,11 +5,13 @@ import VotesContainer from "../reuseable-components/VotesContainer";
 import CommentsContainer from "./CommentsContainer";
 import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 import { Link } from "react-router-dom";
+import { SearchOpenContext } from "../contexts/SearchOpenContext";
 
-const FeaturedCard = ({ article, handleSelectedArticle, isSearchOpen }) => {
-  const { width, height } = useContext(ScreenSizeContext);
+const FeaturedCard = ({ article }) => {
+  const { width } = useContext(ScreenSizeContext);
   const { title, article_img_url, author, votes } = article;
   const { existingUsers } = useContext(ExistingUserContext);
+  const { isSearchOpen } = useContext(SearchOpenContext);
 
   const userAvatar = existingUsers.map((user) => {
     if (user.username === author) {

@@ -7,20 +7,19 @@ import MainArticlesList from "../components/MainArticlesList";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import ComposeForm from "../components/ComposeForm";
 import LoadingSpinner from "../reuseable-components/LoadingSpinner";
+import { SearchOpenContext } from "../contexts/SearchOpenContext";
+import { ComposeOpenContext } from "../contexts/ComposeOpenContext";
 
 const Home = ({
-  isSearchOpen,
-  setIsSearchOpen,
-  handleComposeOpen,
-  isComposeOpen,
   handleSelectedArticle,
-  popularArticles,
   allArticles,
   handleOnLoadMore,
   visible,
   isMainArticlesLoading,
 }) => {
   const { width } = useContext(ScreenSizeContext);
+  const { isSearchOpen } = useContext(SearchOpenContext);
+  const { isComposeOpen } = useContext(ComposeOpenContext);
   const divRef = useRef(null);
 
   return (
@@ -28,28 +27,11 @@ const Home = ({
       className="sm:col-span-1 sm:row-span-1 sm:overflow-hidden flex flex-col h-auto"
       ref={divRef}
     >
-      {width < 640 && !isComposeOpen && isSearchOpen && (
-        <SearchContainer
-          isSearchOpen={isSearchOpen}
-          setIsSearchOpen={setIsSearchOpen}
-          popularArticles={popularArticles}
-        />
-      )}
+      {width < 640 && !isComposeOpen && isSearchOpen && <SearchContainer />}
 
       {width < 640 && !isComposeOpen && <OptionsContainer />}
-      {width < 640 && !isComposeOpen && (
-        <FeaturedSection isSearchOpen={isSearchOpen} />
-      )}
-      {isComposeOpen ? (
-        <ComposeForm handleComposeOpen={handleComposeOpen} />
-      ) : (
-        width > 640 && (
-          <ComposeContainer
-            handleComposeOpen={handleComposeOpen}
-            isComposeOpen={isComposeOpen}
-          />
-        )
-      )}
+      {width < 640 && !isComposeOpen && <FeaturedSection />}
+      {isComposeOpen ? <ComposeForm /> : width > 640 && <ComposeContainer />}
       {width > 640 && !isComposeOpen && <OptionsContainer />}
       {isMainArticlesLoading ? (
         <div className="w-[100%] h-[400px] flex items-center justify-center">

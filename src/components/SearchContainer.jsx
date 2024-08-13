@@ -7,22 +7,17 @@ import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { FilteredArticlesContext } from "../contexts/FilteredArticlesContext";
 import { SearchBarInputContext } from "../contexts/SearchBarInputContext";
 import { SearchBarListContext } from "../contexts/SearchBarList";
+import { SearchOpenContext } from "../contexts/SearchOpenContext";
 
-const SearchContainer = ({
-  isSearchOpen,
-  setIsSearchOpen,
-  popularArticles,
-}) => {
+const SearchContainer = () => {
   const { input, setInput } = useContext(SearchBarInputContext);
   const { searchBarList } = useContext(SearchBarListContext);
-
-  const { width, height } = useContext(ScreenSizeContext);
+  const { isSearchOpen, setIsSearchOpen } = useContext(SearchOpenContext);
+  const { width } = useContext(ScreenSizeContext);
   const { filteredArticles } = useContext(FilteredArticlesContext);
   const extendedComponentRef = useRef(null);
 
   useOutsideClick(extendedComponentRef, () => setIsSearchOpen(false));
-
-  // useEffect(() => {}, [input]);
 
   const searchInputLength = input.length;
 

@@ -8,15 +8,20 @@ import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
 import { FaLessThanEqual } from "react-icons/fa6";
 import { Oval } from "react-loader-spinner";
 import LoadingSpinner from "../reuseable-components/LoadingSpinner";
+import SearchContainer from "../components/SearchContainer";
+import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
+import { SearchOpenContext } from "../contexts/SearchOpenContext";
 
-const Article = ({ setCommentCount, commentCount }) => {
+const Article = ({ setCommentCount, commentCount, popularArticles }) => {
   const { article, setArticle } = useContext(MainArticleContext);
   const { setComments } = useContext(ArticleCommentsContext);
+  const { isSearchOpen } = useContext(SearchOpenContext);
   const [incVotes, setIncVotes] = useState(0);
   const { article_id } = useParams();
   const { votes } = article;
   const [voteCount, setVoteCount] = useState(votes);
   const [isLoading, setIsLoading] = useState(FaLessThanEqual);
+  const { width } = useContext(ScreenSizeContext);
 
   const isFirst = useRef(true);
 
@@ -74,6 +79,9 @@ const Article = ({ setCommentCount, commentCount }) => {
 
   return (
     <div>
+      {width < 640 && isSearchOpen && (
+        <SearchContainer popularArticles={popularArticles} />
+      )}
       {isLoading ? (
         <div className="w-[100%] h-[600px] flex items-center justify-center">
           <LoadingSpinner />

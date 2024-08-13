@@ -18,6 +18,7 @@ import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
 import UserDetail from "../reuseable-components/UserDetail";
 import { IoArrowBack } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { SearchOpenContext } from "../contexts/SearchOpenContext";
 
 const ArticleCard = ({
   handleVoteCount,
@@ -29,6 +30,7 @@ const ArticleCard = ({
   const { existingUsers } = useContext(ExistingUserContext);
   const { comments, setComments } = useContext(ArticleCommentsContext);
   const { user } = useContext(UserContext);
+  const { isSearchOpen } = useContext(SearchOpenContext);
   const [deletedCommentId, setDeletedCommentId] = useState(null);
   const { article } = useContext(MainArticleContext);
   const [userComment, setUserComment] = useState({
@@ -77,7 +79,11 @@ const ArticleCard = ({
   });
 
   return (
-    <>
+    <div
+      className={` ${
+        isSearchOpen && width < 640 ? "bg-black bg-opacity-50" : null
+      }`}
+    >
       <div
         className="flex items-center mt-4 cursor-pointer"
         onClick={() => navigate(-1)}
@@ -145,7 +151,7 @@ const ArticleCard = ({
           />{" "}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

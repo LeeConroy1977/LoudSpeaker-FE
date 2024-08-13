@@ -6,7 +6,7 @@ import Avatar from "../reuseable-components/Avatar";
 import SearchBarList from "./SearchBarList";
 import useOutsideClick from "../hooks/useOutsideClick";
 import SignIn from "./SignIn";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useModal } from "../contexts/ModalContext";
 import { UserContext } from "../contexts/UserContext";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
@@ -16,19 +16,20 @@ import { SearchBarListContext } from "../contexts/SearchBarList";
 import { CgProfile } from "react-icons/cg";
 import { FaSearch } from "react-icons/fa";
 import { IoIosAddCircle } from "react-icons/io";
+import { SearchOpenContext } from "../contexts/SearchOpenContext";
+import useSearchToggle from "../hooks/UseSearchOpenToggle";
+import useComposeToggle from "../hooks/UseComposeOpenToggle";
 
-const NavBar = ({
-  handleSearchOpen,
-  handleComposeOpen,
-  handleSearchInput,
-  isSearchOpen,
-  setIsSearchOpen,
-}) => {
+const NavBar = ({ handleSearchInput, handlePopularArticles }) => {
   const { width } = useContext(ScreenSizeContext);
   const { user, setUser } = useContext(UserContext);
   const { input, setInput } = useContext(SearchBarInputContext);
   const { searchBarList } = useContext(SearchBarListContext);
+  const { isSearchOpen, setIsSearchOpen } = useContext(SearchOpenContext);
+  const { toggleSearchOpen } = useSearchToggle();
+  const { toggleComposeOpen } = useComposeToggle();
   const { filteredArticles } = useContext(FilteredArticlesContext);
+  const { article_id } = useParams();
   const { showModal } = useModal();
   const extendedComponentRef = useRef(null);
 
@@ -66,9 +67,9 @@ const NavBar = ({
       {width > 640 && (
         <div className="relative">
           <Input
-            handleSearchOpen={handleSearchOpen}
             searchInput={input}
             handleChange={handleSearchInput}
+            handlePopularArticles={handlePopularArticles}
           />
           {isSearchOpen ? (
             searchInputLength > 0 && filteredArticlesArr.length > 0 ? (
@@ -107,13 +108,16 @@ const NavBar = ({
         {width < 640 && (
           <FaSearch
             className="w-5 h-5 text-primary cursor-pointer"
-            onClick={handleSearchOpen}
+            onClick={toggleSearchOpen}
           />
         )}
-        {width < 640 && (
+        {width < 640 && !article_id && (
           <IoIosAddCircle
-            className="w-7 h-7 text-primary"
-            onClick={() => handleComposeOpen()}
+            className="w-7 h-7 text-primary cursor-pointer"
+            onClick={() => {
+              !user.username && showModal(<SignIn />);
+              toggleComposeOpen();
+            }}
           />
         )}
         <div className="sm:w-[65px] sm:h-[65px] flex justify-center items-center">

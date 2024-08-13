@@ -1,9 +1,11 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext } from "react";
 
 import MainArticlesCard from "./MainArticlesCard";
 import { ArticlesContext } from "../contexts/ArticlesContext";
 import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 import Button from "../reuseable-components/Button";
+import { SearchOpenContext } from "../contexts/SearchOpenContext";
+import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 
 const MainArticlesList = ({
   handleSelectedArticle,
@@ -14,6 +16,8 @@ const MainArticlesList = ({
 }) => {
   const { articles } = useContext(ArticlesContext);
   const { existingUsers } = useContext(ExistingUserContext);
+  const { isSearchOpen } = useContext(SearchOpenContext);
+  const { width } = useContext(ScreenSizeContext);
 
   const scrollToTop = () => {
     divRef.current.scrollIntoView({
@@ -23,7 +27,11 @@ const MainArticlesList = ({
   };
 
   return (
-    <div className="sm:w-full sm:h-full sm:overflow-auto">
+    <div
+      className={`sm:w-full sm:h-full sm:overflow-auto ${
+        isSearchOpen && width < 640 ? "bg-black bg-opacity-20" : null
+      }`}
+    >
       {articles &&
         existingUsers &&
         articles.map((article) => {
