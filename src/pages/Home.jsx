@@ -6,7 +6,7 @@ import ComposeContainer from "../components/ComposeContainer";
 import MainArticlesList from "../components/MainArticlesList";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import ComposeForm from "../components/ComposeForm";
-import { Oval } from "react-loader-spinner";
+import LoadingSpinner from "../reuseable-components/LoadingSpinner";
 
 const Home = ({
   isSearchOpen,
@@ -53,7 +53,7 @@ const Home = ({
       {width > 640 && !isComposeOpen && <OptionsContainer />}
       {isMainArticlesLoading ? (
         <div className="w-[100%] h-[400px] flex items-center justify-center">
-          <Oval color="#456990" secondaryColor="#456990" />
+          <LoadingSpinner />
         </div>
       ) : (
         <MainArticlesList

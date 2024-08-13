@@ -1,5 +1,6 @@
 import React from "react";
 import FeaturedList from "./FeaturedList";
+import LoadingSpinner from "../reuseable-components/LoadingSpinner";
 
 const FeaturedSection = ({ handleSelectedArticle, isSearchOpen }) => {
   return (

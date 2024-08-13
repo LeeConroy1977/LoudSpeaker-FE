@@ -7,6 +7,7 @@ import { MainArticleContext } from "../contexts/MainArticleContext";
 import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
 import { FaLessThanEqual } from "react-icons/fa6";
 import { Oval } from "react-loader-spinner";
+import LoadingSpinner from "../reuseable-components/LoadingSpinner";
 
 const Article = ({ setCommentCount, commentCount }) => {
   const { article, setArticle } = useContext(MainArticleContext);
@@ -75,7 +76,7 @@ const Article = ({ setCommentCount, commentCount }) => {
     <div>
       {isLoading ? (
         <div className="w-[100%] h-[600px] flex items-center justify-center">
-          <Oval color="#456990" secondaryColor="#456990" />
+          <LoadingSpinner />
         </div>
       ) : (
         <ArticleCard

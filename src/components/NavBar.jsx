@@ -1,29 +1,26 @@
-import React, { useContext, useEffect, useRef } from "react";
-import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
+import React, { useContext, useRef } from "react";
 import Input from "./Input";
 import Logo from "./Logo";
 import Button from "../reuseable-components/Button";
 import Avatar from "../reuseable-components/Avatar";
-import { FaSearch } from "react-icons/fa";
-import { IoIosAddCircle } from "react-icons/io";
 import SearchBarList from "./SearchBarList";
 import useOutsideClick from "../hooks/useOutsideClick";
-import { Link } from "react-router-dom";
-import { CgProfile } from "react-icons/cg";
-import { UserContext } from "../contexts/UserContext";
-import { useModal } from "../contexts/ModalContext";
 import SignIn from "./SignIn";
+import { Link } from "react-router-dom";
+import { useModal } from "../contexts/ModalContext";
+import { UserContext } from "../contexts/UserContext";
+import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { FilteredArticlesContext } from "../contexts/FilteredArticlesContext";
 import { SearchBarInputContext } from "../contexts/SearchBarInputContext";
 import { SearchBarListContext } from "../contexts/SearchBarList";
+import { CgProfile } from "react-icons/cg";
+import { FaSearch } from "react-icons/fa";
+import { IoIosAddCircle } from "react-icons/io";
 
 const NavBar = ({
   handleSearchOpen,
   handleComposeOpen,
   handleSearchInput,
-  searchInput,
-
-  popularArticles,
   isSearchOpen,
   setIsSearchOpen,
 }) => {
@@ -33,7 +30,6 @@ const NavBar = ({
   const { searchBarList } = useContext(SearchBarListContext);
   const { filteredArticles } = useContext(FilteredArticlesContext);
   const { showModal } = useModal();
-
   const extendedComponentRef = useRef(null);
 
   useOutsideClick(extendedComponentRef, () => setIsSearchOpen(false));
