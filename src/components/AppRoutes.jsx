@@ -106,8 +106,6 @@ const AppRoutes = () => {
       (article) => article.featured === true
     );
     setFeaturedArticles(featured);
-
-    console.log(featuredArticles, "featuredArticles!!!!!!!!!!!!!");
   }, [filteredArticles]);
 
   function handleOnLoadMore() {

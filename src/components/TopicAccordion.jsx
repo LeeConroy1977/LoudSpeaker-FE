@@ -3,15 +3,18 @@ import categories from "../../data/categories";
 import { MdPlayArrow } from "react-icons/md";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { SelectedTopicContext } from "../contexts/SelectedTopicContext";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { useModal } from "../contexts/ModalContext";
 
 const TopicAccordion = ({ handleTopicContainer }) => {
   const [topicIndex, setTopicIndex] = useState(null);
   const [subTopicIndex, setSubTopicIndex] = useState(null);
-  const [topics, setTopics] = useState(categories);
+  const [topics] = useState(categories);
 
   const { selectedTopic, setSelectedTopic } = useContext(SelectedTopicContext);
   const { width } = useContext(ScreenSizeContext);
+  const { hideModal } = useModal();
 
   function handleTopicToggle(index) {
     setTopicIndex((topicIndex) => (topicIndex === index ? null : index));
@@ -28,33 +31,43 @@ const TopicAccordion = ({ handleTopicContainer }) => {
   }
   console.log(selectedTopic);
   return (
-    <div className="w-full mb-2 mt-2 bg-white  rounded-xl pt-2 pb-2 sm:rounded-none sm:pt-0">
+    <div className="w-full mb-2 mt-2 bg-white   rounded-xl pt-2 pb-2 sm:rounded-none sm:pt-0 ">
       {width < 640 && (
-        <h4 className="border-b border-gray-200 h-[44px] font-semibold text-primary">
-          Select a topic
-        </h4>
-      )}
-
-      {topics.map((topic, index) => (
-        <div key={index}>
+        <div className="w-full h-[44px] border-b border-gray-200 ">
+          <h4 className="h-[44px] font-semibold text-primary ml-2 fixed">
+            Select a topic
+          </h4>
           <div
-            onClick={() => handleTopicToggle(index)}
-            className={`${
-              topicIndex === index ? "bg-gray-100 font-semibold" : "bg-white"
-            } w-full h-[2.5rem] flex 
-           items-center pl-2 border-b border-gray-200 text-primary text-[0.9rem] last:border-b-0 cursor-pointer`}
+            className="w-[30px] h-[30px]  flex justify-center items-center  bg-white rounded-full cursor-pointer absolute right-3 top-4"
+            onClick={hideModal}
           >
-            {topic.category.length > 0 && (
-              <span
-                className={`${topicIndex === index ? "rotate-90" : null} mr-3`}
-              >
-                <MdPlayArrow />
-              </span>
-            )}
-
-            {topic.category}
+            <IoIosCloseCircleOutline className=" text-primary text-[28px] font-bold " />
           </div>
-          <div>
+        </div>
+      )}
+      <div className="w-[100%] overflow-y-scroll h-full">
+        {topics.map((topic, index) => (
+          <div key={index}>
+            <div
+              onClick={() => handleTopicToggle(index)}
+              className={`${
+                topicIndex === index ? "bg-gray-100 font-semibold" : "bg-white"
+              } w-[100%] h-[2.5rem] flex 
+           items-center pl-2 border-b border-gray-200 text-primary text-[0.9rem] last:border-b-0 cursor-pointer overflow-y-scroll`}
+            >
+              {topic.category.length > 0 && (
+                <span
+                  className={`${
+                    topicIndex === index ? "rotate-90" : null
+                  } mr-3`}
+                >
+                  <MdPlayArrow />
+                </span>
+              )}
+
+              {topic.category}
+            </div>
+
             {topicIndex === index && (
               <div>
                 {topic.subcategories.map((subcategory, subIndex) => {
@@ -65,8 +78,8 @@ const TopicAccordion = ({ handleTopicContainer }) => {
                           key={subIndex}
                           onClick={() => {
                             handleSubTopicToggle(subIndex);
-
                             handleTopicSelection(subcategory);
+                            hideModal();
                           }}
                           className={`${
                             subTopicIndex === subIndex
@@ -83,8 +96,8 @@ const TopicAccordion = ({ handleTopicContainer }) => {
               </div>
             )}
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
