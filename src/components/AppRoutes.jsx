@@ -1,152 +1,73 @@
 import React, { useContext, useEffect, useState } from "react";
-
 import AppLayout from "./AppLayout";
 import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Article from "../pages/Article";
-import { UserContext } from "../contexts/UserContext";
-import { ArticlesContext } from "../contexts/ArticlesContext";
-import { getAllArticles } from "../../utilities/api/articlesApi";
 import { SearchParamsContext } from "../contexts/searchParamsContext";
 import { FilteredArticlesContext } from "../contexts/FilteredArticlesContext";
-import { FeaturedArticlesContext } from "../contexts/FeaturedArticlesContext";
-import { SearchBarListContext } from "../contexts/SearchBarList";
-import { SearchOpenContext } from "../contexts/SearchOpenContext";
-import { ComposeOpenContext } from "../contexts/ComposeOpenContext";
+import { useApi } from "../contexts/ApiContext";
+import { AllArticlesCountContext } from "../contexts/AllArticlesCountContext";
+import { VisibleContext } from "../contexts/VisibleContext";
 
 const AppRoutes = () => {
-  const [searchInput, setSearchInput] = useState("");
-  const [popularArticles, setPopularArticles] = useState([]);
-  const [isSignInContainerOpen, setIsSignInContainerOpen] = useState(false);
-  const [hasSignInContainerClosed, setHasSignInContainerClosed] =
-    useState(false);
-  const [commentCount, setCommentCount] = useState(null);
-  const { articles, setArticles } = useContext(ArticlesContext);
   const { filteredArticles, setFilteredArticles } = useContext(
     FilteredArticlesContext
   );
-  const { featuredArticles, setFeaturedArticles } = useContext(
-    FeaturedArticlesContext
-  );
-  const { setSearchBarList } = useContext(SearchBarListContext);
-
+  const { AllArticlesCount } = useContext(AllArticlesCountContext);
   const { searchParams } = useContext(SearchParamsContext);
-  const [limit] = useState(12);
-  const [page, setPage] = useState(1);
-  const [totalAricles, setTotalArticles] = useState(0);
-  const [allArticles, setAllArticles] = useState(0);
-  const [visible, setVisible] = useState(0);
-  const [isMainArticlesLoading, setIsMainArticlesLoading] = useState(false);
-
+  const { visible } = useContext(VisibleContext);
+  const {
+    fetchArticleCount,
+    fetchAdditionalArticles,
+    fetchArticles,
+    fetchFilteredArticles,
+    fetchMostPopularArticles,
+    fetchFeaturedArticles,
+  } = useApi();
   const topicParam = searchParams.get("topic");
   const sortByParam = searchParams.get("sort_by");
   const orderParam = searchParams.get("order");
+  const [searchInput] = useState("");
+  const [commentCount, setCommentCount] = useState(null);
+  const [isMainArticlesLoading, setIsMainArticlesLoading] = useState(false);
+  const [limit] = useState(12);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
-      (results) => {
-        setAllArticles(results.total_count.total_count);
-      }
-    );
+    fetchArticleCount(topicParam, sortByParam, orderParam, limit, page);
   }, []);
 
-  console.log(allArticles);
-
   useEffect(() => {
-    getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
-      (results) => {
-        setArticles((prev) => [...prev, ...results.articles]);
-
-        setVisible((prev) => prev + results.articles.length);
-      }
-    );
+    fetchAdditionalArticles(topicParam, sortByParam, orderParam, limit, page);
   }, [page]);
 
   useEffect(() => {
-    setIsMainArticlesLoading(true);
-    getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
-      (results) => {
-        setArticles(results.articles);
-        setTotalArticles(results.total_count.total_count);
-        setIsMainArticlesLoading(false);
-      }
-    );
+    fetchArticles(topicParam, sortByParam, orderParam, limit, page);
   }, [topicParam, sortByParam, orderParam, commentCount]);
 
   useEffect(() => {
-    {
-      getAllArticles(null, null, null, allArticles, null).then((results) => {
-        setFilteredArticles(results.articles);
-      });
-    }
-  }, [allArticles]);
+    fetchFilteredArticles(null, null, null, AllArticlesCount, null);
+  }, [AllArticlesCount]);
 
   useEffect(() => {
-    async function fetchMostCommentedArticles() {
-      try {
-        const mostCommentedArticles = await getAllArticles(
-          null,
-          "comment_count",
-          "desc",
-          6,
-          1
-        );
-
-        setSearchBarList(mostCommentedArticles.articles);
-      } catch (error) {
-        console.error("Error fetching most commented articles:", error);
-      }
-    }
-
-    fetchMostCommentedArticles();
+    fetchMostPopularArticles(null, "votes", null, 6, null);
   }, []);
 
   useEffect(() => {
-    const featured = filteredArticles.filter(
-      (article) => article.featured === true
-    );
-    setFeaturedArticles(featured);
-  }, [filteredArticles]);
+    fetchFeaturedArticles(null, null, null, AllArticlesCount, null);
+  }, [AllArticlesCount]);
 
   function handleOnLoadMore() {
-    console.log("this ran!!!!");
     return setPage((prev) => prev + 1);
-  }
-
-  function handlePopularArticles() {
-    const popularArticlesArray = articles
-      .slice()
-      .sort((a, b) => b.votes - a.votes)
-      .slice(0, 6);
-    setPopularArticles(popularArticlesArray);
-  }
-
-  function handleSignInContainerClosed() {
-    setHasSignInContainerClosed(true);
   }
 
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          <AppLayout
-            searchInput={searchInput}
-            handlePopularArticles={handlePopularArticles}
-            popularArticles={popularArticles}
-          />
-        }
-      >
+      <Route path="/" element={<AppLayout searchInput={searchInput} />}>
         <Route
           index
           element={
             <Home
-              popularArticles={popularArticles}
-              isSignInContainerOpen={isSignInContainerOpen}
-              handleSignInContainerClosed={handleSignInContainerClosed}
-              setHasSignInContainerClosed={setHasSignInContainerClosed}
-              hasSignInContainerClosed={hasSignInContainerClosed}
-              allArticles={allArticles}
               handleOnLoadMore={handleOnLoadMore}
               visible={visible}
               isMainArticlesLoading={isMainArticlesLoading}
@@ -157,12 +78,6 @@ const AppRoutes = () => {
           path="/articles"
           element={
             <Home
-              popularArticles={popularArticles}
-              isSignInContainerOpen={isSignInContainerOpen}
-              handleSignInContainerClosed={handleSignInContainerClosed}
-              setHasSignInContainerClosed={setHasSignInContainerClosed}
-              hasSignInContainerClosed={hasSignInContainerClosed}
-              allArticles={allArticles}
               handleOnLoadMore={handleOnLoadMore}
               visible={visible}
               isMainArticlesLoading={isMainArticlesLoading}
@@ -173,11 +88,8 @@ const AppRoutes = () => {
           path="/articles/:article_id"
           element={
             <Article
-              handleSignInContainerClosed={handleSignInContainerClosed}
-              hasSignInContainerClosed={hasSignInContainerClosed}
               setCommentCount={setCommentCount}
               commentCount={commentCount}
-              popularArticles={popularArticles}
             />
           }
         />

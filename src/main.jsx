@@ -18,6 +18,12 @@ import { FeaturedArticlesProvider } from "./contexts/FeaturedArticlesContext.jsx
 import { SearchBarListProvider } from "./contexts/SearchBarList.jsx";
 import { SearchOpenProvider } from "./contexts/SearchOpenContext.jsx";
 import { ComposeOpenProvider } from "./contexts/ComposeOpenContext.jsx";
+import { AllArticlesCountProvider } from "./contexts/AllArticlesCountContext.jsx";
+import { ApiProvider } from "./contexts/ApiContext.jsx";
+import { VisibleProvider } from "./contexts/VisibleContext.jsx";
+import { TotalArticlesProvider } from "./contexts/TotalArticlesContext.jsx";
+import { VoteCountProvider } from "./contexts/VoteCountContext.jsx";
+import { CommentCountProvider } from "./contexts/commentCountContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ScreenSizeProvider>
@@ -36,7 +42,19 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                             <SearchBarInputProvider>
                               <SearchBarListProvider>
                                 <ComposeOpenProvider>
-                                  <App />
+                                  <AllArticlesCountProvider>
+                                    <VisibleProvider>
+                                      <TotalArticlesProvider>
+                                        <CommentCountProvider>
+                                          <VoteCountProvider>
+                                            <ApiProvider>
+                                              <App />
+                                            </ApiProvider>
+                                          </VoteCountProvider>
+                                        </CommentCountProvider>
+                                      </TotalArticlesProvider>
+                                    </VisibleProvider>
+                                  </AllArticlesCountProvider>
                                 </ComposeOpenProvider>
                               </SearchBarListProvider>
                             </SearchBarInputProvider>

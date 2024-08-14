@@ -14,7 +14,7 @@ const ComposeContainer = () => {
 
   return (
     <div
-      className="w-full h-[80px] flex items-center justify-between p-4 border-gray-200 border-b "
+      className="w-full h-[80px] flex items-center justify-between p-3 border-gray-200 border-b "
       onClick={() => {
         !user.username && showModal(<SignIn />);
         toggleComposeOpen();

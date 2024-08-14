@@ -11,8 +11,6 @@ const AppLayout = ({
   isTopicContainerOpen,
   handleSearchInput,
   searchInput,
-  handlePopularArticles,
-  popularArticles,
 }) => {
   const { width } = useContext(ScreenSizeContext);
   const { isSearchOpen } = useContext(SearchOpenContext);
@@ -24,15 +22,10 @@ const AppLayout = ({
           ? `w-full h-full  grid grid-rows-[44px_auto] grid-cols-[100%] ${
               isTopicContainerOpen ? "overflow-hidden" : null
             }`
-          : "w-[76%] h-full grid grid-rows-[10%_90%]  grid-cols-[22%_53%_25%]"
+          : "w-[80%] h-full grid grid-rows-[10%_90%]  grid-cols-[22%_53%_25%]"
       }
     >
-      <NavBar
-        handleSearchInput={handleSearchInput}
-        searchInput={searchInput}
-        handlePopularArticles={handlePopularArticles}
-        popularArticles={popularArticles}
-      />
+      <NavBar handleSearchInput={handleSearchInput} searchInput={searchInput} />
       {width > 640 && <TopicSection />}
 
       <main

@@ -20,7 +20,7 @@ import { SearchOpenContext } from "../contexts/SearchOpenContext";
 import useSearchToggle from "../hooks/UseSearchOpenToggle";
 import useComposeToggle from "../hooks/UseComposeOpenToggle";
 
-const NavBar = ({ handleSearchInput, handlePopularArticles }) => {
+const NavBar = ({ handleSearchInput }) => {
   const { width } = useContext(ScreenSizeContext);
   const { user, setUser } = useContext(UserContext);
   const { input, setInput } = useContext(SearchBarInputContext);
@@ -66,11 +66,7 @@ const NavBar = ({ handleSearchInput, handlePopularArticles }) => {
       </Link>
       {width > 640 && (
         <div className="relative">
-          <Input
-            searchInput={input}
-            handleChange={handleSearchInput}
-            handlePopularArticles={handlePopularArticles}
-          />
+          <Input searchInput={input} handleChange={handleSearchInput} />
           {isSearchOpen ? (
             searchInputLength > 0 && filteredArticlesArr.length > 0 ? (
               <div className="w-[460px] max-h-[500px] shadow-xl overflow-y-auto z-50 sm:ml-8 bg-white absolute rounded-xl p-4">

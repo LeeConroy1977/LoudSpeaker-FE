@@ -1,99 +1,53 @@
+import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import ArticleCard from "../components/ArticleCard";
-import { getArticle, patchArticle } from "../../utilities/api/articlesApi";
-import { getArticleComments } from "../../utilities/api/commentsApi";
-import { useContext, useEffect, useRef, useState } from "react";
 import { MainArticleContext } from "../contexts/MainArticleContext";
 import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
-import { FaLessThanEqual } from "react-icons/fa6";
-import { Oval } from "react-loader-spinner";
 import LoadingSpinner from "../reuseable-components/LoadingSpinner";
 import SearchContainer from "../components/SearchContainer";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { SearchOpenContext } from "../contexts/SearchOpenContext";
+import { VoteCountContext } from "../contexts/VoteCountContext";
+import { CommentCountContext } from "../contexts/commentCountContext";
+import { useApi } from "../contexts/ApiContext";
 
-const Article = ({ setCommentCount, commentCount, popularArticles }) => {
+const Article = () => {
   const { article, setArticle } = useContext(MainArticleContext);
-  const { setComments } = useContext(ArticleCommentsContext);
   const { isSearchOpen } = useContext(SearchOpenContext);
-  const [incVotes, setIncVotes] = useState(0);
-  const { article_id } = useParams();
-  const { votes } = article;
-  const [voteCount, setVoteCount] = useState(votes);
-  const [isLoading, setIsLoading] = useState(FaLessThanEqual);
   const { width } = useContext(ScreenSizeContext);
-
-  const isFirst = useRef(true);
-
-  console.log(article_id);
+  const { commentCount } = useContext(CommentCountContext);
+  const { voteCount, setVoteCount } = useContext(VoteCountContext);
+  const { fetchArticle, fetchArticleComments, updateArticle } = useApi();
+  const { article_id } = useParams();
+  const [incVotes, setIncVotes] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
-    if (article_id) {
-      getArticle(article_id)
-        .then((article) => {
-          setComments([]);
-          setArticle(article);
-          setVoteCount(article.votes);
-          setCommentCount(article.comment_count);
-          setIsLoading(false);
-        })
-        .catch((error) => console.error("Error:", error));
-    }
+    fetchArticle(article_id);
   }, [article_id, setArticle]);
 
   useEffect(() => {
-    getArticleComments(article_id).then((articleComments) => {
-      setComments(articleComments);
-    });
+    fetchArticleComments(article_id);
   }, [article_id, commentCount]);
 
-  console.log(article.title);
-
   useEffect(() => {
-    if (!isFirst.current) {
-      patchArticle(article_id, incVotes)
-        .then((article) => {
-          setVoteCount(article.votes);
-        })
-        .catch(() => {
-          setVoteCount(voteCount - incVotes);
-        });
-    }
+    updateArticle(article_id, incVotes);
   }, [incVotes]);
-
-  useEffect(() => {
-    isFirst.current = false;
-  }, []);
-
-  useEffect(() => {
-    setVoteCount(article.votes);
-  }, []);
 
   const handleVoteCount = (change) => {
     setIncVotes(change);
     setVoteCount(voteCount + change);
   };
 
-  console.log(article.article_id);
-
   return (
     <div>
-      {width < 640 && isSearchOpen && (
-        <SearchContainer popularArticles={popularArticles} />
-      )}
+      {width < 640 && isSearchOpen && <SearchContainer />}
       {isLoading ? (
         <div className="w-[100%] h-[600px] flex items-center justify-center">
           <LoadingSpinner />
         </div>
       ) : (
-        <ArticleCard
-          article={article}
-          handleVoteCount={handleVoteCount}
-          voteCount={voteCount}
-          commentCount={commentCount}
-          setCommentCount={setCommentCount}
-        />
+        <ArticleCard handleVoteCount={handleVoteCount} />
       )}
     </div>
   );

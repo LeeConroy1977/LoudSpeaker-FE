@@ -10,13 +10,7 @@ import LoadingSpinner from "../reuseable-components/LoadingSpinner";
 import { SearchOpenContext } from "../contexts/SearchOpenContext";
 import { ComposeOpenContext } from "../contexts/ComposeOpenContext";
 
-const Home = ({
-  handleSelectedArticle,
-  allArticles,
-  handleOnLoadMore,
-  visible,
-  isMainArticlesLoading,
-}) => {
+const Home = ({ handleOnLoadMore, visible, isMainArticlesLoading }) => {
   const { width } = useContext(ScreenSizeContext);
   const { isSearchOpen } = useContext(SearchOpenContext);
   const { isComposeOpen } = useContext(ComposeOpenContext);
@@ -39,8 +33,6 @@ const Home = ({
         </div>
       ) : (
         <MainArticlesList
-          handleSelectedArticle={handleSelectedArticle}
-          allArticles={allArticles}
           handleOnLoadMore={handleOnLoadMore}
           visible={visible}
           divRef={divRef}

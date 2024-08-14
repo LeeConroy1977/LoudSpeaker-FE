@@ -1,72 +1,46 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import Avatar from "../reuseable-components/Avatar";
 import CommentsContainer from "./CommentsContainer";
 import VotesContainer from "../reuseable-components/VotesContainer";
-import { timeSince } from "../../utilities/time";
 import CommentPostContainer from "./CommentPostContainer";
 import ArticleCommentsList from "./ArticleCommentsList";
 import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 import { MainArticleContext } from "../contexts/MainArticleContext";
-
-import {
-  deleteArticleComment,
-  postArticleComment,
-} from "../../utilities/api/commentsApi";
 import { UserContext } from "../contexts/UserContext";
-import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
 import UserDetail from "../reuseable-components/UserDetail";
 import { IoArrowBack } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { SearchOpenContext } from "../contexts/SearchOpenContext";
+import { VoteCountContext } from "../contexts/VoteCountContext";
+import { CommentCountContext } from "../contexts/commentCountContext";
+import { useApi } from "../contexts/ApiContext";
 
-const ArticleCard = ({
-  handleVoteCount,
-  voteCount,
-  commentCount,
-  setCommentCount,
-}) => {
+const ArticleCard = ({ handleVoteCount }) => {
   const { width } = useContext(ScreenSizeContext);
   const { existingUsers } = useContext(ExistingUserContext);
-  const { comments, setComments } = useContext(ArticleCommentsContext);
+  const { commentCount } = useContext(CommentCountContext);
   const { user } = useContext(UserContext);
   const { isSearchOpen } = useContext(SearchOpenContext);
   const [deletedCommentId, setDeletedCommentId] = useState(null);
   const { article } = useContext(MainArticleContext);
+  const { voteCount } = useContext(VoteCountContext);
+  const { deleteComment, createArticleComment } = useApi();
   const [userComment, setUserComment] = useState({
     body: "",
   });
   const { title, body, author, created_at, article_img_url, article_id } =
     article;
   const { body: commentBody } = userComment;
-
-  const isFirstDelete = useRef(true);
-  const isFirstPost = useRef(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isFirstDelete.current) {
-      deleteArticleComment(deletedCommentId).then(() => {});
-      setCommentCount((count) => count - 1);
-    }
+    deleteComment(deletedCommentId);
   }, [deletedCommentId]);
 
   useEffect(() => {
-    if (!isFirstPost.current) {
-      postArticleComment(article_id, commentBody, user.username).then(
-        (comment) => {
-          console.log(comment);
-          setComments([comment, ...comments]);
-          setCommentCount((count) => count + 1);
-        }
-      );
-    }
+    createArticleComment(article_id, commentBody, user.username);
   }, [userComment]);
-
-  useEffect(() => {
-    isFirstDelete.current = false;
-    isFirstPost.current = false;
-  }, []);
 
   let userAvatar;
   let name;
@@ -113,7 +87,7 @@ const ArticleCard = ({
                 username={author}
                 name={name}
               />
-              <div className="flex justify-end ml-auto w-[100px]">
+              <div className="flex justify-end ml-auto mr-1 sm:ml-0 w-[100px]">
                 <CommentsContainer
                   commentStyle="mobileComments"
                   commentsNumStyle="mobileCommentsNum"
@@ -132,23 +106,20 @@ const ArticleCard = ({
                 />
               </div>
             </div>
-            <h3 className=" font-bold text-[0.9rem] mt-3 sm:mt-1  sm:pb-1">
+            <h3 className=" font-bold text-[0.9rem] ml-1 sm:ml-0 mt-3 sm:mt-1  sm:pb-1">
               {title}
             </h3>
             <img
               src={article_img_url}
               alt=""
-              className="w-full h-[200px] sm:w-[100%] sm:h-[330px] mt-2 mb-1 sm:ml-auto rounded-xl cursor-pointer"
+              className="w-full h-[200px] sm:w-[100%] sm:h-[330px] mt-2 mb-1 ml-1 pr-2 sm:pr:0 sm:ml-auto rounded-xl cursor-pointer"
             />
-            <p className=" sm:mr-1 ml-1 mt-3 sm:mt-3  text-[0.825rem]  sm:text-[0.9rem] font-semibold">
+            <p className=" sm:mr-1 ml-2 sm:ml-0 mr-1 sm:mr-0 mt-3 sm:mt-3 text-gray-950  text-[0.825rem]  sm:text-[0.9rem] font-semibold">
               {body}
             </p>
           </div>
           <CommentPostContainer setUserComment={setUserComment} />
-          <ArticleCommentsList
-            article={article}
-            setDeletedCommentId={setDeletedCommentId}
-          />{" "}
+          <ArticleCommentsList setDeletedCommentId={setDeletedCommentId} />{" "}
         </div>
       )}
     </div>
