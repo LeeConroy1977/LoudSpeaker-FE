@@ -7,6 +7,7 @@ import TopicAccordion from "./TopicAccordion";
 import sortByArr from "../../data/sortByOptions";
 import orderByArr from "../../data/orderByOptions";
 import { SearchParamsContext } from "../contexts/searchParamsContext";
+import { SearchOpenContext } from "../contexts/SearchOpenContext";
 
 const OptionsContainer = () => {
   const { width } = useContext(ScreenSizeContext);
@@ -14,51 +15,72 @@ const OptionsContainer = () => {
   const [selectedOptionSort, setSelectedOptionSort] = useState("");
   const [selectedOptionOrder, setSelectedOptionOrder] = useState("");
   const { searchParams, setSearchParams } = useContext(SearchParamsContext);
+  const { isSearchOpen } = useContext(SearchOpenContext);
 
   function handleSelectedOptionSort(e) {
     const sortValue = e.target.value;
-    setSelectedOptionSort(sortValue);
+    const finalsortValue = sortValue === "Sort By" ? null : sortValue;
+
+    setSelectedOptionSort(finalsortValue);
     const newParams = new URLSearchParams(searchParams);
-    newParams.set("sort_by", sortValue);
+    if (finalsortValue) {
+      newParams.set("sort_by", finalsortValue);
+    } else {
+      newParams.delete("sort_by");
+    }
+
     setSearchParams(newParams);
   }
+
   function handleSelectedOptionOrder(e) {
     const orderValue = e.target.value;
-    setSelectedOptionOrder(orderValue);
+    const finalOrderValue = orderValue === "Select Option" ? null : orderValue;
+
+    setSelectedOptionOrder(finalOrderValue);
     const newParams = new URLSearchParams(searchParams);
-    newParams.set("order", orderValue);
+    if (finalOrderValue) {
+      newParams.set("order", finalOrderValue);
+    } else {
+      newParams.delete("order");
+    }
+
     setSearchParams(newParams);
   }
 
   console.log(selectedOptionSort);
   console.log(selectedOptionOrder);
+
   return (
-    <div className="w-full h-[54px] flex justify-between items-center p-2 sm:pl-[4.6rem] border-b  sm:border-gray-200">
-      <div className=" flex">
-        <SelectComponent
-          selectStyle="selectMobile"
-          defaultOption="Sort By"
-          optionArray={sortByArr}
-          handleChange={handleSelectedOptionSort}
-          selectedOption={selectedOptionSort}
-        />
-        <SelectComponent
-          selectStyle="selectMobile"
-          defaultOption="Order By"
-          optionArray={orderByArr}
-          handleChange={handleSelectedOptionOrder}
-          selectedOption={selectedOptionOrder}
-        />
-      </div>
-      {width < 640 && (
-        <span>
-          <IoIosOptions
-            className="text-primary text-[22px] mr-1 cursor-pointer"
-            onClick={() => showModal(<TopicAccordion />)}
-          />
-        </span>
+    <>
+      {!isSearchOpen && (
+        <div className="w-full h-[54px] flex justify-between items-center pl-3  p-2 sm:pl-[4.6rem] border-b  sm:border-gray-200">
+          <div className=" flex">
+            <SelectComponent
+              selectStyle="selectMobile"
+              defaultOption="Sort By"
+              optionArray={sortByArr}
+              handleChange={handleSelectedOptionSort}
+              selectedOption={selectedOptionSort}
+            />
+            <SelectComponent
+              selectStyle="selectMobile"
+              defaultOption="Order By"
+              optionArray={orderByArr}
+              handleChange={handleSelectedOptionOrder}
+              selectedOption={selectedOptionOrder}
+            />
+          </div>
+          {width < 640 && (
+            <span>
+              <IoIosOptions
+                className="text-primary text-[22px] mr-1 cursor-pointer"
+                onClick={() => showModal(<TopicAccordion />)}
+              />
+            </span>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

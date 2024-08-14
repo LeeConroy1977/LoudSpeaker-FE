@@ -10,11 +10,13 @@ import categoriesArr from "../../data/categories";
 import { postArticle } from "../../utilities/api/articlesApi";
 import { ArticlesContext } from "../contexts/ArticlesContext";
 import { PopupContext } from "../contexts/PopupContext";
+import useComposeToggle from "../hooks/UseComposeOpenToggle";
 
-const ComposeForm = ({ handleComposeOpen }) => {
+const ComposeForm = () => {
   const { width } = useContext(ScreenSizeContext);
   const { user } = useContext(UserContext);
   const { articles, setArticles } = useContext(ArticlesContext);
+  const { toggleComposeOpen } = useComposeToggle();
   const [selectedTopic, setSelectedTopic] = useState("");
   const [selectedSubTopic, setSelectedSubTopic] = useState("");
   const [subTopicOptions, setSubTopicOptions] = useState([]);
@@ -140,7 +142,7 @@ const ComposeForm = ({ handleComposeOpen }) => {
           )}
         </div>
         <IoIosCloseCircleOutline
-          onClick={handleComposeOpen}
+          onClick={toggleComposeOpen}
           className="w-[1.8rem] h-[1.8rem] mb-auto text-primary cursor-pointer"
         />
       </div>

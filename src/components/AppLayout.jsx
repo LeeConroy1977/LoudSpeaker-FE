@@ -3,23 +3,17 @@ import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import NavBar from "./NavBar";
 import TopicSection from "./TopicSection";
 import FeaturedSection from "./FeaturedSection";
-
 import { Outlet } from "react-router-dom";
+import { SearchOpenContext } from "../contexts/SearchOpenContext";
 
 const AppLayout = ({
-  handleSearchOpen,
   handleSelectedArticle,
   isTopicContainerOpen,
-  handleComposeOpen,
   handleSearchInput,
   searchInput,
-  handlePopularArticles,
-  popularArticles,
-  isSearchOpen,
-  setIsSearchOpen,
 }) => {
-  const { width, height } = useContext(ScreenSizeContext);
-  const [isPostNotification, setIsPostNotification] = useState(true);
+  const { width } = useContext(ScreenSizeContext);
+  const { isSearchOpen } = useContext(SearchOpenContext);
 
   return (
     <div
@@ -28,22 +22,17 @@ const AppLayout = ({
           ? `w-full h-full  grid grid-rows-[44px_auto] grid-cols-[100%] ${
               isTopicContainerOpen ? "overflow-hidden" : null
             }`
-          : "w-[76%] h-full grid grid-rows-[10%_90%]  grid-cols-[22%_53%_25%]"
+          : "w-[80%] h-full grid grid-rows-[10%_90%]  grid-cols-[22%_53%_25%]"
       }
     >
-      <NavBar
-        handleSearchOpen={handleSearchOpen}
-        handleComposeOpen={handleComposeOpen}
-        handleSearchInput={handleSearchInput}
-        searchInput={searchInput}
-        handlePopularArticles={handlePopularArticles}
-        popularArticles={popularArticles}
-        isSearchOpen={isSearchOpen}
-        setIsSearchOpen={setIsSearchOpen}
-      />
+      <NavBar handleSearchInput={handleSearchInput} searchInput={searchInput} />
       {width > 640 && <TopicSection />}
 
-      <main className="relative sm:overflow-auto">
+      <main
+        className={`relative sm:overflow-auto ${
+          width < 640 && isSearchOpen ? "overflow-hidden" : null
+        }`}
+      >
         <Outlet />
       </main>
       {width > 640 && (

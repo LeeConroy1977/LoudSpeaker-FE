@@ -1,39 +1,36 @@
-import React, { useContext, useEffect, useRef } from "react";
-import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
+import React, { useContext, useRef } from "react";
 import Input from "./Input";
 import Logo from "./Logo";
 import Button from "../reuseable-components/Button";
 import Avatar from "../reuseable-components/Avatar";
-import { FaSearch } from "react-icons/fa";
-import { IoIosAddCircle } from "react-icons/io";
 import SearchBarList from "./SearchBarList";
 import useOutsideClick from "../hooks/useOutsideClick";
-import { Link } from "react-router-dom";
-import { CgProfile } from "react-icons/cg";
-import { UserContext } from "../contexts/UserContext";
-import { useModal } from "../contexts/ModalContext";
 import SignIn from "./SignIn";
+import { Link, useParams } from "react-router-dom";
+import { useModal } from "../contexts/ModalContext";
+import { UserContext } from "../contexts/UserContext";
+import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { FilteredArticlesContext } from "../contexts/FilteredArticlesContext";
 import { SearchBarInputContext } from "../contexts/SearchBarInputContext";
 import { SearchBarListContext } from "../contexts/SearchBarList";
+import { CgProfile } from "react-icons/cg";
+import { FaSearch } from "react-icons/fa";
+import { IoIosAddCircle } from "react-icons/io";
+import { SearchOpenContext } from "../contexts/SearchOpenContext";
+import useSearchToggle from "../hooks/UseSearchOpenToggle";
+import useComposeToggle from "../hooks/UseComposeOpenToggle";
 
-const NavBar = ({
-  handleSearchOpen,
-  handleComposeOpen,
-  handleSearchInput,
-  searchInput,
-
-  popularArticles,
-  isSearchOpen,
-  setIsSearchOpen,
-}) => {
+const NavBar = ({ handleSearchInput }) => {
   const { width } = useContext(ScreenSizeContext);
   const { user, setUser } = useContext(UserContext);
   const { input, setInput } = useContext(SearchBarInputContext);
   const { searchBarList } = useContext(SearchBarListContext);
+  const { isSearchOpen, setIsSearchOpen } = useContext(SearchOpenContext);
+  const { toggleSearchOpen } = useSearchToggle();
+  const { toggleComposeOpen } = useComposeToggle();
   const { filteredArticles } = useContext(FilteredArticlesContext);
+  const { article_id } = useParams();
   const { showModal } = useModal();
-
   const extendedComponentRef = useRef(null);
 
   useOutsideClick(extendedComponentRef, () => setIsSearchOpen(false));
@@ -69,11 +66,7 @@ const NavBar = ({
       </Link>
       {width > 640 && (
         <div className="relative">
-          <Input
-            handleSearchOpen={handleSearchOpen}
-            searchInput={input}
-            handleChange={handleSearchInput}
-          />
+          <Input searchInput={input} handleChange={handleSearchInput} />
           {isSearchOpen ? (
             searchInputLength > 0 && filteredArticlesArr.length > 0 ? (
               <div className="w-[460px] max-h-[500px] shadow-xl overflow-y-auto z-50 sm:ml-8 bg-white absolute rounded-xl p-4">
@@ -111,13 +104,16 @@ const NavBar = ({
         {width < 640 && (
           <FaSearch
             className="w-5 h-5 text-primary cursor-pointer"
-            onClick={handleSearchOpen}
+            onClick={toggleSearchOpen}
           />
         )}
-        {width < 640 && (
+        {width < 640 && !article_id && (
           <IoIosAddCircle
-            className="w-7 h-7 text-primary"
-            onClick={() => handleComposeOpen()}
+            className="w-7 h-7 text-primary cursor-pointer"
+            onClick={() => {
+              !user.username && showModal(<SignIn />);
+              toggleComposeOpen();
+            }}
           />
         )}
         <div className="sm:w-[65px] sm:h-[65px] flex justify-center items-center">

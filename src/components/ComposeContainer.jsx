@@ -5,17 +5,19 @@ import { UserContext } from "../contexts/UserContext";
 import { useModal } from "../contexts/ModalContext";
 import { CgProfile } from "react-icons/cg";
 import SignIn from "./SignIn";
+import useComposeToggle from "../hooks/UseComposeOpenToggle";
 
-const ComposeContainer = ({ handleComposeOpen }) => {
+const ComposeContainer = () => {
   const { user } = useContext(UserContext);
+  const { toggleComposeOpen } = useComposeToggle();
   const { showModal } = useModal();
 
   return (
     <div
-      className="w-full h-[80px] flex items-center justify-between p-4 border-gray-200 border-b "
+      className="w-full h-[80px] flex items-center justify-between p-3 border-gray-200 border-b "
       onClick={() => {
         !user.username && showModal(<SignIn />);
-        handleComposeOpen();
+        toggleComposeOpen();
       }}
     >
       <div className="sm:w-[54px] sm:h-[54px] flex justify-start items-center ">
