@@ -4,15 +4,11 @@ import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Article from "../pages/Article";
 import { SearchParamsContext } from "../contexts/searchParamsContext";
-import { FilteredArticlesContext } from "../contexts/FilteredArticlesContext";
 import { useApi } from "../contexts/ApiContext";
 import { AllArticlesCountContext } from "../contexts/AllArticlesCountContext";
 import { VisibleContext } from "../contexts/VisibleContext";
 
 const AppRoutes = () => {
-  const { filteredArticles, setFilteredArticles } = useContext(
-    FilteredArticlesContext
-  );
   const { AllArticlesCount } = useContext(AllArticlesCountContext);
   const { searchParams } = useContext(SearchParamsContext);
   const { visible } = useContext(VisibleContext);

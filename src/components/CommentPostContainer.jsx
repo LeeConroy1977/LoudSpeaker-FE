@@ -2,18 +2,23 @@ import React, { useContext, useEffect, useState } from "react";
 import Avatar from "../reuseable-components/Avatar";
 import Button from "../reuseable-components/Button";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
+import { PostCommentOpenContext } from "../contexts/PostCommentOpenContext";
 import { CgProfile } from "react-icons/cg";
 import { UserContext } from "../contexts/UserContext";
 import { useModal } from "../contexts/ModalContext";
 import SignIn from "./SignIn";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { PopupContext } from "../contexts/PopupContext";
+import { UserCommentContext } from "../contexts/UserCommentContext";
 
-const CommentPostContainer = ({ setUserComment }) => {
+const CommentPostContainer = () => {
   const { width } = useContext(ScreenSizeContext);
   const { user } = useContext(UserContext);
+  const { isPostCommentOpen, setIsPostCommentOpen } = useContext(
+    PostCommentOpenContext
+  );
+  const { setUserComment } = useContext(UserCommentContext);
   const { showModal } = useModal();
-  const [isPostCommentOpen, setIsPostCommentOpen] = useState(false);
   const [commentBody, setCommentBody] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const showPopup = useContext(PopupContext);
@@ -24,13 +29,12 @@ const CommentPostContainer = ({ setUserComment }) => {
 
   function handleCommentSubmit(e) {
     e.preventDefault();
-    setUserComment((obj) => (obj = { ...obj, body: commentBody }));
+    if (commentBody.length === 0) return;
+    setUserComment({ body: commentBody });
     setCommentBody("");
     setIsPostCommentOpen(false);
     showPopup("Comment posted successfully!");
   }
-
-  console.log(commentBody);
 
   function handlePostCommentOpen() {
     if (!user.username) {
@@ -54,11 +58,11 @@ const CommentPostContainer = ({ setUserComment }) => {
       showModal(<SignIn />);
     }
     handlePostCommentOpen();
-    e.stopPropagation(); // Stop propagation to avoid unwanted clicks
+    e.stopPropagation();
   }
 
   function handleCloseClick(e) {
-    e.stopPropagation(); // Prevent the click event from reaching the parent div
+    e.stopPropagation();
     setIsPostCommentOpen(false);
   }
 
@@ -66,7 +70,7 @@ const CommentPostContainer = ({ setUserComment }) => {
     <div
       className={`${
         isPostCommentOpen
-          ? "flex items-start h-[10rem] sm:h-[12rem]"
+          ? "flex items-start h-[9.9rem] sm:h-[12rem]"
           : "sm:h-[80px] flex items-center"
       } w-full h-[58px]   justify-between p-4 border-gray-200 border-b`}
       onClick={handleContainerClick}
@@ -79,7 +83,7 @@ const CommentPostContainer = ({ setUserComment }) => {
           />
         ) : (
           <div>
-            <CgProfile className="avatarMobile sm:w-[54px] sm:h-[54px] border-none text-primary" />
+            <CgProfile className="avatarMobile sm:w-[54px] sm:h-[54px] border-none text-primary cursor-pointer" />
           </div>
         )}
       </div>
@@ -87,7 +91,7 @@ const CommentPostContainer = ({ setUserComment }) => {
         <form className="sm:w-[70%] sm:h-[9rem]">
           <textarea
             placeholder="Post a comment..."
-            className="sm:w-[100%] sm:h-[9rem] text-[#333333] sm:pt-[0.8rem]  font-semibold focus:outline-none border-none resize-none placeholder-primary sm:text-[0.8rem] placeholder-13px"
+            className="sm:w-[100%] sm:h-[9rem] text-[#333333] sm:pt-[0.8rem]  font-500 focus:outline-none border-none resize-none placeholder-primary text-[0.8rem] sm:text-[0.8rem] placeholder-13px"
             required
             name="comment"
             id="comment"

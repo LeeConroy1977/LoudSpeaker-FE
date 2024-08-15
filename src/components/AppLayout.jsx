@@ -22,7 +22,7 @@ const AppLayout = ({
           ? `w-full h-full  grid grid-rows-[44px_auto] grid-cols-[100%] ${
               isTopicContainerOpen ? "overflow-hidden" : null
             }`
-          : "w-[80%] h-full grid grid-rows-[10%_90%]  grid-cols-[22%_53%_25%]"
+          : "w-[78%] h-full grid grid-rows-[10%_90%]  grid-cols-[22%_53%_25%]"
       }
     >
       <NavBar handleSearchInput={handleSearchInput} searchInput={searchInput} />

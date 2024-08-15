@@ -25,7 +25,7 @@ const ComposeContainer = () => {
           <Avatar avatarStyle="avatarMain" avatarURL={user.avatar_url} />
         ) : (
           <div>
-            <CgProfile className="avatarMobile sm:w-[54px] sm:h-[54px] border-none text-primary" />
+            <CgProfile className="avatarMobile sm:w-[54px] sm:h-[54px] border-none text-primary cursor-pointer" />
           </div>
         )}
       </div>

@@ -60,7 +60,7 @@ const NavBar = ({ handleSearchInput }) => {
     });
 
   return (
-    <nav className=" row-span-1 col-span-3  flex justify-between items-center border-b border-l border-r border-gray-200">
+    <nav className=" w-[100%] row-span-1 col-span-3  flex justify-between items-center border-b border-l border-r border-gray-200">
       <Link to="/articles">
         <Logo />
       </Link>
@@ -120,12 +120,12 @@ const NavBar = ({ handleSearchInput }) => {
           {user.username ? (
             <Avatar
               avatarURL={user.avatar_url}
-              avatarStyle="avatarMobile sm:avatarLarge"
+              avatarStyle="avatarMobileNav sm:avatarLarge"
             />
           ) : (
             <div>
               <CgProfile
-                className="avatarMobile sm:w-[58px] sm:h-[58px] border-none text-primary"
+                className="avatarMobile sm:w-[58px] sm:h-[58px] border-none text-primary cursor-pointer"
                 onClick={() => showModal(<SignIn />)}
               />
             </div>

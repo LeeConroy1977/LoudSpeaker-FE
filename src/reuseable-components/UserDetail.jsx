@@ -28,11 +28,13 @@ const UserDetail = ({ createdAt, name, username }) => {
           <span className=" text-primary ml-0.5">
             <IoCheckmarkCircleSharp className=" text-[18px] fill-primary text-white" />
           </span>
-          <p className="flex items-center text-[10px] text-primary ml-1">
-            @{username}
-            <BsDot className="text-[20px]" />
-            {timeDetail}
-          </p>
+          <div className="flex items-center text-[10px] text-primary ml-1">
+            <p>@{username}</p>
+            <span>
+              <BsDot className="text-[20px]" />
+            </span>
+            <p>{timeDetail}</p>
+          </div>
         </>
       )}
     </div>

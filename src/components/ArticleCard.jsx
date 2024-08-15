@@ -15,6 +15,8 @@ import { SearchOpenContext } from "../contexts/SearchOpenContext";
 import { VoteCountContext } from "../contexts/VoteCountContext";
 import { CommentCountContext } from "../contexts/commentCountContext";
 import { useApi } from "../contexts/ApiContext";
+import { DeletedCommentIdContext } from "../contexts/DeletedCommentIdContext";
+import { UserCommentContext } from "../contexts/UserCommentContext";
 
 const ArticleCard = ({ handleVoteCount }) => {
   const { width } = useContext(ScreenSizeContext);
@@ -22,13 +24,11 @@ const ArticleCard = ({ handleVoteCount }) => {
   const { commentCount } = useContext(CommentCountContext);
   const { user } = useContext(UserContext);
   const { isSearchOpen } = useContext(SearchOpenContext);
-  const [deletedCommentId, setDeletedCommentId] = useState(null);
+  const { deletedCommentId } = useContext(DeletedCommentIdContext);
   const { article } = useContext(MainArticleContext);
   const { voteCount } = useContext(VoteCountContext);
   const { deleteComment, createArticleComment } = useApi();
-  const [userComment, setUserComment] = useState({
-    body: "",
-  });
+  const { userComment } = useContext(UserCommentContext);
   const { title, body, author, created_at, article_img_url, article_id } =
     article;
   const { body: commentBody } = userComment;
@@ -39,7 +39,9 @@ const ArticleCard = ({ handleVoteCount }) => {
   }, [deletedCommentId]);
 
   useEffect(() => {
-    createArticleComment(article_id, commentBody, user.username);
+    if (userComment.body) {
+      createArticleComment(article_id, commentBody, user.username);
+    }
   }, [userComment]);
 
   let userAvatar;
@@ -87,7 +89,7 @@ const ArticleCard = ({ handleVoteCount }) => {
                 username={author}
                 name={name}
               />
-              <div className="flex justify-end ml-auto mr-1 sm:ml-0 w-[100px]">
+              <div className="flex justify-end ml-auto w-[100px] mr-1">
                 <CommentsContainer
                   commentStyle="mobileComments"
                   commentsNumStyle="mobileCommentsNum"
@@ -106,20 +108,20 @@ const ArticleCard = ({ handleVoteCount }) => {
                 />
               </div>
             </div>
-            <h3 className=" font-bold text-[0.9rem] ml-1 sm:ml-0 mt-3 sm:mt-1  sm:pb-1">
+            <h3 className=" font-semibold text-[0.9rem] ml-1 sm:ml-1 mt-3 sm:mt-3  sm:pb-1 font-sans">
               {title}
             </h3>
             <img
               src={article_img_url}
               alt=""
-              className="w-full h-[200px] sm:w-[100%] sm:h-[330px] mt-2 mb-1 ml-1 pr-2 sm:pr:0 sm:ml-auto rounded-xl cursor-pointer"
+              className="w-full h-[200px] sm:w-[100%] sm:h-[330px] mt-1 mb-1 ml-1 sm:ml:2 pr-2 sm:pr:0  rounded-xl cursor-pointer"
             />
-            <p className=" sm:mr-1 ml-2 sm:ml-0 mr-1 sm:mr-0 mt-3 sm:mt-3 text-gray-950  text-[0.825rem]  sm:text-[0.9rem] font-semibold">
+            <p className=" sm:mr-1 ml-1 sm:ml-1 mr-1  mt-3 sm:mt-3 text-gray-950  text-[0.825rem]  sm:text-[0.9rem] font-500">
               {body}
             </p>
           </div>
-          <CommentPostContainer setUserComment={setUserComment} />
-          <ArticleCommentsList setDeletedCommentId={setDeletedCommentId} />{" "}
+          <CommentPostContainer />
+          <ArticleCommentsList />
         </div>
       )}
     </div>

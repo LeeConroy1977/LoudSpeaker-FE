@@ -52,7 +52,7 @@ const OptionsContainer = () => {
 
   return (
     <>
-      {!isSearchOpen && (
+      {!isSearchOpen && width < 640 ? (
         <div className="w-full h-[54px] flex justify-between items-center pl-3  p-2 sm:pl-[4.6rem] border-b  sm:border-gray-200">
           <div className=" flex">
             <SelectComponent
@@ -70,14 +70,32 @@ const OptionsContainer = () => {
               selectedOption={selectedOptionOrder}
             />
           </div>
-          {width < 640 && (
-            <span>
-              <IoIosOptions
-                className="text-primary text-[22px] mr-1 cursor-pointer"
-                onClick={() => showModal(<TopicAccordion />)}
-              />
-            </span>
-          )}
+
+          <span>
+            <IoIosOptions
+              className="text-primary text-[22px] mr-1 cursor-pointer"
+              onClick={() => showModal(<TopicAccordion />)}
+            />
+          </span>
+        </div>
+      ) : isSearchOpen && width < 640 ? null : (
+        <div className="w-full h-[54px] flex justify-between items-center pl-3  p-2 sm:pl-[4.6rem] border-b  sm:border-gray-200">
+          <div className=" flex">
+            <SelectComponent
+              selectStyle="selectMobile"
+              defaultOption="Sort By"
+              optionArray={sortByArr}
+              handleChange={handleSelectedOptionSort}
+              selectedOption={selectedOptionSort}
+            />
+            <SelectComponent
+              selectStyle="selectMobile"
+              defaultOption="Order By"
+              optionArray={orderByArr}
+              handleChange={handleSelectedOptionOrder}
+              selectedOption={selectedOptionOrder}
+            />
+          </div>
         </div>
       )}
     </>

@@ -75,7 +75,7 @@ const ComposeForm = () => {
       })
       .catch((error) => {
         console.error("Failed to create article:", error);
-        // setError("Failed to create article. Please try again.");
+        
       });
     setArticleObject({
       author: "",

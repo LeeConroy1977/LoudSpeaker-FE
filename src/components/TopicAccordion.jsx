@@ -31,10 +31,10 @@ const TopicAccordion = ({ handleTopicContainer }) => {
   }
   console.log(selectedTopic);
   return (
-    <div className="w-full mb-2 mt-2 bg-white   rounded-xl pt-2 pb-2 sm:rounded-none sm:pt-0 ">
+    <div className="w-full mb-2 mt-2 bg-white  rounded-xl pt-2 pb-2 sm:rounded-none sm:pt-0 ">
       {width < 640 && (
-        <div className="w-full h-[44px] border-b border-gray-200 ">
-          <h4 className="h-[44px] font-semibold text-primary ml-2 fixed">
+        <div className="w-full h-[50px]  border-b border-gray-200 flex items-center">
+          <h4 className="h-[44px] text-[14px] font-semibold text-primary ml-2 fixed">
             Select a topic
           </h4>
           <div
@@ -45,7 +45,11 @@ const TopicAccordion = ({ handleTopicContainer }) => {
           </div>
         </div>
       )}
-      <div className="w-[100%] overflow-y-scroll h-full">
+      <div
+        className={`${
+          width < 640 ? "overflow-y-scroll" : null
+        } w-[100%]  h-full`}
+      >
         {topics.map((topic, index) => (
           <div key={index}>
             <div
@@ -53,7 +57,7 @@ const TopicAccordion = ({ handleTopicContainer }) => {
               className={`${
                 topicIndex === index ? "bg-gray-100 font-semibold" : "bg-white"
               } w-[100%] h-[2.5rem] flex 
-           items-center pl-2 border-b border-gray-200 text-primary text-[0.9rem] last:border-b-0 cursor-pointer overflow-y-scroll`}
+           items-center pl-2 border-b border-gray-200 text-primary text-[0.9rem] last:border-b-0 cursor-pointer `}
             >
               {topic.category.length > 0 && (
                 <span
