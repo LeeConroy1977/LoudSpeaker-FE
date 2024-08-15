@@ -10,7 +10,7 @@ import { useModal } from "../contexts/ModalContext";
 
 const SignIn = () => {
   const { user, setUser } = useContext(UserContext);
-  const { width, height } = useContext(ScreenSizeContext);
+  const { width } = useContext(ScreenSizeContext);
 
   const { hideModal } = useModal();
 

@@ -81,6 +81,7 @@
   .buttonLarge,
   .buttonSignInLarge,
   .buttonSignInMobile,
+  .buttonSignOutMobile,
   .buttonMedium,
   .buttonMobile {
     background-color: black;
@@ -100,6 +101,11 @@
   }
 
   .buttonSignInMobile {
+    width: 180px;
+    height: 40px;
+    font-size: 0.95rem;
+  }
+  .buttonSignOutMobile {
     width: 180px;
     height: 40px;
     font-size: 0.95rem;

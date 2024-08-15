@@ -19,6 +19,7 @@ import { IoIosAddCircle } from "react-icons/io";
 import { SearchOpenContext } from "../contexts/SearchOpenContext";
 import useSearchToggle from "../hooks/UseSearchOpenToggle";
 import useComposeToggle from "../hooks/UseComposeOpenToggle";
+import SignOut from "./SignOut";
 
 const NavBar = ({ handleSearchInput }) => {
   const { width } = useContext(ScreenSizeContext);
@@ -117,7 +118,13 @@ const NavBar = ({ handleSearchInput }) => {
           />
         )}
         <div className="sm:w-[65px] sm:h-[65px] flex justify-center items-center">
-          {user.username ? (
+          {user.username && width < 640 ? (
+            <Avatar
+              avatarURL={user.avatar_url}
+              avatarStyle="avatarMobileNav sm:avatarLarge"
+              handleClick={() => showModal(<SignOut />)}
+            />
+          ) : user.username ? (
             <Avatar
               avatarURL={user.avatar_url}
               avatarStyle="avatarMobileNav sm:avatarLarge"

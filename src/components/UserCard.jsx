@@ -2,10 +2,10 @@ import React, { useContext, useEffect } from "react";
 import Avatar from "../reuseable-components/Avatar";
 import { UserContext } from "../contexts/UserContext";
 
-const UserCard = ({ person, handleClick, avatarStyle, isUserSelected }) => {
+const UserCard = ({ person, handleClick, avatarStyle }) => {
   const { username, name, avatar_url } = person;
 
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   console.log(username);
 
