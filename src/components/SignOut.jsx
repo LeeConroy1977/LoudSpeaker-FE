@@ -1,21 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import Logo from "./Logo";
-import users from "../../data/users";
-import UserCard from "./UserCard";
 import { UserContext } from "../contexts/UserContext";
 import Button from "../reuseable-components/Button";
-import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { useModal } from "../contexts/ModalContext";
 import Avatar from "../reuseable-components/Avatar";
 
 const SignOut = () => {
   const { user, setUser } = useContext(UserContext);
-  const { width } = useContext(ScreenSizeContext);
-
   const { hideModal } = useModal();
-
-  // useEffect(() => {}, [handleSelectUser]);
 
   function handleSignOut() {
     setUser({});
@@ -59,7 +52,7 @@ const SignOut = () => {
           Sign Out
         </Button>
         <Button
-          buttonStyle="buttonSignOutMobile bg-gray-200 text-gray-950"
+          buttonStyle="buttonSignOutMobile bg-primary text-white"
           handleClick={() => {
             hideModal();
           }}

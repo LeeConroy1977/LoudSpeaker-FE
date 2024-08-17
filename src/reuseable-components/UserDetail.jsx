@@ -12,7 +12,7 @@ const UserDetail = ({ createdAt, name, username }) => {
     <div className="flex items-center">
       {width < 640 ? (
         <div className="flex flex-col w-[100%]">
-          <p className="flex items-center text-[10.5px] text-primary ml-2 font-bold">
+          <p className="flex items-center text-[9.5px] text-primary ml-2 font-bold">
             @{username}
             <BsDot className="text-[20px]" />
             {timeDetail}

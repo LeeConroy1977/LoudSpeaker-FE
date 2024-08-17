@@ -7,13 +7,13 @@ export const PopupProvider = ({ children }) => {
   const [popup, setPopup] = useState({
     show: false,
     message: "",
-    duration: 5000,
+    duration: 3000,
   });
 
-  const showPopup = (message, duration = 5000) => {
+  const showPopup = (message, duration = 3000) => {
     setPopup({ show: true, message, duration });
     setTimeout(
-      () => setPopup({ show: false, message: "", duration: 5000 }),
+      () => setPopup({ show: false, message: "", duration: 3000 }),
       duration
     );
   };

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Avatar from "../reuseable-components/Avatar";
-import { timeSince } from "../../utilities/time";
 import VotesContainer from "../reuseable-components/VotesContainer";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { ExistingUserContext } from "../contexts/ExistingUsersContext";
@@ -96,7 +95,7 @@ const ArticleCommentsCard = ({ comment }) => {
           />
         </div>
       </div>
-      <div className="sm:ml-[4rem] sm:mr-2 ml-2 mr-2 mb-1 mt-3 sm:mt-1  text-[0.75rem]  sm:text-[13px] font-600">
+      <div className="sm:ml-[4rem] sm:mr-2 ml-3 mr-3 mb-1 mt-3 sm:mt-1  text-[0.75rem]  sm:text-[13px] font-600">
         {body}
       </div>
       <div className="flex justify-end mr-2">

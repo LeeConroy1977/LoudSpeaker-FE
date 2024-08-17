@@ -87,7 +87,7 @@ const TopicAccordion = ({ handleTopicContainer }) => {
                           }}
                           className={`${
                             subTopicIndex === subIndex
-                              ? "bg-gray-100"
+                              ? "bg-gray-100 font-semibold"
                               : "bg-white"
                           } w-[90%] h-[2.4rem] flex items-center ml-auto pl-3 border-b border-gray-200 text-[0.8rem] text-primary cursor-pointer`}
                         >

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import Avatar from "../reuseable-components/Avatar";
 import CommentsContainer from "./CommentsContainer";
@@ -29,8 +29,15 @@ const ArticleCard = ({ handleVoteCount }) => {
   const { voteCount } = useContext(VoteCountContext);
   const { deleteComment, createArticleComment } = useApi();
   const { userComment } = useContext(UserCommentContext);
-  const { title, body, author, created_at, article_img_url, article_id } =
-    article;
+  const {
+    title,
+    body,
+    author,
+    created_at,
+    article_img_url,
+    article_id,
+    comment_count,
+  } = article;
   const { body: commentBody } = userComment;
   const navigate = useNavigate();
 
@@ -94,7 +101,7 @@ const ArticleCard = ({ handleVoteCount }) => {
                   commentStyle="mobileComments"
                   commentsNumStyle="mobileCommentsNum"
                   commentsIconStyle="mobileCommentsIcon"
-                  commentCount={commentCount}
+                  commentCount={comment_count}
                 />
 
                 <VotesContainer

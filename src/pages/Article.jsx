@@ -2,7 +2,6 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import ArticleCard from "../components/ArticleCard";
 import { MainArticleContext } from "../contexts/MainArticleContext";
-import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
 import LoadingSpinner from "../reuseable-components/LoadingSpinner";
 import SearchContainer from "../components/SearchContainer";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";

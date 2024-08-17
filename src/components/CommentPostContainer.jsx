@@ -91,7 +91,7 @@ const CommentPostContainer = () => {
         <form className="sm:w-[70%] sm:h-[9rem]">
           <textarea
             placeholder="Post a comment..."
-            className="sm:w-[100%] sm:h-[9rem] text-[#333333] sm:pt-[0.8rem]  font-500 focus:outline-none border-none resize-none placeholder-primary text-[0.8rem] sm:text-[0.8rem] placeholder-13px"
+            className="sm:w-[100%] sm:h-[9rem] text-[#333333] sm:pt-[0.8rem]  font-500 focus:outline-none border-none resize-none placeholder-primary text-[0.8rem] sm:text-[0.8rem] placeholder-10px sm:placeholder-13px placeholder:font-semibold mt-2 mr-12 sm:mt-1"
             required
             name="comment"
             id="comment"
@@ -101,7 +101,7 @@ const CommentPostContainer = () => {
           />
         </form>
       ) : (
-        <p className="mr-auto ml-3 text-[13px] sm:text-[16px] text-primary font-semibold ">
+        <p className="mr-auto ml-6 text-[13px] sm:text-[16px] text-primary font-semibold ">
           Post a comment...
         </p>
       )}

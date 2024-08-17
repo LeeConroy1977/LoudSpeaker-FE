@@ -1,6 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
+import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 
 const NotificationPopUp = ({ message, duration, onClose }) => {
+  const { width } = useContext(ScreenSizeContext);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
@@ -10,7 +13,11 @@ const NotificationPopUp = ({ message, duration, onClose }) => {
   }, [duration, onClose]);
 
   return (
-    <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-primary text-white px-8 py-6 rounded opacity-90">
+    <div
+      className={`${
+        width < 640 ? "text-[13px] left-[70px]" : "text-[15px] left-[39%]"
+      } flex items-center justify-center w-[230px] h-[80px] sm:w-[280px] sm:h-[80px] fixed bottom-10  bg-primary text-white rounded-lg font-semibold`}
+    >
       {message}
     </div>
   );
