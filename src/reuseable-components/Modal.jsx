@@ -11,7 +11,7 @@ const Modal = () => {
   if (!isModalOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 mr-3 sm:mr-0">
       <div className="bg-white sm: flex sm:justify-center  w-[86%] h-[550px] sm:w-[40%] sm:h-[580px]  top-10 z-50 rounded-xl overflow-y-hidden absolute p-2  sm:ml-0 mt-5 sm:mt-0 ">
         {modalChild}
       </div>

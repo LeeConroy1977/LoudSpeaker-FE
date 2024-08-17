@@ -33,7 +33,7 @@ const SelectComponent = ({
   }, []);
 
   return (
-    <div className={`relative sm:mr-4 w-[120px]  `} ref={dropdownRef}>
+    <div className={`relative sm:mr-4 w-[120px] flex  `} ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
         className="w-[110px] sm:w-full p-2 pl-3 pr-3 rounded-xl text-[10px] sm:text-[11px] font-bold text-primary bg-gray-200 flex justify-between items-center"

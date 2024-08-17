@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Avatar from "../reuseable-components/Avatar";
-import { timeSince } from "../../utilities/time";
 import VotesContainer from "../reuseable-components/VotesContainer";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { ExistingUserContext } from "../contexts/ExistingUsersContext";
@@ -8,14 +7,17 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { UserContext } from "../contexts/UserContext";
 import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
 import { patchComment } from "../../utilities/api/commentsApi";
+import UserDetail from "../reuseable-components/UserDetail";
+import { DeletedCommentIdContext } from "../contexts/DeletedCommentIdContext";
 
-const ArticleCommentsCard = ({ comment, setDeletedCommentId }) => {
+const ArticleCommentsCard = ({ comment }) => {
   const { body, created_at, author, votes, comment_id } = comment;
   const { width } = useContext(ScreenSizeContext);
   const { existingUsers } = useContext(ExistingUserContext);
   const { user } = useContext(UserContext);
+  const { comments, setComments } = useContext(ArticleCommentsContext);
+  const { setDeletedCommentId } = useContext(DeletedCommentIdContext);
   const [commentId, setCommentId] = useState(null);
-  const { setComments } = useContext(ArticleCommentsContext);
   const [voteCount, setVoteCount] = useState(votes);
   const [incVotes, setIncVotes] = useState(0);
 
@@ -48,16 +50,15 @@ const ArticleCommentsCard = ({ comment, setDeletedCommentId }) => {
   };
 
   let userAvatar;
+  let name;
 
   existingUsers.map((user) => {
     if (user.username === author) {
+      name = user.name;
       user = user;
       return (userAvatar = user.avatar_url);
     }
   });
-
-  const timeDetail = timeSince(created_at);
-  const userDetail = `${author} . ${timeDetail}`;
 
   function handleCommentId(id) {
     if (Number(id) === comment_id) {
@@ -66,35 +67,35 @@ const ArticleCommentsCard = ({ comment, setDeletedCommentId }) => {
   }
 
   function handleDeleteCommentClick(id) {
-    if (Number(id) === comment_id) {
-      setDeletedCommentId(id);
-      setComments((comment) =>
-        comment.filter((comment) => comment.comment_id !== Number(id))
-      );
-    }
+    setDeletedCommentId(id);
+    const filteredComments = comments.filter(
+      (comment) => comment.comment_id !== Number(id)
+    );
+
+    setComments([...filteredComments]);
   }
 
   return (
     <div className="w-full h-auto border-gray-200 border-b p-2 ">
-      <div className="flex justify-between items-center ml-2 mr-2 mt-1">
+      <div className="flex justify-start items-center ml-2 mr-2 mt-1">
         <Avatar
-          avatarStyle={width < 640 ? "avatarMobile" : "avatarMain"}
+          avatarStyle={width < 640 ? "avatarMobileComment" : "avatarComment"}
           avatarURL={userAvatar}
         />
-        <p className="text-[10px] text-primary font-bold ml-3 mr-auto">
-          {userDetail}
-        </p>
-        <VotesContainer
-          votesStyle="mobileVotes"
-          votesNumStyle="mobileVotesNum"
-          votesIconStyle="mobileVotesIcon"
-          initialVotes={voteCount}
-          handleClick={handleVoteCount}
-          handleId={() => handleCommentId(comment.comment_id)}
-          handleShouldSignIn={true}
-        />
+        <UserDetail createdAt={created_at} username={author} name={name} />
+        <div className="ml-auto">
+          <VotesContainer
+            votesStyle="mobileVotes"
+            votesNumStyle="mobileVotesNum"
+            votesIconStyle="mobileVotesIcon"
+            initialVotes={voteCount}
+            handleClick={handleVoteCount}
+            handleId={() => handleCommentId(comment.comment_id)}
+            handleShouldSignIn={true}
+          />
+        </div>
       </div>
-      <div className="sm:ml-[4rem] sm:mr-1 ml-2 mr-2 mb-1 mt-3 sm:mt-3  text-[0.75rem]  sm:text-[0.8rem] font-semibold">
+      <div className="sm:ml-[4rem] sm:mr-2 ml-3 mr-3 mb-1 mt-3 sm:mt-1  text-[0.75rem]  sm:text-[13px] font-600">
         {body}
       </div>
       <div className="flex justify-end mr-2">

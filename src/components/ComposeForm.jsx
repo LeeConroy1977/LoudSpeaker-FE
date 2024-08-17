@@ -75,7 +75,6 @@ const ComposeForm = () => {
       })
       .catch((error) => {
         console.error("Failed to create article:", error);
-        // setError("Failed to create article. Please try again.");
       });
     setArticleObject({
       author: "",
@@ -85,7 +84,7 @@ const ComposeForm = () => {
       article_img_url: "",
     });
     showPopup("Article posted successfully!");
-    handleComposeOpen();
+    toggleComposeOpen();
   }
 
   console.log(postObject);

@@ -19,6 +19,7 @@ import { IoIosAddCircle } from "react-icons/io";
 import { SearchOpenContext } from "../contexts/SearchOpenContext";
 import useSearchToggle from "../hooks/UseSearchOpenToggle";
 import useComposeToggle from "../hooks/UseComposeOpenToggle";
+import SignOut from "./SignOut";
 
 const NavBar = ({ handleSearchInput }) => {
   const { width } = useContext(ScreenSizeContext);
@@ -60,7 +61,7 @@ const NavBar = ({ handleSearchInput }) => {
     });
 
   return (
-    <nav className=" row-span-1 col-span-3  flex justify-between items-center border-b border-l border-r border-gray-200">
+    <nav className=" w-[100%] row-span-1 col-span-3  flex justify-between items-center border-b border-l border-r border-gray-200">
       <Link to="/articles">
         <Logo />
       </Link>
@@ -117,15 +118,21 @@ const NavBar = ({ handleSearchInput }) => {
           />
         )}
         <div className="sm:w-[65px] sm:h-[65px] flex justify-center items-center">
-          {user.username ? (
+          {user.username && width < 640 ? (
             <Avatar
               avatarURL={user.avatar_url}
-              avatarStyle="avatarMobile sm:avatarLarge"
+              avatarStyle="avatarMobileNav sm:avatarLarge"
+              handleClick={() => showModal(<SignOut />)}
+            />
+          ) : user.username ? (
+            <Avatar
+              avatarURL={user.avatar_url}
+              avatarStyle="avatarMobileNav sm:avatarLarge"
             />
           ) : (
             <div>
               <CgProfile
-                className="avatarMobile sm:w-[58px] sm:h-[58px] border-none text-primary"
+                className="avatarMobile sm:w-[58px] sm:h-[58px] border-none text-primary cursor-pointer"
                 onClick={() => showModal(<SignIn />)}
               />
             </div>

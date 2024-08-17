@@ -2,13 +2,13 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import ArticleCard from "../components/ArticleCard";
 import { MainArticleContext } from "../contexts/MainArticleContext";
-import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
 import LoadingSpinner from "../reuseable-components/LoadingSpinner";
 import SearchContainer from "../components/SearchContainer";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { SearchOpenContext } from "../contexts/SearchOpenContext";
 import { VoteCountContext } from "../contexts/VoteCountContext";
 import { CommentCountContext } from "../contexts/commentCountContext";
+import { DeletedCommentIdContext } from "../contexts/DeletedCommentIdContext";
 import { useApi } from "../contexts/ApiContext";
 
 const Article = () => {
@@ -17,6 +17,7 @@ const Article = () => {
   const { width } = useContext(ScreenSizeContext);
   const { commentCount } = useContext(CommentCountContext);
   const { voteCount, setVoteCount } = useContext(VoteCountContext);
+  const { deletedCommentId } = useContext(DeletedCommentIdContext);
   const { fetchArticle, fetchArticleComments, updateArticle } = useApi();
   const { article_id } = useParams();
   const [incVotes, setIncVotes] = useState(0);
@@ -28,7 +29,7 @@ const Article = () => {
 
   useEffect(() => {
     fetchArticleComments(article_id);
-  }, [article_id, commentCount]);
+  }, [article_id, commentCount, deletedCommentId]);
 
   useEffect(() => {
     updateArticle(article_id, incVotes);

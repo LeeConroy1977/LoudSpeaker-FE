@@ -1,6 +1,5 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { FaRegCommentAlt } from "react-icons/fa";
-import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
 
 const CommentsContainer = ({
   commentStyle,

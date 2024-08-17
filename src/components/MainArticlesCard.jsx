@@ -2,11 +2,9 @@ import React, { useContext } from "react";
 import CommentsContainer from "./CommentsContainer";
 import Avatar from "../reuseable-components/Avatar";
 import VotesContainer from "../reuseable-components/VotesContainer.jsx";
-import { timeSince } from "../../utilities/time.js";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext.jsx";
 import { Link } from "react-router-dom";
 import UserDetail from "../reuseable-components/UserDetail.jsx";
-import { IoArrowBack } from "react-icons/io5";
 
 const MainArticlesCard = ({ article, users }) => {
   const { width } = useContext(ScreenSizeContext);

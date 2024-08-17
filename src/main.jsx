@@ -24,6 +24,9 @@ import { VisibleProvider } from "./contexts/VisibleContext.jsx";
 import { TotalArticlesProvider } from "./contexts/TotalArticlesContext.jsx";
 import { VoteCountProvider } from "./contexts/VoteCountContext.jsx";
 import { CommentCountProvider } from "./contexts/commentCountContext.jsx";
+import { DeletedCommentIdProvider } from "./contexts/DeletedCommentIdContext.jsx";
+import { PostCommentOpenProvider } from "./contexts/PostCommentOpenContext.jsx";
+import { UserCommentProvider } from "./contexts/UserCommentContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ScreenSizeProvider>
@@ -47,9 +50,15 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                                       <TotalArticlesProvider>
                                         <CommentCountProvider>
                                           <VoteCountProvider>
-                                            <ApiProvider>
-                                              <App />
-                                            </ApiProvider>
+                                            <DeletedCommentIdProvider>
+                                              <PostCommentOpenProvider>
+                                                <UserCommentProvider>
+                                                  <ApiProvider>
+                                                    <App />
+                                                  </ApiProvider>
+                                                </UserCommentProvider>
+                                              </PostCommentOpenProvider>
+                                            </DeletedCommentIdProvider>
                                           </VoteCountProvider>
                                         </CommentCountProvider>
                                       </TotalArticlesProvider>

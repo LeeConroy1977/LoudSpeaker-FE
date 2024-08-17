@@ -1,7 +1,9 @@
 import React from "react";
 
-const Avatar = ({ avatarStyle, avatarURL }) => {
-  return <img src={avatarURL} className={`${avatarStyle}`} />;
+const Avatar = ({ avatarStyle, avatarURL, handleClick }) => {
+  return (
+    <img src={avatarURL} className={`${avatarStyle}`} onClick={handleClick} />
+  );
 };
 
 export default Avatar;
