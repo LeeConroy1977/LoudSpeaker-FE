@@ -53,9 +53,12 @@ export const ApiProvider = ({ children }) => {
     getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
       (results) => {
         setAllArticlesCount(results.total_count.total_count);
+        console.log(results.total_count.total_count);
       }
     );
   };
+
+  console.log(AllArticlesCount);
 
   const fetchFeaturedArticles = async (
     topicParam,
@@ -70,7 +73,7 @@ export const ApiProvider = ({ children }) => {
           (article) => article.featured === true
         );
         setFeaturedArticles(featured);
-        console.log(featured);
+        console.log(featured, "featured");
       }
     );
   };
