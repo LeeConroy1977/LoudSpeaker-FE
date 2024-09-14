@@ -29,7 +29,7 @@ const TopicAccordion = ({ handleTopicContainer }) => {
   function handleTopicSelection(topic) {
     setSelectedTopic(topic.toLowerCase());
   }
-  console.log(selectedTopic);
+
   return (
     <div className="w-full mb-2 mt-2 bg-white  rounded-xl pt-2 pb-2 sm:rounded-none sm:pt-0 ">
       {width < 640 && (

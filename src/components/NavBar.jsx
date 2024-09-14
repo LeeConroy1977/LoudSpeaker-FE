@@ -86,7 +86,7 @@ const NavBar = ({ handleSearchInput }) => {
             ) : (
               <div
                 ref={extendedComponentRef}
-                className="w-[460px] h-[560px] shadow-xl overflow-y-auto sm:ml-8 bg-white absolute rounded-xl p-4"
+                className="w-[460px]  shadow-xl overflow-y-auto sm:ml-8 bg-white absolute rounded-xl p-4 z-50"
               >
                 <p className="text-[0.85rem] text-primary sm:ml-2 sm:pt-4">
                   No results found...

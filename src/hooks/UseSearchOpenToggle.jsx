@@ -1,15 +1,20 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { SearchOpenContext } from "../contexts/SearchOpenContext";
 import { ComposeOpenContext } from "../contexts/ComposeOpenContext";
+import { SearchBarInputContext } from "../contexts/SearchBarInputContext";
 
-const useSearchToggle = () => {
+export const useSearchToggle = () => {
   const { isSearchOpen, setIsSearchOpen } = useContext(SearchOpenContext);
-  const { isComposeOpen, setIsComposeOpen } = useContext(ComposeOpenContext);
+  const { setIsComposeOpen } = useContext(ComposeOpenContext);
+  const { setInput } = useContext(SearchBarInputContext);
 
   const toggleSearchOpen = () => {
     setIsSearchOpen((open) => !open);
+    setInput("");
     setIsComposeOpen(false);
   };
+
+  console.log(isSearchOpen);
 
   return {
     toggleSearchOpen,

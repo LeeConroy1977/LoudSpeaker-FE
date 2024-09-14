@@ -47,9 +47,6 @@ const OptionsContainer = () => {
     setSearchParams(newParams);
   }
 
-  console.log(selectedOptionSort);
-  console.log(selectedOptionOrder);
-
   return (
     <>
       {!isSearchOpen && width < 640 ? (

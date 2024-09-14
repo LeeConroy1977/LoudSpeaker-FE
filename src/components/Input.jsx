@@ -5,7 +5,10 @@ import { SearchOpenContext } from "../contexts/SearchOpenContext";
 const Input = ({ handleChange, searchInput }) => {
   const { setIsSearchOpen } = useContext(SearchOpenContext);
   return (
-    <div className="w-[100%] h-8 sm:h-8 sm:w-[460px] sm:ml-8 bg-gray-100 rounded-full flex items-center">
+    <div
+      className="w-[100%] h-8 sm:h-8 sm:w-[460px] sm:ml-8 bg-gray-100 rounded-full flex items-center"
+      // onClick={() => setIsSearchOpen(true)}
+    >
       <span className="h-8 w-10 sm:h-9 sm:w-12  rounded-full flex justify-center items-center">
         {<FaSearch className="text-primary text-sm" />}
       </span>

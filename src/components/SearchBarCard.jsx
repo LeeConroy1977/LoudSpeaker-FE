@@ -10,7 +10,7 @@ const SearchBarCard = ({ article }) => {
   return (
     <Link to={`/articles/${article.article_id}`}>
       <div
-        className="flex justify-between items-center w-full h-[82px]   sm:w-full sm:h-[84px]  border-b border-gray-200 sm:p-2 cursor-pointer"
+        className="flex justify-between items-center w-full h-[84px]   sm:w-full sm:h-[84px]  border-b border-gray-200 sm:p-2 cursor-pointer"
         onClick={toggleSearchOpen}
       >
         <div className="flex flex-col justify-start items-start w-[70%] sm:w-[76%] h-full">
