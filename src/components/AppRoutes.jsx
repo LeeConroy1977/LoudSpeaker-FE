@@ -50,7 +50,7 @@ const AppRoutes = () => {
   }, []);
 
   useEffect(() => {
-    fetchFeaturedArticles(null, null, null, AllArticlesCount, null);
+    fetchFeaturedArticles(null, null, null, 230, null);
   }, [AllArticlesCount]);
 
   function handleOnLoadMore() {

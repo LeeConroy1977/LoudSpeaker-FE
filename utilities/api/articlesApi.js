@@ -62,11 +62,10 @@ export async function postArticle(body) {
   }
 }
 
-export async function patchArticle(id, inc_votes, featured = false) {
+export async function patchArticle(id, inc_votes) {
   try {
     const { data } = await loudSpeakerApi.patch(`/api/articles/${id}`, {
       inc_votes,
-      featured,
     });
     return data.article;
   } catch (error) {
