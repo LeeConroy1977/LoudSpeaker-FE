@@ -5,7 +5,6 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import SelectComponent from "../reuseable-components/SelectComponent";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { UserContext } from "../contexts/UserContext";
-import { CgProfile } from "react-icons/cg";
 import categoriesArr from "../../data/categories";
 import { postArticle } from "../../utilities/api/articlesApi";
 import { ArticlesContext } from "../contexts/ArticlesContext";
@@ -20,10 +19,12 @@ const ComposeForm = () => {
   const [selectedTopic, setSelectedTopic] = useState("");
   const [selectedSubTopic, setSelectedSubTopic] = useState("");
   const [subTopicOptions, setSubTopicOptions] = useState([]);
-  const [postObject] = useState(null);
-  const [errors, setErrors] = useState({});
-  const showPopup = useContext(PopupContext);
-
+  const [isValidatedObj, setIsValidatedObj] = useState({
+    topic: null,
+    title: null,
+    body: null,
+    articleURL: null,
+  });
   const [articleObject, setArticleObject] = useState({
     author: user.username,
     title: "",
@@ -32,179 +33,213 @@ const ComposeForm = () => {
     article_img_url: "",
   });
 
-  const validateForm = () => {
-    let formErrors = {};
-    if (!selectedSubTopic) formErrors.topic = "Please select a sub-category";
-    if (!articleObject.title.trim()) formErrors.title = "Title cannot be empty";
-    if (!articleObject.body.trim()) formErrors.body = "Body cannot be empty";
+  const [isSubmitted, setIsSubmitted] = useState(false); // Track form submission
+
+  const showPopup = useContext(PopupContext);
+
+  function handleValidateForm() {
+    const { title, body, article_img_url } = articleObject;
     const imageUrlRegex = /^https:/;
-    if (!imageUrlRegex.test(articleObject.article_img_url))
-      formErrors.article_img_url =
-        "Please enter a valid image URL (e.g., http://example.com/image.jpg)";
-    return formErrors;
-  };
 
-  const handleTopicChange = (event) => {
-    setSelectedTopic(event.target.value);
-
-    categoriesArr.map((category) => {
-      if (category.category === event.target.value) {
-        setSubTopicOptions(category.subcategories);
-      }
+    setIsValidatedObj({
+      title:
+        isSubmitted && title.length === 0
+          ? false
+          : isSubmitted && title.length === 0
+          ? true
+          : title.length > 0
+          ? true
+          : null,
+      body:
+        isSubmitted && body.length === 0
+          ? false
+          : isSubmitted && body.length === 0
+          ? true
+          : body.length > 0
+          ? true
+          : null,
+      articleURL:
+        isSubmitted && article_img_url.length === 0
+          ? false
+          : article_img_url.length > 0 && imageUrlRegex.test(article_img_url),
+      topic: selectedTopic.length > 0,
     });
-  };
-  const handleSubTopicChange = (event) => {
-    setSelectedSubTopic(event.target.value);
-    setArticleObject({
-      ...articleObject,
-      topic: event.target.value.toLowerCase(),
-    });
-  };
-  function handleSubmit(e) {
-    e.preventDefault();
-    const formErrors = validateForm();
-    if (Object.keys(formErrors).length > 0) {
-      setErrors(formErrors);
-      return;
-    }
-
-    postArticle(articleObject)
-      .then((article) => {
-        console.log(article);
-        setArticles([article, ...articles]);
-      })
-      .catch((error) => {
-        console.error("Failed to create article:", error);
-      });
-    setArticleObject({
-      author: "",
-      title: "",
-      body: "",
-      topic: "",
-      article_img_url: "",
-    });
-    showPopup("Article posted successfully!");
-    toggleComposeOpen();
   }
 
-  console.log(postObject);
+  function handleChange(name, value) {
+    setArticleObject((obj) => ({ ...obj, [name]: value }));
 
-  const mainCategories = categoriesArr.map((category) => category.category);
+    handleValidateForm();
+  }
+
+  function handleBlur(name) {
+    if (!isSubmitted && articleObject[name].length === 0) {
+      setIsValidatedObj((obj) => ({ ...obj, [name]: false }));
+    }
+  }
+
+  useEffect(() => {
+    handleValidateForm();
+  }, [articleObject, selectedTopic, isSubmitted]);
+
+  function handleTopicChange(event) {
+    const selectedCategory = event.target.value;
+    setSelectedTopic(selectedCategory);
+
+    const category = categoriesArr.find(
+      (cat) => cat.category === selectedCategory
+    );
+    if (category) {
+      setSubTopicOptions(
+        category.subcategories.map((sub) => ({ sort: sub, title: sub }))
+      );
+    }
+  }
+
+  const handleSubTopicChange = (event) => {
+    setSelectedSubTopic(event.target.value);
+    setArticleObject((prev) => ({
+      ...prev,
+      topic: event.target.value.toLowerCase(),
+    }));
+  };
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setIsSubmitted(true); // Set form submission flag
+    handleValidateForm(); // Validate on submit
+
+    if (
+      isValidatedObj.title &&
+      isValidatedObj.body &&
+      isValidatedObj.articleURL &&
+      isValidatedObj.topic
+    ) {
+      postArticle(articleObject)
+        .then((article) => {
+          console.log(article);
+          setArticles([article, ...articles]);
+        })
+        .catch((error) => {
+          console.error("Failed to create article:", error);
+        });
+      setArticleObject({
+        author: user.username,
+        title: "",
+        body: "",
+        topic: "",
+        article_img_url: "",
+      });
+      showPopup("Article posted successfully!");
+      toggleComposeOpen();
+    }
+  }
+
+  const mainCategories = categoriesArr.map((category) => ({
+    sort: category.category,
+    title: category.category,
+  }));
 
   return (
     <div
-      className=" relative flex flex-col items-center justify-start
-       w-full h-[420px] sm:w-full sm:h-[480px]  border-gray-200 border-b  sm:p-4 p-3 pt-0"
+      className="relative flex flex-col items-center justify-start
+      w-full h-[480px] sm:w-full sm:h-[480px] border-gray-200 border-b sm:p-4 p-3 pt-0 mt-2 sm:mt-0"
     >
-      <div className="flex items-center justify-between w-full h-[4.4rem] ">
+      <div className="flex items-center justify-between w-full h-[4.4rem]">
         <Avatar
           avatarStyle={width < 640 ? "avatarMobile" : "avatarMain"}
           avatarURL={user.avatar_url}
         />
-
-        <div className="flex items-center  w-full h-[22%] ml-2">
-          {mainCategories && (
-            <select
-              className="selectMobile rounded-xl"
-              value={selectedTopic}
-              onChange={handleTopicChange}
-            >
-              <option value="" disabled>
-                Topic
-              </option>
-              {mainCategories.map((topic, index) => (
-                <option key={index} value={topic}>
-                  {topic}
-                </option>
-              ))}
-            </select>
-          )}
-          <select
-            className="selectMobile rounded-xl"
-            value={selectedSubTopic}
-            onChange={handleSubTopicChange}
-          >
-            <option value="" disabled>
-              Sub-Topic
-            </option>
-            {subTopicOptions &&
-              subTopicOptions.map((topic, index) => (
-                <option key={index} value={topic}>
-                  {topic}
-                </option>
-              ))}
-          </select>
-          {errors.topic && (
-            <div className="text-[0.65rem] font-semibold ml-10  text-red-500">
-              {errors.topic}
-            </div>
-          )}
+        <div className="w-full flex items-center justify-start ml-4">
+          <SelectComponent
+            defaultOption="Topic"
+            optionArray={mainCategories}
+            handleChange={handleTopicChange}
+            selectedOption={selectedTopic}
+          />
+          <SelectComponent
+            defaultOption="Sub-Topic"
+            optionArray={subTopicOptions}
+            handleChange={handleSubTopicChange}
+            selectedOption={selectedSubTopic}
+          />
+          <div className="text-[0.65rem] font-semibold mt-1 ml-auto mr-10 sm:mt-1 text-red-500"></div>
         </div>
         <IoIosCloseCircleOutline
           onClick={toggleComposeOpen}
           className="w-[1.8rem] h-[1.8rem] mb-auto text-primary cursor-pointer"
         />
       </div>
-      <form className=" flex flex-col   w-full h-[80%] sm:w-[80%] mt-2 pl-2 pr-2 sm:pl-0 sm:pr:0  sm:ml-2 ">
-        <div className="flex w-[100%] justify-between">
-          <label className="text-[0.65rem] font-semibold mt-1 ml-2 sm:mt-4  text-primary ">
+
+      <form className="flex flex-col w-full h-[80%] sm:w-[80%] mt-2 pl-2 pr-2 sm:pl-0 sm:pr-0 sm:ml-2">
+        <div className="flex w-[100%] justify-between items-center">
+          <label className="text-[0.65rem] font-semibold mt-1 ml-2 sm:mt-4 text-primary">
             Title
           </label>
-
-          {errors.title && (
-            <div className="text-[0.65rem] font-semibold mt-1 mr-2 sm:mt-4 text-red-500 ">
-              {errors.title}
+          {isValidatedObj.title === false && isSubmitted && (
+            <div className="text-[0.65rem] font-semibold mt-4 mr-2  text-red-500">
+              Add a title...
+            </div>
+          )}
+          {isValidatedObj.title === true && (
+            <div className="text-[0.65rem] font-semibold mt-4 mr-2  text-green-500">
+              Awesome...
             </div>
           )}
         </div>
         <input
+          name="title"
           type="text"
-          className="input h-[2.6rem] rounded-xl sm:mt-1 border border-gray-200 focus:outline-none focus:border-primary focus:border-2 "
+          placeholder="Add a title..."
+          className="input h-[2.6rem] rounded-xl mt-1 border border-gray-200 focus:outline-none focus:border-primary focus:border-2 p-4 text-[12px] text-primary font-500 placeholder:text-[12px]"
           value={articleObject.title}
-          onChange={(e) =>
-            setArticleObject({ ...articleObject, title: e.target.value })
-          }
+          onChange={(e) => handleChange(e.target.name, e.target.value)}
+          onBlur={() => handleBlur("title")}
         />
         <div className="flex w-[100%] justify-between">
-          <label className="text-[0.65rem] font-semibold mt-1 ml-2 sm:mt-4  text-primary ">
+          <label className="text-[0.65rem] font-semibold mt-4 ml-2 text-primary">
             Body
           </label>
-
-          {errors.body && (
-            <div className="text-[0.65rem] font-semibold mt-1 mr-2 sm:mt-4 text-red-500 ">
-              {errors.body}
+          {isValidatedObj.body === false && isSubmitted && (
+            <div className="text-[0.65rem] font-semibold ml-auto mr-2 mt-4 text-red-500">
+              Add article body...
+            </div>
+          )}
+          {isValidatedObj.body === true && (
+            <div className="text-[0.65rem] font-semibold ml-auto mr-2 mt-4 text-green-500">
+              Amazing...
             </div>
           )}
         </div>
-        <input
-          type="text"
-          className="input h-[8rem] rounded-xl sm:mt-1  border border-gray-200 focus:outline-none focus:border-primary focus:border-2"
+        <textarea
+          name="body"
+          placeholder="Add article body..."
+          className="input h-[8rem] rounded-xl mt-1 sm:mt-1 border border-gray-200 focus:outline-none focus:border-primary focus:border-2 text-[12px] placeholder:text-[12px] text-primary font-500 resize-none p-4"
           value={articleObject.body}
-          onChange={(e) =>
-            setArticleObject({ ...articleObject, body: e.target.value })
-          }
+          onChange={(e) => handleChange(e.target.name, e.target.value)}
         />
         <div className="flex w-[100%] justify-between">
-          <label className="text-[0.65rem] font-semibold mt-1 ml-2 sm:mt-4  text-primary ">
+          <label className="text-[0.65rem] font-semibold ml-2 mt-4 text-primary">
             Image URL
           </label>
-
-          {errors.article_img_url && (
-            <div className="text-[0.65rem] font-semibold mt-1 mr-2 sm:mt-4 text-red-500 ">
-              {errors.article_img_url}
+          {isValidatedObj.articleURL === false && isSubmitted && (
+            <div className="text-[0.65rem] font-semibold mt-4 mr-2 text-red-500">
+              Enter a valid URL...
+            </div>
+          )}
+          {isValidatedObj.articleURL === true && (
+            <div className="text-[0.65rem] font-semibold mt-4 mr-2 text-green-500">
+              Ace...
             </div>
           )}
         </div>
         <input
           type="text"
-          className="input h-[2.6rem] rounded-xl sm:mt-1  border border-gray-200 focus:outline-none focus:border-primary focus:border-2"
+          name="article_img_url"
+          placeholder="Add an image address..."
+          className="input h-[2.6rem] rounded-xl mt-1 border border-gray-200 focus:outline-none focus:border-primary focus:border-2 p-4 text-[12px] text-primary font-500 placeholder:text-[12px]"
           value={articleObject.article_img_url}
-          onChange={(e) =>
-            setArticleObject({
-              ...articleObject,
-              article_img_url: e.target.value,
-            })
-          }
+          onChange={(e) => handleChange(e.target.name, e.target.value)}
         />
       </form>
       <div className="flex justify-end items-center sm:w-full sm:h-[240px] mt-4">
