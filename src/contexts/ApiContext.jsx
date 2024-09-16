@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useCallback } from "react";
 import { AllArticlesCountContext } from "./AllArticlesCountContext";
 import {
   getAllArticles,
@@ -20,6 +20,8 @@ import {
   getArticleComments,
   postArticleComment,
 } from "../../utilities/api/commentsApi";
+import { useLoading } from "../contexts/LoadingContext";
+import { InitialRenderContext } from "./InitialRenderContext";
 
 const ApiContext = createContext();
 
@@ -34,7 +36,6 @@ export const ApiProvider = ({ children }) => {
     FilteredArticlesContext
   );
   const { searchBarList, setSearchBarList } = useContext(SearchBarListContext);
-
   const { featuredArticles, setFeaturedArticles } = useContext(
     FeaturedArticlesContext
   );
@@ -42,135 +43,167 @@ export const ApiProvider = ({ children }) => {
   const { setComments } = useContext(ArticleCommentsContext);
   const { setCommentCount } = useContext(CommentCountContext);
   const { voteCount, setVoteCount } = useContext(VoteCountContext);
+  const { setIsInitialRender } = useContext(InitialRenderContext);
+  const { loadingStates, setLoading } = useLoading();
 
-  const fetchArticleCount = (
-    topicParam,
-    sortByParam,
-    orderParam,
-    limit,
-    page
-  ) => {
-    getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
-      (results) => {
-        setAllArticlesCount(results.total_count.total_count);
-        console.log(results.total_count.total_count);
-      }
-    );
-  };
+  const fetchArticleCount = useCallback(
+    (topicParam, sortByParam, orderParam, limit, page) => {
+      getAllArticles(topicParam, sortByParam, orderParam, limit, page)
+        .then((results) => {
+          setAllArticlesCount(results.total_count.total_count);
+        })
+        .catch(console.error);
+    },
+    [setLoading, setAllArticlesCount]
+  );
 
-  console.log(AllArticlesCount);
-
-  const fetchFeaturedArticles = async (
-    topicParam,
-    sortByParam,
-    orderParam,
-    limit,
-    page
-  ) => {
-    getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
-      (results) => {
-        const featured = results.articles.filter(
-          (article) => article.featured === true
+  const fetchFeaturedArticles = useCallback(
+    async (topicParam, sortByParam, orderParam, limit = 300, page) => {
+      setLoading("featuredArticles", true);
+      try {
+        const results = await getAllArticles(
+          topicParam,
+          sortByParam,
+          orderParam,
+          limit,
+          page
         );
+        const featured = results.articles.filter((article) => article.featured);
         setFeaturedArticles(featured);
-        console.log(featured, "featured");
+        setLoading("featuredArticles", false);
+      } catch (error) {
+        console.error(error);
       }
-    );
-  };
+    },
+    [setLoading, setFeaturedArticles]
+  );
 
-  const fetchAdditionalArticles = (
-    topicParam,
-    sortByParam,
-    orderParam,
-    limit,
-    page
-  ) => {
-    getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
-      (results) => {
-        setArticles((prev) => [...prev, ...results.articles]);
+  const fetchAdditionalArticles = useCallback(
+    (topicParam, sortByParam, orderParam, limit, page) => {
+      getAllArticles(topicParam, sortByParam, orderParam, limit, page)
+        .then((results) => {
+          setArticles((prev) => [...prev, ...results.articles]);
+          setVisible((prev) => prev + results.articles.length);
+        })
+        .catch(console.error);
+    },
+    [setLoading, setArticles, setVisible]
+  );
 
-        setVisible((prev) => prev + results.articles.length);
+  const fetchArticles = useCallback(
+    (topicParam, sortByParam, orderParam, limit, page) => {
+      setLoading("articles", true);
+      getAllArticles(topicParam, sortByParam, orderParam, limit, page)
+        .then((results) => {
+          setArticles(results.articles);
+          setTotalArticles(results.total_count.total_count);
+          setLoading("articles", false);
+          setIsInitialRender(false);
+        })
+        .catch(console.error);
+    },
+    [setLoading, setArticles, setTotalArticles]
+  );
+
+  const fetchFilteredArticles = useCallback(
+    (topicParam, sortByParam, orderParam, limit, page) => {
+      getAllArticles(topicParam, sortByParam, orderParam, limit, page)
+        .then((results) => {
+          setFilteredArticles(results.articles);
+          setLoading("filteredArticles", false);
+        })
+        .catch(console.error);
+    },
+    [setLoading, setFilteredArticles]
+  );
+
+  const fetchMostPopularArticles = useCallback(
+    async (topicParam, sortByParam, orderParam, limit, page) => {
+      setLoading("mostPopularArticles", true);
+      try {
+        const mostPopularArticles = await getAllArticles(
+          topicParam,
+          sortByParam,
+          orderParam,
+          limit,
+          page
+        );
+        setSearchBarList(mostPopularArticles.articles);
+        setLoading("mostPopularArticles", false);
+      } catch (error) {
+        console.error(error);
       }
-    );
-  };
+    },
+    [setLoading, setSearchBarList]
+  );
 
-  const fetchArticles = (topicParam, sortByParam, orderParam, limit, page) => {
-    getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
-      (results) => {
-        setArticles(results.articles);
-        setTotalArticles(results.total_count.total_count);
-      }
-    );
-  };
-
-  const fetchFilteredArticles = (
-    topicParam,
-    sortByParam,
-    orderParam,
-    limit,
-    page
-  ) => {
-    getAllArticles(topicParam, sortByParam, orderParam, limit, page).then(
-      (results) => {
-        setFilteredArticles(results.articles);
-      }
-    );
-  };
-
-  async function fetchMostPopularArticles(
-    topicParam,
-    sortByParam,
-    orderParam,
-    limit,
-    page
-  ) {
-    const mostPopularArticles = await getAllArticles(
-      topicParam,
-      sortByParam,
-      orderParam,
-      limit,
-      page
-    );
-
-    setSearchBarList(mostPopularArticles.articles);
-  }
-
-  const fetchArticle = (article_id) => {
-    getArticle(article_id).then((article) => {
+  const fetchArticle = useCallback(
+    (article_id) => {
+      setLoading("article", true);
       setComments([]);
-      setArticle(article);
-      setVoteCount(article.votes);
-      setCommentCount(article.comment_count);
-    });
-  };
+      getArticle(article_id)
+        .then((article) => {
+          setArticle(article);
+          setVoteCount(article.votes);
+          setCommentCount(article.comment_count);
+          setLoading("article", false);
+        })
+        .catch(console.error);
+    },
+    [setLoading, setArticle, setVoteCount, setCommentCount, setComments]
+  );
 
-  const fetchArticleComments = (article_id) => {
-    getArticleComments(article_id).then((articleComments) => {
-      setComments(articleComments);
-    });
-  };
+  const fetchArticleComments = useCallback(
+    (article_id) => {
+      setComments([]);
+      getArticleComments(article_id)
+        .then((articleComments) => {
+          setComments(articleComments);
+        })
+        .catch(console.error);
+    },
+    [setComments]
+  );
 
-  const updateArticle = (article_id, incVotes) => {
-    patchArticle(article_id, incVotes)
-      .then((article) => {
-        setVoteCount(article.votes);
-      })
-      .catch(() => {
-        setVoteCount(voteCount - incVotes);
-      });
-  };
+  const updateArticle = useCallback(
+    (article_id, incVotes) => {
+      patchArticle(article_id, incVotes)
+        .then((article) => {
+          setVoteCount(article.votes);
+        })
+        .catch(() => {
+          setVoteCount((prev) => prev - incVotes);
+        })
+        .finally(() => {
+          setLoading("updateArticle", false);
+        });
+    },
+    [setLoading, setVoteCount]
+  );
 
-  const deleteComment = (article_id) => {
-    deleteArticleComment(article_id);
-    setCommentCount((count) => count - 1);
-  };
+  const deleteComment = useCallback(
+    (article_id) => {
+      deleteArticleComment(article_id)
+        .then(() => {
+          setCommentCount((count) => count - 1);
+        })
+        .catch(console.error);
+    },
+    [setLoading, setCommentCount]
+  );
 
-  const createArticleComment = (article_id, body, username) => {
-    postArticleComment(article_id, body, username).then((comment) => {
-      setComments((comments) => [comment, ...comments]);
-      setCommentCount((count) => count + 1);
-    });
-  };
+  const createArticleComment = useCallback(
+    (article_id, body, username) => {
+      setComments([]);
+      postArticleComment(article_id, body, username)
+        .then((comment) => {
+          setComments((comments) => [comment, ...comments]);
+          setCommentCount((count) => count + 1);
+        })
+        .catch(console.error);
+    },
+    [setLoading, setComments, setCommentCount]
+  );
 
   return (
     <ApiContext.Provider
@@ -186,6 +219,7 @@ export const ApiProvider = ({ children }) => {
         updateArticle,
         deleteComment,
         createArticleComment,
+        loadingStates,
       }}
     >
       {children}

@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 export const TotalArticlesContext = createContext();
 
 export const TotalArticlesProvider = ({ children }) => {
-  const [totalArticles, setTotalArticles] = useState(0);
+  const [totalArticles, setTotalArticles] = useState(null);
 
   return (
     <TotalArticlesContext.Provider value={{ totalArticles, setTotalArticles }}>

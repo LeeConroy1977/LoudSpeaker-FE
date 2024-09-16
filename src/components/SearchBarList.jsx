@@ -1,6 +1,6 @@
 import React, { useRef, useContext } from "react";
 import SearchBarCard from "./SearchBarCard";
-import useOutsideClick from "../hooks/useOutsideClick";
+import useOutsideClickSearch from "../hooks/useOutsideClickSearch";
 import { SearchOpenContext } from "../contexts/SearchOpenContext";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 
@@ -9,15 +9,15 @@ const SearchBarList = ({ articles, searchInputLength }) => {
   const { setIsSearchOpen } = useContext(SearchOpenContext);
   const { width } = useContext(ScreenSizeContext);
 
-  useOutsideClick(extendedComponentRef, () => setIsSearchOpen(false));
+  useOutsideClickSearch(extendedComponentRef, () => setIsSearchOpen(false));
 
   return (
     <div
       ref={width > 640 ? extendedComponentRef : null}
-      className="sm-mb-2 bg-white z-50"
+      className="sm-mb-2 bg-white dark:bg-secondaryBg mt-6"
     >
       {!searchInputLength && (
-        <h4 className="text-[0.85rem] text-primary mt-1 mb-1 sm:mt-0 sm:mb-0 sm:ml-2">
+        <h4 className="text-[0.85rem] text-primary dark:text-darkTextPrimary mt-1 sm:mt6 mb-1  sm:mb-0 sm:ml-2">
           Most Popular
         </h4>
       )}

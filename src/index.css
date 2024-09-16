@@ -2,19 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-::-webkit-scrollbar {
-  width: 12px;
-  margin-top: 2rem;
-}
-
-::-webkit-scrollbar-track {
-  background: #f3f2f2;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #dadada;
-  border-radius: 12px;
-  border: 3px solid #f1f1f1;
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }
 
 @layer components {
@@ -26,8 +21,8 @@
   }
 
   .avatarMobileNav {
-    width: 36px;
-    height: 36px;
+    width: 33px;
+    height: 33px;
     border: 2px solid #456990;
     border-radius: 50%;
   }
@@ -68,7 +63,7 @@
   .avatarFeatured {
     width: 25px;
     height: 25px;
-    border: 2px solid white;
+    border: 2px solid #456990;
     border-radius: 50%;
   }
   .avatarLarge {
@@ -94,6 +89,14 @@
     height: 40px;
     font-size: 0.9rem;
   }
+
+  .buttonLargeDark {
+    width: 100px;
+    height: 40px;
+    font-size: 0.9rem;
+    background-color: #456990;
+    color: white;
+  }
   .buttonSignInLarge {
     width: 200px;
     height: 44px;
@@ -114,6 +117,13 @@
     width: 90px;
     height: 38px;
     font-size: 0.85rem;
+  }
+  .buttonMediumDark {
+    width: 84px;
+    height: 35px;
+    font-size: 0.85rem;
+    background-color: #456990;
+    color: white;
   }
   .buttonMediumShowMore {
     width: 140px;
@@ -154,12 +164,12 @@
   }
   .mobileCommentsNum {
     font-size: 9px;
-    margin-left: 0.2rem;
+    margin-left: 0.3rem;
     color: #456990;
     font-weight: bold;
   }
   .mobileCommentsIcon {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
     color: #456990;
   }
@@ -254,5 +264,4 @@
   .placeholder-13px::placeholder {
     font-size: 16px;
   }
-  /* ... */
 }

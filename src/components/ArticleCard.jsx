@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import Avatar from "../reuseable-components/Avatar";
-import CommentsContainer from "./CommentsContainer";
+import CommentsContainer from "../reuseable-components/CommentsContainer";
 import VotesContainer from "../reuseable-components/VotesContainer";
 import CommentPostContainer from "./CommentPostContainer";
 import ArticleCommentsList from "./ArticleCommentsList";
@@ -51,15 +51,9 @@ const ArticleCard = ({ handleVoteCount }) => {
     }
   }, [userComment]);
 
-  let userAvatar;
-  let name;
-
-  existingUsers.map((user) => {
-    if (user.username === author) {
-      name = user.name;
-      return (userAvatar = user.avatar_url);
-    }
-  });
+  const userObj = existingUsers.find((user) => user.username === author);
+  const userAvatar = userObj ? userObj.avatar_url : null;
+  const name = userObj ? userObj.name : "";
 
   return (
     <div
@@ -72,13 +66,11 @@ const ArticleCard = ({ handleVoteCount }) => {
         onClick={() => navigate(-1)}
       >
         <IoArrowBack className="cursor-pointer ml-4 text-primary font-bold" />
-        <p className="ml-4 text-[12px] text-primary font-bold">
-          Back to articles...
-        </p>
+        <p className="ml-4 text-[12px] text-primary font-bold">Back...</p>
       </div>
       {article !== undefined && voteCount !== undefined && (
         <div>
-          <div className="w-full border-b border-gray-200 p-3 cursor-pointer">
+          <div className="w-full border-b border-gray-200 dark:border-primary p-3 cursor-pointer">
             <div className="flex items-center mt-1 ml-1">
               {userAvatar && width < 640 && (
                 <Avatar
@@ -98,15 +90,15 @@ const ArticleCard = ({ handleVoteCount }) => {
               />
               <div className="flex justify-end ml-auto w-[100px] mr-1">
                 <CommentsContainer
-                  commentStyle="mobileComments"
-                  commentsNumStyle="mobileCommentsNum"
-                  commentsIconStyle="mobileCommentsIcon"
+                  commentStyle="mobileComments dark:bg-secondaryBg"
+                  commentsNumStyle="mobileCommentsNum dark:text-darkTextPrimary"
+                  commentsIconStyle="mobileCommentsIcon dark:text-darkTextPrimary"
                   commentCount={comment_count}
                 />
 
                 <VotesContainer
-                  votesStyle="mobileVotes"
-                  votesNumStyle="mobileVotesNum"
+                  votesStyle="mobileVotes dark:bg-secondaryBg"
+                  votesNumStyle="mobileVotesNum dark:text-darkTextPrimary"
                   votesIconStyle="mobileVotesIcon"
                   initialVotes={voteCount}
                   handleClick={handleVoteCount}
@@ -115,15 +107,15 @@ const ArticleCard = ({ handleVoteCount }) => {
                 />
               </div>
             </div>
-            <h3 className=" font-semibold text-[0.9rem] ml-1 sm:ml-1 mt-3 sm:mt-3  sm:pb-1 font-sans">
+            <h3 className=" font-semibold text-[0.9rem] ml-1 sm:ml-1 mt-3 sm:mt-3  sm:pb-1 font-sans text-gray-950 dark:text-darkTextPrimary">
               {title}
             </h3>
             <img
               src={article_img_url}
               alt=""
-              className="w-full h-[200px] sm:w-[100%] sm:h-[330px] mt-1 mb-1 ml-1 sm:ml:2 pr-2 sm:pr:0  rounded-xl cursor-pointer"
+              className="w-full h-[200px] sm:w-[100%] sm:h-[330px] mt-2 sm:mt-1 mb-1 ml-1 sm:ml:2 pr-2 sm:pr:0  rounded-xl cursor-pointer"
             />
-            <p className=" sm:mr-1 ml-1 sm:ml-1 mr-1  mt-3 sm:mt-3 text-gray-950  text-[0.825rem]  sm:text-[0.9rem] font-500">
+            <p className=" sm:mr-2 ml-1 sm:ml-2 mr-1  mt-3 sm:mt-3 text-gray-950 dark:text-darkTextPrimary  text-[0.825rem]  sm:text-[0.9rem] font-500">
               {body}
             </p>
           </div>

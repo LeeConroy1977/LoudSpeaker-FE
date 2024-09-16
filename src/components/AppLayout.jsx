@@ -1,4 +1,4 @@
-import React, { Children, useContext, useState } from "react";
+import React, { useContext } from "react";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import NavBar from "./NavBar";
 import TopicSection from "./TopicSection";
@@ -15,26 +15,26 @@ const AppLayout = ({
   const { width } = useContext(ScreenSizeContext);
   const { isSearchOpen } = useContext(SearchOpenContext);
 
+  const containerClasses =
+    width < 640
+      ? `w-full h-full grid grid-rows-[44px_auto] grid-cols-[100%] ${
+          isTopicContainerOpen ? "overflow-hidden" : ""
+        }`
+      : "w-[78%] h-full grid grid-rows-[10%_90%] grid-cols-[22%_53%_25%]";
+
+  const mainClasses = `relative sm:overflow-y-scroll scrollbar-hide ${
+    width < 640 && isSearchOpen ? "overflow-hidden" : ""
+  }`;
+
   return (
-    <div
-      className={
-        width < 640
-          ? `w-full h-full grid grid-rows-[44px_auto] grid-cols-[100%] ${
-              isTopicContainerOpen ? "overflow-hidden" : null
-            }`
-          : "w-[78%] h-full grid grid-rows-[10%_90%] grid-cols-[22%_53%_25%]"
-      }
-    >
+    <div className={containerClasses}>
       <NavBar handleSearchInput={handleSearchInput} searchInput={searchInput} />
       {width > 640 && <TopicSection />}
 
-      <main
-        className={`relative sm:overflow-auto ${
-          width < 640 && isSearchOpen ? "overflow-hidden" : null
-        }`}
-      >
+      <main className={mainClasses}>
         <Outlet />
       </main>
+
       {width > 640 && (
         <FeaturedSection handleSelectedArticle={handleSelectedArticle} />
       )}
