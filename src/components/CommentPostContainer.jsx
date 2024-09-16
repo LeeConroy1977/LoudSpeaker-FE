@@ -10,6 +10,7 @@ import SignIn from "./SignIn";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { PopupContext } from "../contexts/PopupContext";
 import { UserCommentContext } from "../contexts/UserCommentContext";
+import { CommentScrollContext } from "../contexts/CommentScrollContext";
 
 const CommentPostContainer = () => {
   const { width } = useContext(ScreenSizeContext);
@@ -17,6 +18,8 @@ const CommentPostContainer = () => {
   const { isPostCommentOpen, setIsPostCommentOpen } = useContext(
     PostCommentOpenContext
   );
+  const { commentsRef, handleScrollToTop } = useContext(CommentScrollContext);
+
   const { setUserComment } = useContext(UserCommentContext);
   const { showModal } = useModal();
   const [commentBody, setCommentBody] = useState("");
@@ -68,12 +71,16 @@ const CommentPostContainer = () => {
 
   return (
     <div
+      ref={commentsRef}
       className={`${
         isPostCommentOpen
           ? "flex items-start h-[9.9rem] sm:h-[12rem]"
-          : "sm:h-[80px] flex items-center"
-      } w-full h-[58px]   justify-between p-4 border-gray-200 border-b`}
-      onClick={handleContainerClick}
+          : " w-full h-[78px]  sm:h-[80px] flex items-center"
+      }   justify-between p-4 border-gray-200 dark:border-primary border-b`}
+      onClick={() => {
+        handleContainerClick();
+        handleScrollToTop();
+      }}
     >
       <div className="sm:w-[54px] sm:h-[54px] flex justify-start items-center ">
         {user.username ? (
@@ -91,7 +98,7 @@ const CommentPostContainer = () => {
         <form className="sm:w-[70%] sm:h-[9rem]">
           <textarea
             placeholder="Post a comment..."
-            className="sm:w-[100%] sm:h-[9rem] text-[#333333] sm:pt-[0.8rem]  font-500 focus:outline-none border-none resize-none placeholder-primary text-[0.8rem] sm:text-[0.8rem] placeholder-10px sm:placeholder-13px placeholder:font-semibold mt-2 mr-12 sm:mt-1"
+            className="sm:w-[100%] sm:h-[9rem] text-[#333333] dark:text-darkTextPrimary sm:pt-[0.8rem]  font-500 focus:outline-none border-none resize-none placeholder-primary text-[0.8rem] sm:text-[0.8rem] placeholder-10px sm:placeholder-13px placeholder:font-semibold mt-2 mr-12 sm:mt-1 dark:bg-darkBg"
             required
             name="comment"
             id="comment"
@@ -120,10 +127,15 @@ const CommentPostContainer = () => {
         )}
         <Button
           handleDisabled={isDisabled}
-          buttonStyle={isDisabled ? "buttonMobileDisabled" : "buttonMobile"}
+          buttonStyle={
+            isDisabled
+              ? "buttonMobileDisabled dark:bg-secondaryBg dark:text-gray-400"
+              : "buttonMobile dark:bg-primary dark:text-darkTextPrimary"
+          }
           handleClick={(e) => {
             handleCommentSubmit(e);
             handleCloseClick(e);
+            handleScrollToTop();
           }}
         >
           Post

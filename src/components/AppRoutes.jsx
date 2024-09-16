@@ -5,13 +5,17 @@ import Home from "../pages/Home";
 import Article from "../pages/Article";
 import { SearchParamsContext } from "../contexts/searchParamsContext";
 import { useApi } from "../contexts/ApiContext";
-import { AllArticlesCountContext } from "../contexts/AllArticlesCountContext";
 import { VisibleContext } from "../contexts/VisibleContext";
+import { ArticlesContext } from "../contexts/ArticlesContext";
+import { AllArticlesCountContext } from "../contexts/AllArticlesCountContext";
+import { InitialRenderContext } from "../contexts/InitialRenderContext";
 
 const AppRoutes = () => {
   const { AllArticlesCount } = useContext(AllArticlesCountContext);
   const { searchParams } = useContext(SearchParamsContext);
   const { visible } = useContext(VisibleContext);
+  const { articles } = useContext(ArticlesContext);
+  // const { setIsInitialRender } = useContext(InitialRenderContext);
   const {
     fetchArticleCount,
     fetchAdditionalArticles,
@@ -28,6 +32,8 @@ const AppRoutes = () => {
   const [isMainArticlesLoading, setIsMainArticlesLoading] = useState(false);
   const [limit] = useState(12);
   const [page, setPage] = useState(1);
+
+  console.log(AllArticlesCount && AllArticlesCount);
 
   useEffect(() => {
     fetchArticleCount(topicParam, sortByParam, orderParam, limit, page);
@@ -50,8 +56,8 @@ const AppRoutes = () => {
   }, []);
 
   useEffect(() => {
-    fetchFeaturedArticles(null, null, null, 230, null);
-  }, [AllArticlesCount]);
+    fetchFeaturedArticles(null, null, null, AllArticlesCount, null);
+  }, []);
 
   function handleOnLoadMore() {
     return setPage((prev) => prev + 1);

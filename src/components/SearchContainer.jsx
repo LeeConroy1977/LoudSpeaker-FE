@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from "react";
 import Input from "./Input";
 import articlesArray from "../../data/articles";
-import useOutsideClick from "../hooks/useOutsideClick";
+import useOutsideClickSearch from "../hooks/useOutsideClickSearch";
 import SearchBarList from "./SearchBarList";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { FilteredArticlesContext } from "../contexts/FilteredArticlesContext";
@@ -17,7 +17,7 @@ const SearchContainer = () => {
   const { filteredArticles } = useContext(FilteredArticlesContext);
   const extendedComponentRef = useRef(null);
 
-  useOutsideClick(extendedComponentRef, () => {
+  useOutsideClickSearch(extendedComponentRef, () => {
     setIsSearchOpen(false);
   });
 
@@ -33,7 +33,10 @@ const SearchContainer = () => {
   let filteredArticlesArr = [];
   filteredArticles &&
     filteredArticles.filter((article) => {
-      if (article.body.toLowerCase().includes(input.toLowerCase())) {
+      if (
+        article.body.toLowerCase().includes(input.toLowerCase()) ||
+        article.title.toLowerCase().includes(input.toLowerCase())
+      ) {
         filteredArticlesArr.push(article);
       }
     });
@@ -50,7 +53,7 @@ const SearchContainer = () => {
         searchInputLength > 0 && filteredArticlesArr.length > 0 ? (
           <div
             ref={width > 640 ? extendedComponentRef : null}
-            className="w-[100%] h-[600px] shadow-xl overflow-y-auto sm:ml-8 bg-white absolute rounded-xl p-4 top-[44px]"
+            className="w-[360px] h-[600px] shadow-xl overflow-y-auto scrollbar-hide sm:ml-8 bg-white dark:bg-gray-800 absolute rounded-xl p-4 top-[15px]"
           >
             <SearchBarList
               articles={filteredArticlesArr}
@@ -60,16 +63,16 @@ const SearchContainer = () => {
         ) : isSearchOpen && searchInputLength < 1 ? (
           <div
             ref={width > 640 ? extendedComponentRef : null}
-            className="w-[100%] h-[600px] shadow-xl overflow-y-auto sm:ml-8  absolute rounded-xl p-4 pb-4 top-[44px] bg-white "
+            className="w-[360px] h-[600px] shadow-xl overflow-y-auto scrollbar-hide sm:ml-8  absolute rounded-xl p-4 pb-4  bg-white dark:bg-gray-800 top-[15px]"
           >
             <SearchBarList articles={searchBarList && searchBarList} />
           </div>
         ) : (
           <div
             ref={width > 640 ? extendedComponentRef : null}
-            className="w-[100%] h-[600px] shadow-xl overflow-y-auto sm:ml-8  absolute rounded-xl p-4 top-[44px] bg-white "
+            className="w-[360px] h-[600px] shadow-xl overflow-y-auto scrollbar-hide sm:ml-8  absolute rounded-xl p-4  bg-white dark:bg-gray-800 top-[15px]"
           >
-            <p className="text-[0.85rem] text-primary sm:ml-2 sm:pt-4">
+            <p className="text-[0.85rem] text-primary dark:text-darkTextPrimary mt-6 ">
               No results found...
             </p>
           </div>

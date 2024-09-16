@@ -49,16 +49,9 @@ const ArticleCommentsCard = ({ comment }) => {
     setVoteCount(voteCount + change);
   };
 
-  let userAvatar;
-  let name;
-
-  existingUsers.map((user) => {
-    if (user.username === author) {
-      name = user.name;
-      user = user;
-      return (userAvatar = user.avatar_url);
-    }
-  });
+  const userObj = existingUsers.find((user) => user.username === author);
+  const userAvatar = userObj ? userObj.avatar_url : null;
+  const name = userObj ? userObj.name : "";
 
   function handleCommentId(id) {
     if (Number(id) === comment_id) {
@@ -76,7 +69,7 @@ const ArticleCommentsCard = ({ comment }) => {
   }
 
   return (
-    <div className="w-full h-auto border-gray-200 border-b p-2 ">
+    <div className="w-full h-auto border-gray-200 dark:border-primary border-b p-2 ">
       <div className="flex justify-start items-center ml-2 mr-2 mt-1">
         <Avatar
           avatarStyle={width < 640 ? "avatarMobileComment" : "avatarComment"}
@@ -85,8 +78,8 @@ const ArticleCommentsCard = ({ comment }) => {
         <UserDetail createdAt={created_at} username={author} name={name} />
         <div className="ml-auto">
           <VotesContainer
-            votesStyle="mobileVotes"
-            votesNumStyle="mobileVotesNum"
+            votesStyle="mobileVotes dark:bg-secondaryBg"
+            votesNumStyle="mobileVotesNum dark:text-darkTextPrimary"
             votesIconStyle="mobileVotesIcon"
             initialVotes={voteCount}
             handleClick={handleVoteCount}
@@ -95,7 +88,7 @@ const ArticleCommentsCard = ({ comment }) => {
           />
         </div>
       </div>
-      <div className="sm:ml-[4rem] sm:mr-2 ml-3 mr-3 mb-1 mt-3 sm:mt-1  text-[0.75rem]  sm:text-[13px] font-600">
+      <div className="sm:ml-[4rem] sm:mr-2 ml-3 mr-3 mb-1 mt-3 sm:mt-1  text-[0.75rem]  sm:text-[13px] font-600 text-gray-950 dark:text-darkTextPrimary">
         {body}
       </div>
       <div className="flex justify-end mr-2">

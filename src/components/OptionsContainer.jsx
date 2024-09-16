@@ -8,6 +8,8 @@ import sortByArr from "../../data/sortByOptions";
 import orderByArr from "../../data/orderByOptions";
 import { SearchParamsContext } from "../contexts/searchParamsContext";
 import { SearchOpenContext } from "../contexts/SearchOpenContext";
+import { TotalArticlesContext } from "../contexts/TotalArticlesContext";
+import { TopicsOpenContext } from "../contexts/TopicsOpenContext";
 
 const OptionsContainer = () => {
   const { width } = useContext(ScreenSizeContext);
@@ -16,7 +18,9 @@ const OptionsContainer = () => {
   const [selectedOptionOrder, setSelectedOptionOrder] = useState("");
   const { searchParams, setSearchParams } = useContext(SearchParamsContext);
   const { isSearchOpen } = useContext(SearchOpenContext);
-
+  const { totalArticles } = useContext(TotalArticlesContext);
+  const { setIsTopicsOpen } = useContext(TopicsOpenContext);
+  TotalArticlesContext;
   function handleSelectedOptionSort(e) {
     const sortValue = e.target.value;
     const finalsortValue = sortValue === "Sort By" ? null : sortValue;
@@ -50,7 +54,7 @@ const OptionsContainer = () => {
   return (
     <>
       {!isSearchOpen && width < 640 ? (
-        <div className="w-full h-[54px] flex justify-between items-center pl-3  p-2 sm:pl-[4.6rem] border-b  sm:border-gray-200">
+        <div className="w-full h-[54px] flex justify-between items-center pl-3  p-2 sm:pl-[4.6rem] border-b  sm:border-gray-200 dark:border-primary">
           <div className=" flex">
             <SelectComponent
               selectStyle="selectMobile"
@@ -71,12 +75,15 @@ const OptionsContainer = () => {
           <span>
             <IoIosOptions
               className="text-primary text-[22px] mr-1 cursor-pointer"
-              onClick={() => showModal(<TopicAccordion />)}
+              onClick={() => {
+                setIsTopicsOpen(true);
+                showModal(<TopicAccordion />);
+              }}
             />
           </span>
         </div>
       ) : isSearchOpen && width < 640 ? null : (
-        <div className="w-full h-[54px] flex justify-between items-center pl-3  p-2 sm:pl-[4.6rem] border-b  sm:border-gray-200">
+        <div className="w-full h-[54px] flex justify-between items-center pl-3  p-2 sm:pl-[4.6rem] border-b  sm:border-gray-200 dark:border-primary">
           <div className=" flex">
             <SelectComponent
               selectStyle="selectMobile"
@@ -93,6 +100,11 @@ const OptionsContainer = () => {
               selectedOption={selectedOptionOrder}
             />
           </div>
+          {totalArticles && (
+            <p className="text-[12px] text-primary dark:text-darkTextPrimary font-semibold mr-3">
+              {totalArticles} articles...
+            </p>
+          )}
         </div>
       )}
     </>

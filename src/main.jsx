@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
-import { ScreenSizeProvider } from "./contexts/ScreenSizeContext.jsx";
 import { BrowserRouter } from "react-router-dom";
+import { ScreenSizeProvider } from "./contexts/ScreenSizeContext.jsx";
 import { UserProvider } from "./contexts/UserContext.jsx";
 import { ArticlesProvider } from "./contexts/ArticlesContext.jsx";
 import { ExistingUsersProvider } from "./contexts/ExistingUsersContext.jsx";
@@ -27,57 +27,69 @@ import { CommentCountProvider } from "./contexts/commentCountContext.jsx";
 import { DeletedCommentIdProvider } from "./contexts/DeletedCommentIdContext.jsx";
 import { PostCommentOpenProvider } from "./contexts/PostCommentOpenContext.jsx";
 import { UserCommentProvider } from "./contexts/UserCommentContext.jsx";
+import { LoadingProvider } from "./contexts/LoadingContext.jsx"; // Import LoadingProvider
+import { ThemeProvider } from "./contexts/ThemeContext.jsx";
+import { TopicsOpenProvider } from "./contexts/TopicsOpenContext.jsx";
+import { InitialRenderProvider } from "./contexts/InitialRenderContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <ScreenSizeProvider>
-    <BrowserRouter>
-      <ArticlesProvider>
-        <MainArticleProvider>
-          <ArticleCommentsProvider>
-            <ExistingUsersProvider>
-              <UserProvider>
-                <SelectedTopicProvider>
-                  <SearchParamsProvider>
-                    <PopupProvider>
-                      <FeaturedArticlesProvider>
-                        <FilteredArticlesProvider>
-                          <SearchOpenProvider>
-                            <SearchBarInputProvider>
-                              <SearchBarListProvider>
-                                <ComposeOpenProvider>
-                                  <AllArticlesCountProvider>
-                                    <VisibleProvider>
-                                      <TotalArticlesProvider>
-                                        <CommentCountProvider>
-                                          <VoteCountProvider>
-                                            <DeletedCommentIdProvider>
-                                              <PostCommentOpenProvider>
-                                                <UserCommentProvider>
-                                                  <ApiProvider>
-                                                    <App />
-                                                  </ApiProvider>
-                                                </UserCommentProvider>
-                                              </PostCommentOpenProvider>
-                                            </DeletedCommentIdProvider>
-                                          </VoteCountProvider>
-                                        </CommentCountProvider>
-                                      </TotalArticlesProvider>
-                                    </VisibleProvider>
-                                  </AllArticlesCountProvider>
-                                </ComposeOpenProvider>
-                              </SearchBarListProvider>
-                            </SearchBarInputProvider>
-                          </SearchOpenProvider>
-                        </FilteredArticlesProvider>
-                      </FeaturedArticlesProvider>
-                    </PopupProvider>
-                  </SearchParamsProvider>
-                </SelectedTopicProvider>
-              </UserProvider>
-            </ExistingUsersProvider>
-          </ArticleCommentsProvider>
-        </MainArticleProvider>
-      </ArticlesProvider>
-    </BrowserRouter>
-  </ScreenSizeProvider>
+  <LoadingProvider>
+    <InitialRenderProvider>
+      <TopicsOpenProvider>
+        <ThemeProvider>
+          <ScreenSizeProvider>
+            <BrowserRouter>
+              <ArticlesProvider>
+                <AllArticlesCountProvider>
+                  <MainArticleProvider>
+                    <ArticleCommentsProvider>
+                      <ExistingUsersProvider>
+                        <UserProvider>
+                          <SelectedTopicProvider>
+                            <SearchParamsProvider>
+                              <PopupProvider>
+                                <FeaturedArticlesProvider>
+                                  <FilteredArticlesProvider>
+                                    <SearchOpenProvider>
+                                      <SearchBarInputProvider>
+                                        <SearchBarListProvider>
+                                          <ComposeOpenProvider>
+                                            <VisibleProvider>
+                                              <TotalArticlesProvider>
+                                                <CommentCountProvider>
+                                                  <VoteCountProvider>
+                                                    <DeletedCommentIdProvider>
+                                                      <PostCommentOpenProvider>
+                                                        <UserCommentProvider>
+                                                          <ApiProvider>
+                                                            <App />
+                                                          </ApiProvider>
+                                                        </UserCommentProvider>
+                                                      </PostCommentOpenProvider>
+                                                    </DeletedCommentIdProvider>
+                                                  </VoteCountProvider>
+                                                </CommentCountProvider>
+                                              </TotalArticlesProvider>
+                                            </VisibleProvider>
+                                          </ComposeOpenProvider>
+                                        </SearchBarListProvider>
+                                      </SearchBarInputProvider>
+                                    </SearchOpenProvider>
+                                  </FilteredArticlesProvider>
+                                </FeaturedArticlesProvider>
+                              </PopupProvider>
+                            </SearchParamsProvider>
+                          </SelectedTopicProvider>
+                        </UserProvider>
+                      </ExistingUsersProvider>
+                    </ArticleCommentsProvider>
+                  </MainArticleProvider>
+                </AllArticlesCountProvider>
+              </ArticlesProvider>
+            </BrowserRouter>
+          </ScreenSizeProvider>
+        </ThemeProvider>
+      </TopicsOpenProvider>
+    </InitialRenderProvider>
+  </LoadingProvider>
 );

@@ -4,7 +4,7 @@ import Logo from "./Logo";
 import Button from "../reuseable-components/Button";
 import Avatar from "../reuseable-components/Avatar";
 import SearchBarList from "./SearchBarList";
-import useOutsideClick from "../hooks/useOutsideClick";
+import useOutsideClickSearch from "../hooks/useOutsideClickSearch";
 import SignIn from "./SignIn";
 import { Link, useParams } from "react-router-dom";
 import { useModal } from "../contexts/ModalContext";
@@ -20,6 +20,9 @@ import { SearchOpenContext } from "../contexts/SearchOpenContext";
 import useSearchToggle from "../hooks/UseSearchOpenToggle";
 import useComposeToggle from "../hooks/UseComposeOpenToggle";
 import SignOut from "./SignOut";
+import { ArticleScrollContext } from "../contexts/ArticleScrollContext";
+import { useTheme } from "../contexts/ThemeContext";
+import ThemeToggleSwitch from "./ThemeToggleSwitch";
 
 const NavBar = ({ handleSearchInput }) => {
   const { width } = useContext(ScreenSizeContext);
@@ -30,11 +33,13 @@ const NavBar = ({ handleSearchInput }) => {
   const { toggleSearchOpen } = useSearchToggle();
   const { toggleComposeOpen } = useComposeToggle();
   const { filteredArticles } = useContext(FilteredArticlesContext);
+  const { handleScrollToTop } = useContext(ArticleScrollContext);
   const { article_id } = useParams();
   const { showModal } = useModal();
   const extendedComponentRef = useRef(null);
+  const { theme, toggleTheme } = useTheme();
 
-  useOutsideClick(extendedComponentRef, () => setIsSearchOpen(false));
+  useOutsideClickSearch(extendedComponentRef, () => setIsSearchOpen(false));
 
   const searchInputLength = input.length;
 
@@ -61,16 +66,16 @@ const NavBar = ({ handleSearchInput }) => {
     });
 
   return (
-    <nav className=" w-[100%] row-span-1 col-span-3  flex justify-between items-center border-b border-l border-r border-gray-200">
-      <Link to="/articles">
+    <nav className=" w-[100%] row-span-1 col-span-3  flex justify-between items-center border-b border-l-none border-r-none sm:border-l sm:border-r  border-gray-200 dark:border-primary dark:bg-darkBg">
+      <Link to="/articles" onClick={handleScrollToTop}>
         <Logo />
       </Link>
       {width > 640 && (
-        <div className="relative">
+        <div className="relative ml-24 z-40">
           <Input searchInput={input} handleChange={handleSearchInput} />
           {isSearchOpen ? (
             searchInputLength > 0 && filteredArticlesArr.length > 0 ? (
-              <div className="w-[460px] max-h-[500px] shadow-xl overflow-y-auto z-50 sm:ml-8 bg-white absolute rounded-xl p-4">
+              <div className="top-[10px] w-[460px] max-h-[550px] shadow-xl overflow-y-auto scrollbar-hide z-30 sm:ml-8 bg-white dark:bg-secondaryBg absolute rounded-xl p-4">
                 <SearchBarList
                   articles={filteredArticlesArr}
                   searchInputLength={searchInputLength}
@@ -79,14 +84,14 @@ const NavBar = ({ handleSearchInput }) => {
             ) : isSearchOpen && searchInputLength < 1 ? (
               <div
                 ref={extendedComponentRef}
-                className="w-[460px] max-h-[560px] shadow-xl overflow-y-auto sm:ml-8 bg-white absolute rounded-xl p-4 z-50"
+                className="top-[10px]  w-[460px] max-h-[550px] shadow-xl overflow-y-auto sm:ml-8 bg-white dark:bg-secondaryBg absolute rounded-xl p-4 z-30 scrollbar-hide"
               >
                 <SearchBarList articles={searchBarList && searchBarList} />
               </div>
             ) : (
               <div
                 ref={extendedComponentRef}
-                className="w-[460px]  shadow-xl overflow-y-auto sm:ml-8 bg-white absolute rounded-xl p-4 z-50"
+                className="top-[10px] w-[460px] h-[550px]  shadow-xl overflow-y-auto sm:ml-8 bg-white dark:bg-secondaryBg  absolute rounded-xl p-4 z-30 scrollbar-hide"
               >
                 <p className="text-[0.85rem] text-primary sm:ml-2 sm:pt-4">
                   No results found...
@@ -96,9 +101,13 @@ const NavBar = ({ handleSearchInput }) => {
           ) : null}
         </div>
       )}
-      <div className="flex items-center mx-2.5 sm:mx-8 gap-3 sm:gap-8">
+      <div className="flex items-center mx-2.5 sm:mx-6 gap-3 sm:gap-6">
+        <ThemeToggleSwitch onClick={toggleTheme} />
         {width > 640 && (
-          <Button buttonStyle="buttonLarge" handleClick={handleSignOut}>
+          <Button
+            buttonStyle={theme === "dark" ? "buttonLargeDark" : "buttonLarge"}
+            handleClick={handleSignOut}
+          >
             {user.username ? "Sign Out" : "Sign In"}
           </Button>
         )}
@@ -132,7 +141,7 @@ const NavBar = ({ handleSearchInput }) => {
           ) : (
             <div>
               <CgProfile
-                className="avatarMobile sm:w-[58px] sm:h-[58px] border-none text-primary cursor-pointer"
+                className="avatarMobile w-[33px] h-[33px] sm:w-[58px]  sm:h-[58px] border-none text-primary cursor-pointer"
                 onClick={() => showModal(<SignIn />)}
               />
             </div>

@@ -6,6 +6,9 @@ import { SelectedTopicContext } from "../contexts/SelectedTopicContext";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useModal } from "../contexts/ModalContext";
+import { ArticleScrollContext } from "../contexts/ArticleScrollContext";
+import { useTheme } from "../contexts/ThemeContext";
+import { TopicsOpenContext } from "../contexts/TopicsOpenContext";
 
 const TopicAccordion = ({ handleTopicContainer }) => {
   const [topicIndex, setTopicIndex] = useState(null);
@@ -13,8 +16,11 @@ const TopicAccordion = ({ handleTopicContainer }) => {
   const [topics] = useState(categories);
 
   const { selectedTopic, setSelectedTopic } = useContext(SelectedTopicContext);
+  const { handleScrollToTop } = useContext(ArticleScrollContext);
   const { width } = useContext(ScreenSizeContext);
+  // const { theme } = useTheme();
   const { hideModal } = useModal();
+  const { setIsTopicsOpen } = useContext(TopicsOpenContext);
 
   function handleTopicToggle(index) {
     setTopicIndex((topicIndex) => (topicIndex === index ? null : index));
@@ -28,18 +34,32 @@ const TopicAccordion = ({ handleTopicContainer }) => {
 
   function handleTopicSelection(topic) {
     setSelectedTopic(topic.toLowerCase());
+    handleScrollToTop();
   }
 
   return (
-    <div className="w-full mb-2 mt-2 bg-white  rounded-xl pt-2 pb-2 sm:rounded-none sm:pt-0 ">
+    <div
+      className={`${
+        width < 640 ? "dark:bg-secondaryBg" : "dark:bg-darkBg"
+      } w-full mb-2 mt-2 bg-white dark:bg-darkBg rounded-xl pt-2 pb-2 sm:rounded-none sm:pt-0`}
+    >
       {width < 640 && (
-        <div className="w-full h-[50px]  border-b border-gray-200 flex items-center">
-          <h4 className="h-[44px] text-[14px] font-semibold text-primary ml-2 fixed">
+        <div
+          className={`${
+            width < 640 ? "dark:bg-secondaryBg" : "dark:bg-darkBg"
+          } w-full h-[50px]  border-b  border-gray-200 dark:border-primary flex items-center`}
+        >
+          <h4 className="h-[44px] text-[14px] font-semibold text-primary dark:text-darkTextPrimary ml-2 fixed">
             Select a topic
           </h4>
           <div
-            className="w-[30px] h-[30px]  flex justify-center items-center  bg-white rounded-full cursor-pointer absolute right-3 top-4"
-            onClick={hideModal}
+            className={`${
+              width < 640 ? "dark:bg-secondaryBg" : "dark:bg-darkBg"
+            } w-[30px] h-[30px]  flex justify-center items-center  bg-white rounded-full cursor-pointer absolute right-3 top-4`}
+            onClick={() => {
+              setIsTopicsOpen(false);
+              hideModal();
+            }}
           >
             <IoIosCloseCircleOutline className=" text-primary text-[28px] font-bold " />
           </div>
@@ -47,17 +67,25 @@ const TopicAccordion = ({ handleTopicContainer }) => {
       )}
       <div
         className={`${
-          width < 640 ? "overflow-y-scroll" : null
-        } w-[100%]  h-full`}
+          width < 640
+            ? "overflow-y-scroll scrollbar-hide dark:bg-secondaryBg"
+            : null
+        } w-[100%]  h-full bg-white dark:bg-darkBg`}
       >
         {topics.map((topic, index) => (
           <div key={index}>
             <div
               onClick={() => handleTopicToggle(index)}
               className={`${
-                topicIndex === index ? "bg-gray-100 font-semibold" : "bg-white"
+                topicIndex === index && width < 640
+                  ? "bg-gray-100 dark:bg-primary font-semibold"
+                  : topicIndex === index && width > 640
+                  ? "bg-gray-100 dark:bg-gray-800 font-semibold"
+                  : width < 640
+                  ? "bg-white dark:bg-secondaryBg"
+                  : "bg-white dark:bg-darkBg"
               } w-[100%] h-[2.5rem] flex 
-           items-center pl-2 border-b border-gray-200 text-primary text-[0.9rem] last:border-b-0 cursor-pointer `}
+           items-center pl-2 border-b border-gray-200 dark:border-primary dark:text-darkTextPrimary text-primary text-[0.9rem] last:border-b-0 cursor-pointer `}
             >
               {topic.category.length > 0 && (
                 <span
@@ -65,7 +93,7 @@ const TopicAccordion = ({ handleTopicContainer }) => {
                     topicIndex === index ? "rotate-90" : null
                   } mr-3`}
                 >
-                  <MdPlayArrow />
+                  <MdPlayArrow className="dark:text-primary" />
                 </span>
               )}
 
@@ -73,11 +101,14 @@ const TopicAccordion = ({ handleTopicContainer }) => {
             </div>
 
             {topicIndex === index && (
-              <div>
+              <div className="w-[100%]">
                 {topic.subcategories.map((subcategory, subIndex) => {
                   return (
                     <>
-                      <Link to={`/articles?topic=${subcategory.toLowerCase()}`}>
+                      <Link
+                        to={`/articles?topic=${subcategory.toLowerCase()}`}
+                        key={subIndex}
+                      >
                         <div
                           key={subIndex}
                           onClick={() => {
@@ -87,9 +118,11 @@ const TopicAccordion = ({ handleTopicContainer }) => {
                           }}
                           className={`${
                             subTopicIndex === subIndex
-                              ? "bg-gray-100 font-semibold"
-                              : "bg-white"
-                          } w-[90%] h-[2.4rem] flex items-center ml-auto pl-3 border-b border-gray-200 text-[0.8rem] text-primary cursor-pointer`}
+                              ? "bg-gray-100 dark:bg-gray-800 font-semibold"
+                              : width < 640
+                              ? "bg-white dark:bg-secondaryBg"
+                              : "bg-white dark:bg-darkBg"
+                          } w-[90%] h-[2.4rem] flex items-center ml-auto pl-3 border-b border-gray-200 dark:border-primary text-[0.8rem] text-primary dark:text-darkTextPrimary cursor-pointer`}
                         >
                           {subcategory}
                         </div>

@@ -1,15 +1,14 @@
 import { useEffect } from "react";
-import { useSearchToggle } from "../hooks/UseSearchOpenToggle";
+import { useSearchToggle } from "./UseSearchOpenToggle";
 
-function useOutsideClick(ref, callback) {
-  const { toggleSearchOpen } = useSearchToggle();
+function useOutsideClickCompose(ref, callback) {
+  // const { isComposeOpen, setIsComposeOpen } = useContext(ComposeOpenContext);
 
   useEffect(() => {
     function handleClickOutside(event) {
-      // Check if the click was outside of the referenced element
       if (ref.current && !ref.current.contains(event.target)) {
         // If it is outside, toggle the search open state and call the callback
-        toggleSearchOpen(); // This will handle the state toggle
+        // This will handle the state toggle
         callback(); // Call the provided callback function
       }
     }
@@ -23,9 +22,9 @@ function useOutsideClick(ref, callback) {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("touchstart", handleClickOutside);
     };
-  }, [ref, callback, toggleSearchOpen]);
+  }, [ref, callback]);
 
   // No dependencies need to be added here other than those used in the effect
 }
 
-export default useOutsideClick;
+export default useOutsideClickCompose;

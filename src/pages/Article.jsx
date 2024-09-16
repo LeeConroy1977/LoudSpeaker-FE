@@ -10,18 +10,22 @@ import { VoteCountContext } from "../contexts/VoteCountContext";
 import { CommentCountContext } from "../contexts/commentCountContext";
 import { DeletedCommentIdContext } from "../contexts/DeletedCommentIdContext";
 import { useApi } from "../contexts/ApiContext";
+import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
+import { useLoading } from "../contexts/LoadingContext";
 
 const Article = () => {
   const { article, setArticle } = useContext(MainArticleContext);
   const { isSearchOpen } = useContext(SearchOpenContext);
   const { width } = useContext(ScreenSizeContext);
+  const { comments, setComments } = useContext(ArticleCommentsContext);
   const { commentCount } = useContext(CommentCountContext);
   const { voteCount, setVoteCount } = useContext(VoteCountContext);
   const { deletedCommentId } = useContext(DeletedCommentIdContext);
   const { fetchArticle, fetchArticleComments, updateArticle } = useApi();
   const { article_id } = useParams();
   const [incVotes, setIncVotes] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { loadingStates } = useLoading();
 
   useEffect(() => {
     fetchArticle(article_id);
@@ -43,7 +47,7 @@ const Article = () => {
   return (
     <div>
       {width < 640 && isSearchOpen && <SearchContainer />}
-      {isLoading ? (
+      {loadingStates.article ? (
         <div className="w-[100%] h-[600px] flex items-center justify-center">
           <LoadingSpinner />
         </div>

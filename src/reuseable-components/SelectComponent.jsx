@@ -36,7 +36,7 @@ const SelectComponent = ({
     <div className="relative flex" ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
-        className="w-[110px] sm:w-[130px] p-2 pl-3 pr-3 mr-4 rounded-xl text-[10px] font-bold text-primary bg-gray-200 flex justify-between items-center"
+        className="w-[110px] sm:w-[130px] p-2 pl-3 pr-3 mr-4 rounded-xl text-[10px] font-bold text-primary bg-gray-100 dark:bg-secondaryBg dark:text-darkTextPrimary flex justify-between items-center"
       >
         {selectedOption
           ? optionArray.find((opt) => opt.sort === selectedOption)?.title ||
@@ -46,12 +46,12 @@ const SelectComponent = ({
       </button>
 
       {isOpen && (
-        <ul className="absolute left-0 top-[31px] w-full mt-1 rounded-lg bg-white shadow-lg z-10">
+        <ul className="absolute left-0 top-[31px] w-[110px] sm:w-[130px] mt-1 rounded-lg bg-white dark:bg-secondaryBg shadow-lg z-10">
           {optionArray.map((option, index) => (
             <li
               key={index}
               onClick={() => handleSelect(option.sort)}
-              className="p-2 text-[10px] font-bold text-primary hover:bg-primary hover:text-white cursor-pointer"
+              className="p-2 text-[10px] font-bold text-primary dark:text-darkTextPrimary hover:bg-primary hover:text-white dark:hover:text-white dark:hover:bg-primary cursor-pointer"
             >
               {option.title}
             </li>

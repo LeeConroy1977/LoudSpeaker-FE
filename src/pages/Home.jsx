@@ -14,6 +14,7 @@ const Home = ({ handleOnLoadMore, visible, isMainArticlesLoading }) => {
   const { width } = useContext(ScreenSizeContext);
   const { isSearchOpen } = useContext(SearchOpenContext);
   const { isComposeOpen } = useContext(ComposeOpenContext);
+  const [isDisabled, setIsDisabled] = useState(false);
   const divRef = useRef(null);
 
   return (
@@ -25,7 +26,11 @@ const Home = ({ handleOnLoadMore, visible, isMainArticlesLoading }) => {
 
       {width < 640 && !isComposeOpen && <OptionsContainer />}
       {width < 640 && !isComposeOpen && <FeaturedSection />}
-      {isComposeOpen ? <ComposeForm /> : width > 640 && <ComposeContainer />}
+      {isComposeOpen ? (
+        <ComposeForm isDisabled={isDisabled} setIsDisabled={setIsDisabled} />
+      ) : (
+        width > 640 && <ComposeContainer setIsDisabled={setIsDisabled} />
+      )}
       {width > 640 && !isComposeOpen && <OptionsContainer />}
       {isMainArticlesLoading ? (
         <div className="w-[100%] h-[400px] flex items-center justify-center">
