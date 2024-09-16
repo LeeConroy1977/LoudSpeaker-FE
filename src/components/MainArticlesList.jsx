@@ -33,12 +33,10 @@ const MainArticlesList = ({ handleOnLoadMore, visible, divRef }) => {
     handleOnLoadMore();
   };
 
-  console.log(isInitialRender, "firstRender");
-
   return (
     <div
       ref={articlesRef}
-      className={`relative sm:w-full sm:h-screen sm:overflow-auto mt-4 sm:mt-0 ${
+      className={`relative sm:w-full sm:h-screen sm:overflow-auto scrollbar-hide mt-4 sm:mt-0 ${
         isSearchOpen && width < 640 ? "bg-black bg-opacity-20" : ""
       }`}
     >
