@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { TbArrowBigDown } from "react-icons/tb";
 import { TbArrowBigUp } from "react-icons/tb";
-import { useParams } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import { useModal } from "../contexts/ModalContext";
 import SignIn from "../components/SignIn";
@@ -19,7 +18,7 @@ const VotesContainer = ({
   const { showModal } = useModal();
   const [voteStatus, setVoteStatus] = useState(null);
   const [voteCount, setVoteCount] = useState(initialVotes);
-  const [shouldSignIn, setShouldSignIn] = useState(handleShouldSignIn);
+  const [shouldSignIn] = useState(handleShouldSignIn);
   const article_id = article?.article_id;
 
   useEffect(() => {

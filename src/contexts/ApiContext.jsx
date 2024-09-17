@@ -18,7 +18,6 @@ import { VoteCountContext } from "./VoteCountContext";
 import {
   deleteArticleComment,
   getArticleComments,
-  postArticleComment,
 } from "../../utilities/api/commentsApi";
 import { useLoading } from "../contexts/LoadingContext";
 import { InitialRenderContext } from "./InitialRenderContext";
@@ -26,24 +25,17 @@ import { InitialRenderContext } from "./InitialRenderContext";
 const ApiContext = createContext();
 
 export const ApiProvider = ({ children }) => {
-  const { AllArticlesCount, setAllArticlesCount } = useContext(
-    AllArticlesCountContext
-  );
-  const { articles, setArticles } = useContext(ArticlesContext);
-  const { visible, setVisible } = useContext(VisibleContext);
-  const { totalArticles, setTotalArticles } = useContext(TotalArticlesContext);
-  const { filteredArticles, setFilteredArticles } = useContext(
-    FilteredArticlesContext
-  );
-  const { searchBarList, setSearchBarList } = useContext(SearchBarListContext);
-  const { featuredArticles, setFeaturedArticles } = useContext(
-    FeaturedArticlesContext
-  );
-  const { article, setArticle } = useContext(MainArticleContext);
+  const { setAllArticlesCount } = useContext(AllArticlesCountContext);
+  const { setArticles } = useContext(ArticlesContext);
+  const { setVisible } = useContext(VisibleContext);
+  const { setTotalArticles } = useContext(TotalArticlesContext);
+  const { setFilteredArticles } = useContext(FilteredArticlesContext);
+  const { setSearchBarList } = useContext(SearchBarListContext);
+  const { setFeaturedArticles } = useContext(FeaturedArticlesContext);
+  const { setArticle } = useContext(MainArticleContext);
   const { setComments } = useContext(ArticleCommentsContext);
   const { setCommentCount } = useContext(CommentCountContext);
-  const { voteCount, setVoteCount } = useContext(VoteCountContext);
-  const { setIsInitialRender } = useContext(InitialRenderContext);
+  const { setVoteCount } = useContext(VoteCountContext);
   const { loadingStates, setLoading } = useLoading();
 
   const fetchArticleCount = useCallback(
@@ -54,7 +46,7 @@ export const ApiProvider = ({ children }) => {
         })
         .catch(console.error);
     },
-    [setLoading, setAllArticlesCount]
+    []
   );
 
   const fetchFeaturedArticles = useCallback(
@@ -75,34 +67,35 @@ export const ApiProvider = ({ children }) => {
         console.error(error);
       }
     },
-    [setLoading, setFeaturedArticles]
+    []
   );
 
   const fetchAdditionalArticles = useCallback(
     (topicParam, sortByParam, orderParam, limit, page) => {
+      setLoading("article", true);
       getAllArticles(topicParam, sortByParam, orderParam, limit, page)
         .then((results) => {
           setArticles((prev) => [...prev, ...results.articles]);
           setVisible((prev) => prev + results.articles.length);
+          setLoading("article", false);
         })
         .catch(console.error);
     },
-    [setLoading, setArticles, setVisible]
+    []
   );
 
   const fetchArticles = useCallback(
     (topicParam, sortByParam, orderParam, limit, page) => {
-      setLoading("articles", true);
+      setLoading("article", true);
       getAllArticles(topicParam, sortByParam, orderParam, limit, page)
         .then((results) => {
           setArticles(results.articles);
           setTotalArticles(results.total_count.total_count);
-          setLoading("articles", false);
-          setIsInitialRender(false);
+          setLoading("article", false);
         })
         .catch(console.error);
     },
-    [setLoading, setArticles, setTotalArticles]
+    []
   );
 
   const fetchFilteredArticles = useCallback(
@@ -110,16 +103,14 @@ export const ApiProvider = ({ children }) => {
       getAllArticles(topicParam, sortByParam, orderParam, limit, page)
         .then((results) => {
           setFilteredArticles(results.articles);
-          setLoading("filteredArticles", false);
         })
         .catch(console.error);
     },
-    [setLoading, setFilteredArticles]
+    []
   );
 
   const fetchMostPopularArticles = useCallback(
     async (topicParam, sortByParam, orderParam, limit, page) => {
-      setLoading("mostPopularArticles", true);
       try {
         const mostPopularArticles = await getAllArticles(
           topicParam,
@@ -129,81 +120,51 @@ export const ApiProvider = ({ children }) => {
           page
         );
         setSearchBarList(mostPopularArticles.articles);
-        setLoading("mostPopularArticles", false);
       } catch (error) {
         console.error(error);
       }
     },
-    [setLoading, setSearchBarList]
+    []
   );
 
-  const fetchArticle = useCallback(
-    (article_id) => {
-      setLoading("article", true);
-      setComments([]);
-      getArticle(article_id)
-        .then((article) => {
-          setArticle(article);
-          setVoteCount(article.votes);
-          setCommentCount(article.comment_count);
-          setLoading("article", false);
-        })
-        .catch(console.error);
-    },
-    [setLoading, setArticle, setVoteCount, setCommentCount, setComments]
-  );
+  const fetchArticle = useCallback((article_id) => {
+    setLoading("mainArticle", true);
+    getArticle(article_id)
+      .then((article) => {
+        setArticle(article);
+        setVoteCount(article.votes);
+        setCommentCount(article.comment_count);
+        setLoading("mainArticle", false);
+      })
+      .catch(console.error);
+  }, []);
 
-  const fetchArticleComments = useCallback(
-    (article_id) => {
-      setComments([]);
-      getArticleComments(article_id)
-        .then((articleComments) => {
-          setComments(articleComments);
-        })
-        .catch(console.error);
-    },
-    [setComments]
-  );
+  const fetchArticleComments = useCallback((article_id) => {
+    setComments([]);
+    getArticleComments(article_id)
+      .then((articleComments) => {
+        setComments(articleComments);
+      })
+      .catch(console.error);
+  }, []);
 
-  const updateArticle = useCallback(
-    (article_id, incVotes) => {
-      patchArticle(article_id, incVotes)
-        .then((article) => {
-          setVoteCount(article.votes);
-        })
-        .catch(() => {
-          setVoteCount((prev) => prev - incVotes);
-        })
-        .finally(() => {
-          setLoading("updateArticle", false);
-        });
-    },
-    [setLoading, setVoteCount]
-  );
+  const updateArticle = useCallback((article_id, incVotes) => {
+    patchArticle(article_id, incVotes)
+      .then((article) => {
+        setVoteCount(article.votes);
+      })
+      .catch(() => {
+        setVoteCount((prev) => prev - incVotes);
+      });
+  }, []);
 
-  const deleteComment = useCallback(
-    (article_id) => {
-      deleteArticleComment(article_id)
-        .then(() => {
-          setCommentCount((count) => count - 1);
-        })
-        .catch(console.error);
-    },
-    [setLoading, setCommentCount]
-  );
-
-  const createArticleComment = useCallback(
-    (article_id, body, username) => {
-      setComments([]);
-      postArticleComment(article_id, body, username)
-        .then((comment) => {
-          setComments((comments) => [comment, ...comments]);
-          setCommentCount((count) => count + 1);
-        })
-        .catch(console.error);
-    },
-    [setLoading, setComments, setCommentCount]
-  );
+  const deleteComment = useCallback((article_id) => {
+    deleteArticleComment(article_id)
+      .then(() => {
+        setCommentCount((count) => count - 1);
+      })
+      .catch(console.error);
+  }, []);
 
   return (
     <ApiContext.Provider
@@ -218,7 +179,6 @@ export const ApiProvider = ({ children }) => {
         fetchArticleComments,
         updateArticle,
         deleteComment,
-        createArticleComment,
         loadingStates,
       }}
     >
@@ -227,7 +187,6 @@ export const ApiProvider = ({ children }) => {
   );
 };
 
-// Custom hook to use the API context
 export const useApi = () => {
   const context = useContext(ApiContext);
   if (!context) {

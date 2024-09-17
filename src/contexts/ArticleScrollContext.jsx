@@ -1,19 +1,21 @@
+// ArticleScrollContext.js
 import React, { createContext, useRef } from "react";
 
-// Create the ScrollContext
 export const ArticleScrollContext = createContext();
 
 export const ArticleScrollProvider = ({ children }) => {
   const articlesRef = useRef(null);
 
-  // Define the scroll-to-top function
   const handleScrollToTop = () => {
     console.log("Scrolling to:", articlesRef.current);
+
     if (articlesRef.current) {
-      articlesRef.current.scrollIntoView({
+      articlesRef.current.scrollTo({
+        top: 0,
         behavior: "smooth",
-        block: "start",
       });
+    } else {
+      console.error("articlesRef reference is not defined");
     }
   };
 

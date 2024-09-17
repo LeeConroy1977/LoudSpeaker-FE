@@ -25,13 +25,7 @@ const topics = [
   },
   {
     category: "Literature",
-    subcategories: [
-      "Classics",
-      "Dystopian fiction",
-      "Fantasy",
-      "Non-fiction",
-      "Science fiction",
-    ],
+    subcategories: ["Classics", "Dystopian fiction", "Fantasy", "Non-fiction"],
   },
   {
     category: "Movies",
@@ -78,7 +72,7 @@ const topics = [
   },
   {
     category: "Technology",
-    subcategories: ["A.I.", "Electronics", "Programming"],
+    subcategories: ["Electronics", "Programming"],
   },
   {
     category: "Travel",

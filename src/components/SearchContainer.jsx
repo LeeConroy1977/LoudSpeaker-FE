@@ -1,6 +1,5 @@
 import React, { useContext, useRef } from "react";
 import Input from "./Input";
-import articlesArray from "../../data/articles";
 import useOutsideClickSearch from "../hooks/useOutsideClickSearch";
 import SearchBarList from "./SearchBarList";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
@@ -53,7 +52,7 @@ const SearchContainer = () => {
         searchInputLength > 0 && filteredArticlesArr.length > 0 ? (
           <div
             ref={width > 640 ? extendedComponentRef : null}
-            className="w-[360px] h-[600px] shadow-xl overflow-y-auto scrollbar-hide sm:ml-8 bg-white dark:bg-gray-800 absolute rounded-xl p-4 top-[15px]"
+            className="w-[360px] h-[600px] shadow-xl overflow-y-auto scrollbar-hide sm:ml-8 bg-white dark:bg-gray-800 absolute rounded-xl p-4 top-[15px] z-40"
           >
             <SearchBarList
               articles={filteredArticlesArr}
@@ -63,14 +62,14 @@ const SearchContainer = () => {
         ) : isSearchOpen && searchInputLength < 1 ? (
           <div
             ref={width > 640 ? extendedComponentRef : null}
-            className="w-[360px] h-[600px] shadow-xl overflow-y-auto scrollbar-hide sm:ml-8  absolute rounded-xl p-4 pb-4  bg-white dark:bg-gray-800 top-[15px]"
+            className="w-[360px] h-[600px] shadow-xl overflow-y-auto scrollbar-hide sm:ml-8  absolute rounded-xl p-4 pb-4 z-40  bg-white dark:bg-gray-800 top-[15px]"
           >
             <SearchBarList articles={searchBarList && searchBarList} />
           </div>
         ) : (
           <div
             ref={width > 640 ? extendedComponentRef : null}
-            className="w-[360px] h-[600px] shadow-xl overflow-y-auto scrollbar-hide sm:ml-8  absolute rounded-xl p-4  bg-white dark:bg-gray-800 top-[15px]"
+            className="w-[360px] h-[600px] shadow-xl overflow-y-auto scrollbar-hide sm:ml-8  absolute rounded-xl p-4 z-40 bg-white dark:bg-gray-800 top-[15px]"
           >
             <p className="text-[0.85rem] text-primary dark:text-darkTextPrimary mt-6 ">
               No results found...

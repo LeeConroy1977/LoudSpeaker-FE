@@ -7,18 +7,16 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useModal } from "../contexts/ModalContext";
 import { ArticleScrollContext } from "../contexts/ArticleScrollContext";
-import { useTheme } from "../contexts/ThemeContext";
 import { TopicsOpenContext } from "../contexts/TopicsOpenContext";
 
-const TopicAccordion = ({ handleTopicContainer }) => {
+const TopicAccordion = () => {
   const [topicIndex, setTopicIndex] = useState(null);
   const [subTopicIndex, setSubTopicIndex] = useState(null);
   const [topics] = useState(categories);
 
-  const { selectedTopic, setSelectedTopic } = useContext(SelectedTopicContext);
+  const { setSelectedTopic } = useContext(SelectedTopicContext);
   const { handleScrollToTop } = useContext(ArticleScrollContext);
   const { width } = useContext(ScreenSizeContext);
-  // const { theme } = useTheme();
   const { hideModal } = useModal();
   const { setIsTopicsOpen } = useContext(TopicsOpenContext);
 
@@ -46,8 +44,8 @@ const TopicAccordion = ({ handleTopicContainer }) => {
       {width < 640 && (
         <div
           className={`${
-            width < 640 ? "dark:bg-secondaryBg" : "dark:bg-darkBg"
-          } w-full h-[50px]  border-b  border-gray-200 dark:border-primary flex items-center`}
+            width < 640 ? " dark:bg-secondaryBg" : "dark:bg-darkBg"
+          } w-full h-[40px] sm-h-[50px]  border-b  border-gray-200 dark:border-primary flex items-center`}
         >
           <h4 className="h-[44px] text-[14px] font-semibold text-primary dark:text-darkTextPrimary ml-2 fixed">
             Select a topic

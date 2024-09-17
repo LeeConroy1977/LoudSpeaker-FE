@@ -27,7 +27,7 @@ import { CommentCountProvider } from "./contexts/commentCountContext.jsx";
 import { DeletedCommentIdProvider } from "./contexts/DeletedCommentIdContext.jsx";
 import { PostCommentOpenProvider } from "./contexts/PostCommentOpenContext.jsx";
 import { UserCommentProvider } from "./contexts/UserCommentContext.jsx";
-import { LoadingProvider } from "./contexts/LoadingContext.jsx"; // Import LoadingProvider
+import { LoadingProvider } from "./contexts/LoadingContext.jsx";
 import { ThemeProvider } from "./contexts/ThemeContext.jsx";
 import { TopicsOpenProvider } from "./contexts/TopicsOpenContext.jsx";
 import { InitialRenderProvider } from "./contexts/InitialRenderContext.jsx";

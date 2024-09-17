@@ -6,6 +6,7 @@ import { CommentScrollContext } from "../contexts/CommentScrollContext";
 const ArticleCommentsList = () => {
   const { comments } = useContext(ArticleCommentsContext);
   const { commentsRef } = useContext(CommentScrollContext);
+
   return (
     <div ref={commentsRef} className="mb-4">
       {comments.map((comment) => {

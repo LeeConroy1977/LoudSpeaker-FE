@@ -30,11 +30,9 @@ const AppLayout = ({
     <div className={containerClasses}>
       <NavBar handleSearchInput={handleSearchInput} searchInput={searchInput} />
       {width > 640 && <TopicSection />}
-
       <main className={mainClasses}>
         <Outlet />
       </main>
-
       {width > 640 && (
         <FeaturedSection handleSelectedArticle={handleSelectedArticle} />
       )}

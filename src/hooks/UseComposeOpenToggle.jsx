@@ -13,11 +13,11 @@ const useComposeToggle = () => {
       setIsSearchOpen(false);
     }
     if (user.username) {
-      setIsComposeOpen(!isComposeOpen);
+      setIsComposeOpen((isComposeOpen) => !isComposeOpen);
       setIsSearchOpen(false);
     }
   };
-  console.log(isComposeOpen);
+
   return {
     toggleComposeOpen,
   };

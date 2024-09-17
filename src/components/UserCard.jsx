@@ -3,7 +3,7 @@ import Avatar from "../reuseable-components/Avatar";
 import { UserContext } from "../contexts/UserContext";
 
 const UserCard = ({ person, handleClick, avatarStyle, handleMouseEnter }) => {
-  const { username, name, avatar_url } = person;
+  const { username, avatar_url } = person;
 
   const { user } = useContext(UserContext);
 

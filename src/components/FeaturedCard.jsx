@@ -12,11 +12,9 @@ const FeaturedCard = ({ article }) => {
   const { title, article_img_url, author, votes, comment_count } = article;
   const { existingUsers } = useContext(ExistingUserContext);
   const { isSearchOpen } = useContext(SearchOpenContext);
-
   const user = existingUsers.find((user) => user.username === author);
   const userAvatar = user ? user.avatar_url : null;
   const name = user ? user.name : "";
-
   const reducedTitle = title.split(" ").slice(0, 6).join(" ");
 
   return (
@@ -37,7 +35,6 @@ const FeaturedCard = ({ article }) => {
               </h4>
             </>
           )}
-
           {width > 640 && (
             <>
               <div className="w-full h-[38px] items-center flex absolute top-[98px] pl-2">

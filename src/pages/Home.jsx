@@ -9,19 +9,18 @@ import ComposeForm from "../components/ComposeForm";
 import LoadingSpinner from "../reuseable-components/LoadingSpinner";
 import { SearchOpenContext } from "../contexts/SearchOpenContext";
 import { ComposeOpenContext } from "../contexts/ComposeOpenContext";
+import { useLoading } from "../contexts/LoadingContext";
 
-const Home = ({ handleOnLoadMore, visible, isMainArticlesLoading }) => {
+const Home = ({ handleOnLoadMore, visible }) => {
   const { width } = useContext(ScreenSizeContext);
   const { isSearchOpen } = useContext(SearchOpenContext);
   const { isComposeOpen } = useContext(ComposeOpenContext);
   const [isDisabled, setIsDisabled] = useState(false);
+  const { loadingStates } = useLoading();
   const divRef = useRef(null);
 
   return (
-    <div
-      className="sm:col-span-1 sm:row-span-1 sm:overflow-hidden flex flex-col h-auto"
-      ref={divRef}
-    >
+    <div className="sm:col-span-1 sm:row-span-1 overflow-y-auto  flex flex-col h-auto">
       {width < 640 && !isComposeOpen && isSearchOpen && <SearchContainer />}
 
       {width < 640 && !isComposeOpen && <OptionsContainer />}
@@ -32,8 +31,8 @@ const Home = ({ handleOnLoadMore, visible, isMainArticlesLoading }) => {
         width > 640 && <ComposeContainer setIsDisabled={setIsDisabled} />
       )}
       {width > 640 && !isComposeOpen && <OptionsContainer />}
-      {isMainArticlesLoading ? (
-        <div className="w-[100%] h-[400px] flex items-center justify-center">
+      {loadingStates.article ? (
+        <div className="flex items-center justify-center w-[100%] h-[300px] sm:h-[600px] ">
           <LoadingSpinner />
         </div>
       ) : (

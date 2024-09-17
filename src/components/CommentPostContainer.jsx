@@ -9,18 +9,23 @@ import { useModal } from "../contexts/ModalContext";
 import SignIn from "./SignIn";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { PopupContext } from "../contexts/PopupContext";
-import { UserCommentContext } from "../contexts/UserCommentContext";
 import { CommentScrollContext } from "../contexts/CommentScrollContext";
+import { CommentCountContext } from "../contexts/commentCountContext";
+import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
+
+import { useParams } from "react-router-dom";
+import { postArticleComment } from "../../utilities/api/commentsApi";
 
 const CommentPostContainer = () => {
   const { width } = useContext(ScreenSizeContext);
   const { user } = useContext(UserContext);
+  const { article_id } = useParams();
   const { isPostCommentOpen, setIsPostCommentOpen } = useContext(
     PostCommentOpenContext
   );
   const { commentsRef, handleScrollToTop } = useContext(CommentScrollContext);
-
-  const { setUserComment } = useContext(UserCommentContext);
+  const { setCommentCount } = useContext(CommentCountContext);
+  const { setComments } = useContext(ArticleCommentsContext);
   const { showModal } = useModal();
   const [commentBody, setCommentBody] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
@@ -30,14 +35,26 @@ const CommentPostContainer = () => {
     handleIsDisabled();
   }, [user, isPostCommentOpen, commentBody]);
 
-  function handleCommentSubmit(e) {
+  const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    if (commentBody.length === 0) return;
-    setUserComment({ body: commentBody });
-    setCommentBody("");
-    setIsPostCommentOpen(false);
-    showPopup("Comment posted successfully!");
-  }
+    if (commentBody.trim().length === 0) return;
+
+    try {
+      const newComment = await postArticleComment(
+        article_id,
+        commentBody,
+        user.username
+      );
+      setComments((prevComments) => [newComment, ...prevComments]);
+      setCommentCount((prev) => prev + 1);
+      showPopup("Comment posted successfully!");
+      setCommentBody("");
+      setIsPostCommentOpen(false);
+    } catch (error) {
+      console.error("Error posting comment:", error);
+      showPopup("Failed to post comment.");
+    }
+  };
 
   function handlePostCommentOpen() {
     if (!user.username) {
