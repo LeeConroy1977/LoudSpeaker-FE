@@ -5,6 +5,7 @@ import VotesContainer from "../reuseable-components/VotesContainer.jsx";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext.jsx";
 import { Link } from "react-router-dom";
 import UserDetail from "../reuseable-components/UserDetail.jsx";
+import LoadingSpinner from "../reuseable-components/LoadingSpinner";
 
 const MainArticlesCard = ({ article, users }) => {
   const { width } = useContext(ScreenSizeContext);
@@ -62,11 +63,15 @@ const MainArticlesCard = ({ article, users }) => {
         <h3 className=" font-bold text-[0.85rem] sm:text-[0.9rem] text-gray-950 dark:text-darkTextPrimary ml-1 mt-3 sm:mt-0 sm:ml-[62px] sm:mr-0 sm:pb-1">
           {title}
         </h3>
-        <img
-          src={article_img_url}
-          alt=""
-          className="w-full h-[200px] sm:w-[90%] sm:h-[330px] pr-1 ml-1 sm:mr-0 mt-2 sm:mt-1 mb-1 sm:ml-auto rounded-xl cursor-pointer"
-        />
+        {!article_img_url ? (
+          <LoadingSpinner />
+        ) : (
+          <img
+            src={article_img_url}
+            alt=""
+            className="w-full h-[200px] sm:w-[90%] sm:h-[330px] pr-1 ml-1 sm:mr-0 mt-2 sm:mt-1 mb-1 sm:ml-auto rounded-xl cursor-pointer"
+          />
+        )}
       </div>
     </Link>
   );

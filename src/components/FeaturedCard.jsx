@@ -6,6 +6,7 @@ import CommentsContainer from "../reuseable-components/CommentsContainer";
 import { ExistingUserContext } from "../contexts/ExistingUsersContext";
 import { Link } from "react-router-dom";
 import { SearchOpenContext } from "../contexts/SearchOpenContext";
+import LoadingSpinner from "../reuseable-components/LoadingSpinner";
 
 const FeaturedCard = ({ article }) => {
   const { width } = useContext(ScreenSizeContext);
@@ -24,12 +25,16 @@ const FeaturedCard = ({ article }) => {
           {isSearchOpen && width < 640 ? null : (
             <>
               <div className="absolute inset-0 bg-black bg-opacity-25 flex flex-col justify-center items-center text-center p-4 rounded-lg"></div>
+              {!article_img_url ? (
+                <LoadingSpinner />
+              ) : (
+                <img
+                  className="h-full w-full rounded-lg"
+                  src={article_img_url}
+                  alt=""
+                />
+              )}
 
-              <img
-                className="h-full w-full rounded-lg"
-                src={article_img_url}
-                alt=""
-              />
               <h4 className="absolute top-16 sm:top-20 left-0 px-2 text-gray-200 dark:text-darkTextPrimary text-[9.5px] sm:text-[12px] sm:font-bold">
                 {reducedTitle}...
               </h4>
