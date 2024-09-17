@@ -8,7 +8,6 @@ import UserDetail from "../reuseable-components/UserDetail.jsx";
 
 const MainArticlesCard = ({ article, users }) => {
   const { width } = useContext(ScreenSizeContext);
-
   const {
     title,
     author,
@@ -18,7 +17,6 @@ const MainArticlesCard = ({ article, users }) => {
     comment_count,
     article_id,
   } = article;
-
   let userAvatar;
   let name;
 

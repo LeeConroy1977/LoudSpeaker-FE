@@ -20,7 +20,6 @@ const ArticleCommentsCard = ({ comment }) => {
   const [commentId, setCommentId] = useState(null);
   const [voteCount, setVoteCount] = useState(votes);
   const [incVotes, setIncVotes] = useState(0);
-
   const isFirst = useRef(true);
 
   console.log(commentId);
@@ -48,7 +47,6 @@ const ArticleCommentsCard = ({ comment }) => {
     setIncVotes(change);
     setVoteCount(voteCount + change);
   };
-
   const userObj = existingUsers.find((user) => user.username === author);
   const userAvatar = userObj ? userObj.avatar_url : null;
   const name = userObj ? userObj.name : "";

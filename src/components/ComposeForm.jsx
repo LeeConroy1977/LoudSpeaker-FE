@@ -10,9 +10,9 @@ import { postArticle } from "../../utilities/api/articlesApi";
 import { ArticlesContext } from "../contexts/ArticlesContext";
 import { PopupContext } from "../contexts/PopupContext";
 import useComposeToggle from "../hooks/UseComposeOpenToggle";
-
 import { ComposeOpenContext } from "../contexts/ComposeOpenContext";
 import useOutsideClickCompose from "../hooks/UseOutsideClickCompose";
+import { PostCommentOpenContext } from "../contexts/PostCommentOpenContext";
 
 const ComposeForm = ({ isDisabled, setIsDisabled }) => {
   const { width } = useContext(ScreenSizeContext);
@@ -23,6 +23,7 @@ const ComposeForm = ({ isDisabled, setIsDisabled }) => {
   const [selectedTopic, setSelectedTopic] = useState("");
   const [selectedSubTopic, setSelectedSubTopic] = useState("");
   const [subTopicOptions, setSubTopicOptions] = useState([]);
+  const { setIsPostCommentOpen } = useContext(PostCommentOpenContext);
   const [isValidatedObj, setIsValidatedObj] = useState({
     topic: null,
     title: null,
@@ -121,8 +122,8 @@ const ComposeForm = ({ isDisabled, setIsDisabled }) => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    setIsSubmitted(true); // Set form submission flag
-    handleValidateForm(); // Validate on submit
+    setIsSubmitted(true);
+    handleValidateForm();
 
     if (
       isValidatedObj.title &&
@@ -181,7 +182,10 @@ const ComposeForm = ({ isDisabled, setIsDisabled }) => {
           />
         </div>
         <IoIosCloseCircleOutline
-          onClick={toggleComposeOpen}
+          onClick={() => {
+            setIsPostCommentOpen(false);
+            toggleComposeOpen();
+          }}
           className="w-[1.8rem] h-[1.8rem] mb-auto text-primary cursor-pointer"
         />
       </div>
@@ -263,17 +267,9 @@ const ComposeForm = ({ isDisabled, setIsDisabled }) => {
           handleDisabled={isDisabled}
           buttonStyle={
             isDisabled
-              ? "buttonMobileDisabled bg-gray-100 dark:bg-secondaryBg dark:text-gray-400"
+              ? "buttonMobileDisabled bg-gray-200 dark:bg-secondaryBg dark:text-gray-400"
               : "buttonMobile dark:bg-primary dark:text-darkTextPrimary"
           }
-          // handleClick={handleSubmit}
-          // buttonStyle={`${
-          //   width < 640
-          //     ? "buttonMobile"
-          //     : theme === "dark"
-          //     ? "buttonMediumDark"
-          //     : "buttonMedium"
-          // }`}
         >
           Post
         </Button>

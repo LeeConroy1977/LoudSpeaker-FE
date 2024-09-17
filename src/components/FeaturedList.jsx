@@ -4,7 +4,6 @@ import { FeaturedArticlesContext } from "../contexts/FeaturedArticlesContext";
 
 const FeaturedList = ({ handleSelectedArticle }) => {
   const { featuredArticles } = useContext(FeaturedArticlesContext);
-  console.log(featuredArticles);
 
   const sortedFeaturedArticles = featuredArticles.sort(
     (a, b) => b.votes - a.votes

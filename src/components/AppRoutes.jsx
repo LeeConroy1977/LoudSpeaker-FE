@@ -6,16 +6,14 @@ import Article from "../pages/Article";
 import { SearchParamsContext } from "../contexts/searchParamsContext";
 import { useApi } from "../contexts/ApiContext";
 import { VisibleContext } from "../contexts/VisibleContext";
-import { ArticlesContext } from "../contexts/ArticlesContext";
 import { AllArticlesCountContext } from "../contexts/AllArticlesCountContext";
-import { InitialRenderContext } from "../contexts/InitialRenderContext";
+import { CommentCountContext } from "../contexts/commentCountContext";
+import { VoteCountContext } from "../contexts/VoteCountContext";
 
 const AppRoutes = () => {
   const { AllArticlesCount } = useContext(AllArticlesCountContext);
   const { searchParams } = useContext(SearchParamsContext);
   const { visible } = useContext(VisibleContext);
-  const { articles } = useContext(ArticlesContext);
-  // const { setIsInitialRender } = useContext(InitialRenderContext);
   const {
     fetchArticleCount,
     fetchAdditionalArticles,
@@ -28,12 +26,11 @@ const AppRoutes = () => {
   const sortByParam = searchParams.get("sort_by");
   const orderParam = searchParams.get("order");
   const [searchInput] = useState("");
-  const [commentCount, setCommentCount] = useState(null);
-  const [isMainArticlesLoading, setIsMainArticlesLoading] = useState(false);
+  const { commentCount, setCommentCount } = useContext(CommentCountContext);
+  const { voteCount } = useContext(VoteCountContext);
+  const [isMainArticlesLoading] = useState(false);
   const [limit] = useState(12);
   const [page, setPage] = useState(1);
-
-  console.log(AllArticlesCount && AllArticlesCount);
 
   useEffect(() => {
     fetchArticleCount(topicParam, sortByParam, orderParam, limit, page);
@@ -45,7 +42,7 @@ const AppRoutes = () => {
 
   useEffect(() => {
     fetchArticles(topicParam, sortByParam, orderParam, limit, page);
-  }, [topicParam, sortByParam, orderParam, commentCount]);
+  }, [topicParam, sortByParam, orderParam, commentCount, voteCount]);
 
   useEffect(() => {
     fetchFilteredArticles(null, null, null, AllArticlesCount, null);

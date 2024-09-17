@@ -23,6 +23,8 @@ import SignOut from "./SignOut";
 import { ArticleScrollContext } from "../contexts/ArticleScrollContext";
 import { useTheme } from "../contexts/ThemeContext";
 import ThemeToggleSwitch from "./ThemeToggleSwitch";
+import { ComposeOpenContext } from "../contexts/ComposeOpenContext";
+import { PostCommentOpenContext } from "../contexts/PostCommentOpenContext";
 
 const NavBar = ({ handleSearchInput }) => {
   const { width } = useContext(ScreenSizeContext);
@@ -30,12 +32,15 @@ const NavBar = ({ handleSearchInput }) => {
   const { input, setInput } = useContext(SearchBarInputContext);
   const { searchBarList } = useContext(SearchBarListContext);
   const { isSearchOpen, setIsSearchOpen } = useContext(SearchOpenContext);
+  const { setIsPostCommentOpen } = useContext(
+    PostCommentOpenContext
+  );
   const { toggleSearchOpen } = useSearchToggle();
   const { toggleComposeOpen } = useComposeToggle();
   const { filteredArticles } = useContext(FilteredArticlesContext);
   const { handleScrollToTop } = useContext(ArticleScrollContext);
   const { article_id } = useParams();
-  const { showModal } = useModal();
+  const { showModal, isModalOpen } = useModal();
   const extendedComponentRef = useRef(null);
   const { theme, toggleTheme } = useTheme();
 
@@ -71,7 +76,7 @@ const NavBar = ({ handleSearchInput }) => {
         <Logo />
       </Link>
       {width > 640 && (
-        <div className="relative ml-24 z-40">
+        <div className={`${!isModalOpen ? "z-40" : "z-0"} relative ml-24`}>
           <Input searchInput={input} handleChange={handleSearchInput} />
           {isSearchOpen ? (
             searchInputLength > 0 && filteredArticlesArr.length > 0 ? (
@@ -122,6 +127,7 @@ const NavBar = ({ handleSearchInput }) => {
             className="w-7 h-7 text-primary cursor-pointer"
             onClick={() => {
               !user.username && showModal(<SignIn />);
+              setIsPostCommentOpen(true);
               toggleComposeOpen();
             }}
           />
@@ -130,13 +136,13 @@ const NavBar = ({ handleSearchInput }) => {
           {user.username && width < 640 ? (
             <Avatar
               avatarURL={user.avatar_url}
-              avatarStyle="avatarMobileNav sm:avatarLarge"
+              avatarStyle="avatarMobileNav sm:avatarLarge "
               handleClick={() => showModal(<SignOut />)}
             />
           ) : user.username ? (
             <Avatar
               avatarURL={user.avatar_url}
-              avatarStyle="avatarMobileNav sm:avatarLarge"
+              avatarStyle="avatarMobileNav sm:avatarLarge cursor-pointer"
             />
           ) : (
             <div>

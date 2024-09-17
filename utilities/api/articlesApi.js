@@ -44,7 +44,6 @@ export async function getAllArticles(
 export async function getArticle(id) {
   try {
     const { data } = await loudSpeakerApi.get(`/api/articles/${id}`);
-    console.log(data, "data<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
     return data.article;
   } catch (error) {
     console.error("Error fetching article:", error);

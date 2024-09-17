@@ -12,7 +12,6 @@ const SignIn = () => {
   const [isFocusedIndex, setIsFocusedIndex] = useState(null);
   const { user, setUser } = useContext(UserContext);
   const { width } = useContext(ScreenSizeContext);
-
   const { hideModal } = useModal();
 
   useEffect(() => {}, [handleSelectUser]);

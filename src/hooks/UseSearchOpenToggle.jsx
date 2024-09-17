@@ -14,8 +14,6 @@ export const useSearchToggle = () => {
     setIsComposeOpen(false);
   };
 
-  console.log(isSearchOpen);
-
   return {
     toggleSearchOpen,
   };

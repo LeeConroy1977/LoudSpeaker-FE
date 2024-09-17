@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-
+import React, { useContext, useEffect } from "react";
 import MainArticlesCard from "./MainArticlesCard";
 import { ArticlesContext } from "../contexts/ArticlesContext";
 import { ExistingUserContext } from "../contexts/ExistingUsersContext";
@@ -9,25 +8,22 @@ import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import { TotalArticlesContext } from "../contexts/TotalArticlesContext";
 import { ArticleScrollContext } from "../contexts/ArticleScrollContext";
 import { useLoading } from "../contexts/LoadingContext";
-import LoadingSpinner from "../reuseable-components/LoadingSpinner"; // Ensure this import is correct
-import IntroLoader from "./IntroLoader";
+import LoadingSpinner from "../reuseable-components/LoadingSpinner";
 import { InitialRenderContext } from "../contexts/InitialRenderContext";
 
-const MainArticlesList = ({ handleOnLoadMore, visible, divRef }) => {
+const MainArticlesList = ({ handleOnLoadMore, visible }) => {
   const { articles } = useContext(ArticlesContext);
   const { existingUsers } = useContext(ExistingUserContext);
   const { isSearchOpen } = useContext(SearchOpenContext);
   const { width } = useContext(ScreenSizeContext);
   const { totalArticles } = useContext(TotalArticlesContext);
   const { articlesRef, handleScrollToTop } = useContext(ArticleScrollContext);
-  const { isInitialRender, setIsInitialRender } =
-    useContext(InitialRenderContext);
-
   const { loadingStates } = useLoading();
+  const { setIsInitialRender } = useContext(InitialRenderContext);
 
   useEffect(() => {
     setIsInitialRender(true);
-  }, []);
+  }, [setIsInitialRender]);
 
   const handleLoadMoreClick = () => {
     handleOnLoadMore();
@@ -40,11 +36,11 @@ const MainArticlesList = ({ handleOnLoadMore, visible, divRef }) => {
         isSearchOpen && width < 640 ? "bg-black bg-opacity-20" : ""
       }`}
     >
-      {isInitialRender && loadingStates.mainArticle ? (
-        <IntroLoader />
-      ) : !isInitialRender && loadingStates.mainArticle ? (
-        <LoadingSpinner />
-      ) : articles && existingUsers && articles.length > 0 ? (
+      {loadingStates.article ? (
+        <div className="flex items-center width < 640 justify-center w-[100%] h-[300px] sm:h-[600px]">
+          <LoadingSpinner />
+        </div>
+      ) : existingUsers && articles.length > 0 ? (
         articles.map((article) => (
           <MainArticlesCard
             key={article.article_id}
@@ -52,13 +48,9 @@ const MainArticlesList = ({ handleOnLoadMore, visible, divRef }) => {
             users={existingUsers}
           />
         ))
-      ) : (
-        <div className="w-[100%] h-[600px] flex items-center justify-center">
-          <LoadingSpinner />
-        </div>
-      )}
+      ) : null}
 
-      <div className="w-[100%] h-[80px] sm:h-[60px] flex items-center justify-center">
+      <div className="w-full h-16 sm:h-14 flex items-center justify-center">
         {totalArticles > 0 ? (
           visible < totalArticles ? (
             <Button
@@ -67,7 +59,7 @@ const MainArticlesList = ({ handleOnLoadMore, visible, divRef }) => {
             >
               Load More Articles
             </Button>
-          ) : totalArticles === 0 ? null : (
+          ) : (
             <Button
               buttonStyle="buttonMediumShowMore"
               handleClick={handleScrollToTop}
