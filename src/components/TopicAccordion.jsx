@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import categories from "../../data/categories";
 import { MdPlayArrow } from "react-icons/md";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
-import { SelectedTopicContext } from "../contexts/SelectedTopicContext";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useModal } from "../contexts/ModalContext";
@@ -13,8 +12,6 @@ const TopicAccordion = () => {
   const [topicIndex, setTopicIndex] = useState(null);
   const [subTopicIndex, setSubTopicIndex] = useState(null);
   const [topics] = useState(categories);
-
-  const { setSelectedTopic } = useContext(SelectedTopicContext);
   const { handleScrollToTop } = useContext(ArticleScrollContext);
   const { width } = useContext(ScreenSizeContext);
   const { hideModal } = useModal();
@@ -30,8 +27,7 @@ const TopicAccordion = () => {
     );
   }
 
-  function handleTopicSelection(topic) {
-    setSelectedTopic(topic.toLowerCase());
+  function handleTopicSelection() {
     handleScrollToTop();
   }
 
@@ -39,14 +35,12 @@ const TopicAccordion = () => {
     <div
       className={`${
         width < 640 ? "dark:bg-secondaryBg" : "dark:bg-darkBg"
-      } w-full mb-2 mt-2 bg-white dark:bg-darkBg rounded-xl pt-2 pb-2 sm:rounded-none sm:pt-0`}
-    >
+      } w-full mb-2 mt-2 bg-white dark:bg-darkBg rounded-xl pt-2 pb-2 sm:rounded-none sm:pt-0`}>
       {width < 640 && (
         <div
           className={`${
             width < 640 ? " dark:bg-secondaryBg" : "dark:bg-darkBg"
-          } w-full h-[40px] sm-h-[50px]  border-b  border-gray-200 dark:border-primary flex items-center`}
-        >
+          } w-full h-[40px] sm-h-[50px]  border-b  border-gray-200 dark:border-primary flex items-center`}>
           <h4 className="h-[44px] text-[14px] font-semibold text-primary dark:text-darkTextPrimary ml-2 fixed">
             Select a topic
           </h4>
@@ -57,8 +51,7 @@ const TopicAccordion = () => {
             onClick={() => {
               setIsTopicsOpen(false);
               hideModal();
-            }}
-          >
+            }}>
             <IoIosCloseCircleOutline className=" text-primary text-[28px] font-bold " />
           </div>
         </div>
@@ -68,8 +61,7 @@ const TopicAccordion = () => {
           width < 640
             ? "overflow-y-scroll scrollbar-hide dark:bg-secondaryBg"
             : null
-        } w-[100%]  h-full bg-white dark:bg-darkBg`}
-      >
+        } w-[100%]  h-full bg-white dark:bg-darkBg`}>
         {topics.map((topic, index) => (
           <div key={index}>
             <div
@@ -83,14 +75,12 @@ const TopicAccordion = () => {
                   ? "bg-white dark:bg-secondaryBg"
                   : "bg-white dark:bg-darkBg"
               } w-[100%] h-[2.5rem] flex 
-           items-center pl-2 border-b border-gray-200 dark:border-primary dark:text-darkTextPrimary text-primary text-[0.9rem] last:border-b-0 cursor-pointer `}
-            >
+           items-center pl-2 border-b border-gray-200 dark:border-primary dark:text-darkTextPrimary text-primary text-[0.9rem] last:border-b-0 cursor-pointer `}>
               {topic.category.length > 0 && (
                 <span
                   className={`${
                     topicIndex === index ? "rotate-90" : null
-                  } mr-3`}
-                >
+                  } mr-3`}>
                   <MdPlayArrow className="dark:text-primary" />
                 </span>
               )}
@@ -105,8 +95,7 @@ const TopicAccordion = () => {
                     <>
                       <Link
                         to={`/articles?topic=${subcategory.toLowerCase()}`}
-                        key={subIndex}
-                      >
+                        key={subIndex}>
                         <div
                           key={subIndex}
                           onClick={() => {
@@ -120,8 +109,7 @@ const TopicAccordion = () => {
                               : width < 640
                               ? "bg-white dark:bg-secondaryBg"
                               : "bg-white dark:bg-darkBg"
-                          } w-[90%] h-[2.4rem] flex items-center ml-auto pl-3 border-b border-gray-200 dark:border-primary text-[0.8rem] text-primary dark:text-darkTextPrimary cursor-pointer`}
-                        >
+                          } w-[90%] h-[2.4rem] flex items-center ml-auto pl-3 border-b border-gray-200 dark:border-primary text-[0.8rem] text-primary dark:text-darkTextPrimary cursor-pointer`}>
                           {subcategory}
                         </div>
                       </Link>

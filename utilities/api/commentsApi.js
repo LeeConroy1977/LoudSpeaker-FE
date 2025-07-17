@@ -29,5 +29,11 @@ export async function patchComment(id, inc_votes) {
 }
 
 export async function deleteArticleComment(id) {
-  return loudSpeakerApi.delete(`/api/comments/${id}`);
+  try {
+    const { data } = await loudSpeakerApi.delete(`/api/comments/${id}`);
+    return data;
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    throw error;
+  }
 }

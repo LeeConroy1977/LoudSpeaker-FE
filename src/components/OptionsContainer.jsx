@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import SelectComponent from "../reuseable-components/SelectComponent";
 import { IoIosOptions } from "react-icons/io";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
@@ -6,29 +7,34 @@ import { useModal } from "../contexts/ModalContext";
 import TopicAccordion from "./TopicAccordion";
 import sortByArr from "../../data/sortByOptions";
 import orderByArr from "../../data/orderByOptions";
-import { SearchParamsContext } from "../contexts/searchParamsContext";
 import { SearchOpenContext } from "../contexts/SearchOpenContext";
-import { TotalArticlesContext } from "../contexts/TotalArticlesContext";
 import { TopicsOpenContext } from "../contexts/TopicsOpenContext";
+import { ArticlesContext } from "../contexts/ArticlesContext";
 
 const OptionsContainer = () => {
   const { width } = useContext(ScreenSizeContext);
   const { showModal } = useModal();
-  const [selectedOptionSort, setSelectedOptionSort] = useState("");
-  const [selectedOptionOrder, setSelectedOptionOrder] = useState("");
-  const { searchParams, setSearchParams } = useContext(SearchParamsContext);
+  const {
+    state: { totalArticles },
+  } = useContext(ArticlesContext);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedOptionSort, setSelectedOptionSort] = useState(
+    searchParams.get("sort_by") || ""
+  );
+  const [selectedOptionOrder, setSelectedOptionOrder] = useState(
+    searchParams.get("order") || ""
+  );
   const { isSearchOpen } = useContext(SearchOpenContext);
-  const { totalArticles } = useContext(TotalArticlesContext);
   const { setIsTopicsOpen } = useContext(TopicsOpenContext);
-  TotalArticlesContext;
+
   function handleSelectedOptionSort(e) {
     const sortValue = e.target.value;
-    const finalsortValue = sortValue === "Sort By" ? null : sortValue;
+    const finalSortValue = sortValue === "Sort By" ? null : sortValue;
 
-    setSelectedOptionSort(finalsortValue);
+    setSelectedOptionSort(finalSortValue);
     const newParams = new URLSearchParams(searchParams);
-    if (finalsortValue) {
-      newParams.set("sort_by", finalsortValue);
+    if (finalSortValue) {
+      newParams.set("sort_by", finalSortValue);
     } else {
       newParams.delete("sort_by");
     }
@@ -38,7 +44,7 @@ const OptionsContainer = () => {
 
   function handleSelectedOptionOrder(e) {
     const orderValue = e.target.value;
-    const finalOrderValue = orderValue === "Select Option" ? null : orderValue;
+    const finalOrderValue = orderValue === "Order By" ? null : orderValue;
 
     setSelectedOptionOrder(finalOrderValue);
     const newParams = new URLSearchParams(searchParams);
@@ -54,8 +60,8 @@ const OptionsContainer = () => {
   return (
     <>
       {!isSearchOpen && width < 640 ? (
-        <div className="w-full h-[54px] flex justify-between items-center pl-3  p-2 sm:pl-[4.6rem] border-b  sm:border-gray-200 dark:border-primary">
-          <div className=" flex">
+        <div className="w-full h-[54px] flex justify-between items-center pl-3 p-2 sm:pl-[4.6rem] border-b sm:border-gray-200 dark:border-primary">
+          <div className="flex">
             <SelectComponent
               selectStyle="selectMobile"
               defaultOption="Sort By"
@@ -83,8 +89,8 @@ const OptionsContainer = () => {
           </span>
         </div>
       ) : isSearchOpen && width < 640 ? null : (
-        <div className="w-full h-[54px] flex justify-between items-center pl-3  p-2 sm:pl-[4.6rem] border-b  sm:border-gray-200 dark:border-primary">
-          <div className=" flex">
+        <div className="w-full h-[54px] flex justify-between items-center pl-3 p-2 sm:pl-[4.6rem] border-b sm:border-gray-200 dark:border-primary">
+          <div className="flex">
             <SelectComponent
               selectStyle="selectMobile"
               defaultOption="Sort By"

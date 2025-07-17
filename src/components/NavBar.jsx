@@ -10,9 +10,7 @@ import { Link, useParams } from "react-router-dom";
 import { useModal } from "../contexts/ModalContext";
 import { UserContext } from "../contexts/UserContext";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
-import { FilteredArticlesContext } from "../contexts/FilteredArticlesContext";
 import { SearchBarInputContext } from "../contexts/SearchBarInputContext";
-import { SearchBarListContext } from "../contexts/SearchBarList";
 import { CgProfile } from "react-icons/cg";
 import { FaSearch } from "react-icons/fa";
 import { IoIosAddCircle } from "react-icons/io";
@@ -23,21 +21,28 @@ import SignOut from "./SignOut";
 import { ArticleScrollContext } from "../contexts/ArticleScrollContext";
 import { useTheme } from "../contexts/ThemeContext";
 import ThemeToggleSwitch from "./ThemeToggleSwitch";
-import { ComposeOpenContext } from "../contexts/ComposeOpenContext";
 import { PostCommentOpenContext } from "../contexts/PostCommentOpenContext";
+import { ArticlesContext } from "../contexts/ArticlesContext";
 
 const NavBar = ({ handleSearchInput }) => {
-  const { width } = useContext(ScreenSizeContext);
+  const {
+    isMobile,
+    isTablet,
+    isLaptop,
+    isTabletPortrait,
+    isTabletLandscape,
+    isDesktop,
+  } = useContext(ScreenSizeContext);
   const { user, setUser } = useContext(UserContext);
   const { input, setInput } = useContext(SearchBarInputContext);
-  const { searchBarList } = useContext(SearchBarListContext);
+
   const { isSearchOpen, setIsSearchOpen } = useContext(SearchOpenContext);
-  const { setIsPostCommentOpen } = useContext(
-    PostCommentOpenContext
-  );
+  const { setIsPostCommentOpen } = useContext(PostCommentOpenContext);
+  const {
+    state: { popularArticles, filteredArticles },
+  } = useContext(ArticlesContext);
   const { toggleSearchOpen } = useSearchToggle();
   const { toggleComposeOpen } = useComposeToggle();
-  const { filteredArticles } = useContext(FilteredArticlesContext);
   const { handleScrollToTop } = useContext(ArticleScrollContext);
   const { article_id } = useParams();
   const { showModal, isModalOpen } = useModal();
@@ -89,15 +94,13 @@ const NavBar = ({ handleSearchInput }) => {
             ) : isSearchOpen && searchInputLength < 1 ? (
               <div
                 ref={extendedComponentRef}
-                className="top-[10px]  w-[460px] max-h-[550px] shadow-xl overflow-y-auto sm:ml-8 bg-white dark:bg-secondaryBg absolute rounded-xl p-4 z-30 scrollbar-hide"
-              >
-                <SearchBarList articles={searchBarList && searchBarList} />
+                className="top-[10px]  w-[460px] max-h-[550px] shadow-xl overflow-y-auto sm:ml-8 bg-white dark:bg-secondaryBg absolute rounded-xl p-4 z-30 scrollbar-hide">
+                <SearchBarList articles={popularArticles} />
               </div>
             ) : (
               <div
                 ref={extendedComponentRef}
-                className="top-[10px] w-[460px] h-[550px]  shadow-xl overflow-y-auto sm:ml-8 bg-white dark:bg-secondaryBg  absolute rounded-xl p-4 z-30 scrollbar-hide"
-              >
+                className="top-[10px] w-[460px] h-[550px]  shadow-xl overflow-y-auto sm:ml-8 bg-white dark:bg-secondaryBg  absolute rounded-xl p-4 z-30 scrollbar-hide">
                 <p className="text-[0.85rem] text-primary sm:ml-2 sm:pt-4">
                   No results found...
                 </p>
@@ -111,8 +114,7 @@ const NavBar = ({ handleSearchInput }) => {
         {width > 640 && (
           <Button
             buttonStyle={theme === "dark" ? "buttonLargeDark" : "buttonLarge"}
-            handleClick={handleSignOut}
-          >
+            handleClick={handleSignOut}>
             {user.username ? "Sign Out" : "Sign In"}
           </Button>
         )}

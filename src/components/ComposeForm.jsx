@@ -17,7 +17,7 @@ import { PostCommentOpenContext } from "../contexts/PostCommentOpenContext";
 const ComposeForm = ({ isDisabled, setIsDisabled }) => {
   const { width } = useContext(ScreenSizeContext);
   const { user } = useContext(UserContext);
-  const { articles, setArticles } = useContext(ArticlesContext);
+  const { createArticle } = useContext(ArticlesContext);
   const { setIsComposeOpen } = useContext(ComposeOpenContext);
   const { toggleComposeOpen } = useComposeToggle();
   const [selectedTopic, setSelectedTopic] = useState("");
@@ -131,14 +131,7 @@ const ComposeForm = ({ isDisabled, setIsDisabled }) => {
       isValidatedObj.articleURL &&
       isValidatedObj.topic
     ) {
-      postArticle(articleObject)
-        .then((article) => {
-          console.log(article);
-          setArticles([article, ...articles]);
-        })
-        .catch((error) => {
-          console.error("Failed to create article:", error);
-        });
+      createArticle(articleObject);
       setArticleObject({
         author: user.username,
         title: "",
@@ -160,8 +153,7 @@ const ComposeForm = ({ isDisabled, setIsDisabled }) => {
     <div
       ref={extendedComponentRef}
       className="relative flex flex-col items-center justify-start
-      w-full h-[480px] sm:w-full sm:h-[480px] border-gray-200 dark:border-primary border-b sm:p-4 p-3 pt-0 mt-2 sm:mt-0"
-    >
+      w-full h-[480px] sm:w-full sm:h-[480px] border-gray-200 dark:border-primary border-b sm:p-4 p-3 pt-0 mt-2 sm:mt-0">
       <div className="flex items-center justify-between w-full h-[4.4rem]">
         <Avatar
           avatarStyle={width < 640 ? "avatarMobile" : "avatarMain"}
@@ -269,8 +261,7 @@ const ComposeForm = ({ isDisabled, setIsDisabled }) => {
             isDisabled
               ? "buttonMobileDisabled bg-gray-200 dark:bg-secondaryBg dark:text-gray-400"
               : "buttonMobile dark:bg-primary dark:text-darkTextPrimary"
-          }
-        >
+          }>
           Post
         </Button>
       </div>

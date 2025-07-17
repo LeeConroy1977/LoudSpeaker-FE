@@ -1,12 +1,18 @@
 import React from "react";
 
-const Button = ({ children, buttonStyle, handleClick, handleDisabled }) => {
+const Button = ({
+  children,
+  buttonStyle,
+  handleClick,
+  handleDisabled,
+  type,
+}) => {
   return (
     <button
       className={`${buttonStyle} rounded-full `}
-      onClick={handleClick}
+      {...(handleClick ? { onClick: handleClick } : {})}
       disabled={handleDisabled}
-    >
+      type={type}>
       {children}
     </button>
   );

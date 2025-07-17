@@ -9,14 +9,16 @@ import ComposeForm from "../components/ComposeForm";
 import LoadingSpinner from "../reuseable-components/LoadingSpinner";
 import { SearchOpenContext } from "../contexts/SearchOpenContext";
 import { ComposeOpenContext } from "../contexts/ComposeOpenContext";
-import { useLoading } from "../contexts/LoadingContext";
+import { ArticlesContext } from "../contexts/ArticlesContext";
 
 const Home = ({ handleOnLoadMore, visible }) => {
   const { width } = useContext(ScreenSizeContext);
   const { isSearchOpen } = useContext(SearchOpenContext);
   const { isComposeOpen } = useContext(ComposeOpenContext);
   const [isDisabled, setIsDisabled] = useState(false);
-  const { loadingStates } = useLoading();
+  const {
+    state: { loading },
+  } = useContext(ArticlesContext);
   const divRef = useRef(null);
 
   return (
@@ -31,7 +33,7 @@ const Home = ({ handleOnLoadMore, visible }) => {
         width > 640 && <ComposeContainer setIsDisabled={setIsDisabled} />
       )}
       {width > 640 && !isComposeOpen && <OptionsContainer />}
-      {loadingStates.article ? (
+      {loading ? (
         <div className="flex items-center justify-center w-[100%] h-[300px] sm:h-[600px] ">
           <LoadingSpinner />
         </div>

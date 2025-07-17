@@ -25,7 +25,7 @@ const topics = [
   },
   {
     category: "Literature",
-    subcategories: ["Classics", "Dystopian fiction", "Fantasy", "Non-fiction"],
+    subcategories: ["Classics", "Dystopian fiction", "Fantasy", "Non fiction"],
   },
   {
     category: "Movies",

@@ -11,15 +11,14 @@ export async function getAllArticles(
   limit,
   p
 ) {
-  const topicParam = topic || "";
-
-  const params = {
-    topic: topicParam,
-    sorted_by,
-    order,
-    limit,
-    p,
-  };
+  const params = {};
+  if (topic && topic.trim()) {
+    params.topic = topic.trim().toLowerCase();
+  }
+  if (sorted_by) params.sort_by = sorted_by;
+  if (order) params.order = order;
+  if (limit) params.limit = limit;
+  if (p) params.p = p;
 
   try {
     const { data } = await loudSpeakerApi.get("/api/articles", { params });

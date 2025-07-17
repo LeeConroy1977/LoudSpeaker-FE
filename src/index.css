@@ -7,8 +7,8 @@
     display: none;
   }
   .scrollbar-hide {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
   }
 }
 
@@ -243,20 +243,7 @@
     color: #456990;
     font-weight: bold;
   }
-  /* .selectForm {
-    padding: 0.3rem;
-    padding-left: 0.6rem;
-    width: 8.75rem;
-    height: 1.875rem;
-    background-color: #edeeef;
-    margin-right: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.8rem;
-    color: #456990;
-    font-weight: bold;
-  } */
+
 
   .input {
     border: 1px solid #d2d2d2;

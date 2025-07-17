@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ScreenSizeContext } from "../contexts/ScreenSizeContext";
 import NavBar from "./NavBar";
 import TopicSection from "./TopicSection";
 import FeaturedSection from "./FeaturedSection";
 import { Outlet } from "react-router-dom";
 import { SearchOpenContext } from "../contexts/SearchOpenContext";
+import { ArticlesContext } from "../contexts/ArticlesContext";
 
 const AppLayout = ({
   handleSelectedArticle,
@@ -14,6 +15,11 @@ const AppLayout = ({
 }) => {
   const { width } = useContext(ScreenSizeContext);
   const { isSearchOpen } = useContext(SearchOpenContext);
+  const { fetchFeaturedArticles } = useContext(ArticlesContext);
+
+  useEffect(() => {
+    fetchFeaturedArticles(null, null, null, 1000, null);
+  }, []);
 
   const containerClasses =
     width < 640

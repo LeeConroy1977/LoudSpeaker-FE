@@ -1,39 +1,40 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AppLayout from "./AppLayout";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useSearchParams } from "react-router-dom";
 import Home from "../pages/Home";
 import Article from "../pages/Article";
-import { SearchParamsContext } from "../contexts/searchParamsContext";
-import { useApi } from "../contexts/ApiContext";
 import { VisibleContext } from "../contexts/VisibleContext";
-import { AllArticlesCountContext } from "../contexts/AllArticlesCountContext";
-import { CommentCountContext } from "../contexts/commentCountContext";
 import { VoteCountContext } from "../contexts/VoteCountContext";
+import { ArticlesContext } from "../contexts/ArticlesContext";
+import { CommentsContext } from "../contexts/CommentsContext";
+import { UserContext } from "../contexts/UserContext";
 
 const AppRoutes = () => {
-  const { AllArticlesCount } = useContext(AllArticlesCountContext);
-  const { searchParams } = useContext(SearchParamsContext);
+  const {
+    state: { totalComments },
+  } = useContext(CommentsContext);
+  const { user } = useContext(UserContext);
   const { visible } = useContext(VisibleContext);
   const {
-    fetchArticleCount,
+    state: { popularArticles },
+    fetchTotalArticlesCount,
     fetchAdditionalArticles,
+    fetchPopularArticles,
     fetchArticles,
-    fetchFilteredArticles,
-    fetchMostPopularArticles,
     fetchFeaturedArticles,
-  } = useApi();
+  } = useContext(ArticlesContext);
+  const [searchParams] = useSearchParams();
   const topicParam = searchParams.get("topic");
   const sortByParam = searchParams.get("sort_by");
   const orderParam = searchParams.get("order");
   const [searchInput] = useState("");
-  const { commentCount, setCommentCount } = useContext(CommentCountContext);
   const { voteCount } = useContext(VoteCountContext);
-  const [isMainArticlesLoading] = useState(false);
+
   const [limit] = useState(12);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    fetchArticleCount(topicParam, sortByParam, orderParam, limit, page);
+    fetchTotalArticlesCount();
   }, []);
 
   useEffect(() => {
@@ -42,18 +43,10 @@ const AppRoutes = () => {
 
   useEffect(() => {
     fetchArticles(topicParam, sortByParam, orderParam, limit, page);
-  }, [topicParam, sortByParam, orderParam, commentCount, voteCount]);
+  }, [topicParam, sortByParam, orderParam, voteCount]);
 
   useEffect(() => {
-    fetchFilteredArticles(null, null, null, AllArticlesCount, null);
-  }, [AllArticlesCount]);
-
-  useEffect(() => {
-    fetchMostPopularArticles(null, "votes", null, 6, null);
-  }, []);
-
-  useEffect(() => {
-    fetchFeaturedArticles(null, null, null, AllArticlesCount, null);
+    fetchPopularArticles(null, "votes", null, 6, null);
   }, []);
 
   function handleOnLoadMore() {
@@ -66,31 +59,18 @@ const AppRoutes = () => {
         <Route
           index
           element={
-            <Home
-              handleOnLoadMore={handleOnLoadMore}
-              visible={visible}
-              isMainArticlesLoading={isMainArticlesLoading}
-            />
+            <Home handleOnLoadMore={handleOnLoadMore} visible={visible} />
           }
         />
         <Route
           path="/articles"
           element={
-            <Home
-              handleOnLoadMore={handleOnLoadMore}
-              visible={visible}
-              isMainArticlesLoading={isMainArticlesLoading}
-            />
+            <Home handleOnLoadMore={handleOnLoadMore} visible={visible} />
           }
         />
         <Route
           path="/articles/:article_id"
-          element={
-            <Article
-              setCommentCount={setCommentCount}
-              commentCount={commentCount}
-            />
-          }
+          element={<Article commentCount={totalComments} />}
         />
       </Route>
     </Routes>

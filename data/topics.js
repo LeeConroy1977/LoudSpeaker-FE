@@ -53,4 +53,11 @@ module.exports = [
   { description: "Everything boats", slug: "boats" },
   { description: "Everything cars", slug: "cars" },
   { description: "Everything motorcycles", slug: "motorcycles" },
+  { description: "Everything adventure games", slug: "adventure games" },
+  { description: "Everything action games", slug: "action games" },
+  { description: "Everything sports games", slug: "sorts games" },
+  { description: "Everything classics", slug: "classics" },
+  { description: "Everything dystopian ficton", slug: "dystopian ficton" },
+  { description: "Everything fantasy", slug: "fantasy" },
+  { description: "Everything non fiction", slug: "non fiction" },
 ];

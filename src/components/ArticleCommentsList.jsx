@@ -1,17 +1,19 @@
 import React, { useContext } from "react";
 import ArticleCommentsCard from "./ArticleCommentsCard";
-import { ArticleCommentsContext } from "../contexts/ArticleCommentsContext";
 import { CommentScrollContext } from "../contexts/CommentScrollContext";
+import { CommentsContext } from "../contexts/CommentsContext";
 
 const ArticleCommentsList = () => {
-  const { comments } = useContext(ArticleCommentsContext);
+  const {
+    state: { comments },
+  } = useContext(CommentsContext);
   const { commentsRef } = useContext(CommentScrollContext);
 
   return (
     <div ref={commentsRef} className="mb-4">
-      {comments.map((comment) => {
+      {comments?.map((comment) => {
         return (
-          <ArticleCommentsCard key={comment.comment_id} comment={comment} />
+          <ArticleCommentsCard key={comment?.comment_id} comment={comment} />
         );
       })}
     </div>

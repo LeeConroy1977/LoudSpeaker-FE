@@ -21,10 +21,10 @@ const FeaturedCard = ({ article }) => {
   return (
     <Link to={`/articles/${article.article_id}`}>
       {userAvatar && article && (
-        <div className="h-full w-[150px] sm:w-full sm:h-[138px] relative ">
+        <div className="min-h-[170px] w-[150px] sm:w-full sm:h-[138px] relative ">
           {isSearchOpen && width < 640 ? null : (
             <>
-              <div className="absolute inset-0 bg-black bg-opacity-25 flex flex-col justify-center items-center text-center p-4 rounded-lg"></div>
+              <div className="absolute  inset-0 bg-black bg-opacity-25 flex flex-col justify-center items-center text-center p-4 rounded-lg"></div>
               {!article_img_url ? (
                 <LoadingSpinner />
               ) : (
