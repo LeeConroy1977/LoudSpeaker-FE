@@ -15,11 +15,11 @@ const SearchBarList = ({ articles, searchInputLength }) => {
   }
   return (
     <div
-      ref={width > 640 ? extendedComponentRef : null}
-      className="sm-mb-2 bg-white dark:bg-secondaryBg mt-6">
+      ref={width > 900 ? extendedComponentRef : null}
+      className="sm-mb-2 bg-white dark:bg-secondaryBg mt-6 tablet-portrait:mt-10  desktop:mt-8">
       {!searchInputLength && articles && (
-        <h4 className="text-[0.85rem] text-primary dark:text-darkTextPrimary mt-1 sm:mt6 mb-1  sm:mb-0 sm:ml-2">
-          Most Popular
+        <h4 className="text-[0.85rem] tablet:text-[0.75rem] desktop:text-[0.8rem] xl-screen:text-[0.85rem] text-primary dark:text-darkTextPrimary mt-1  tablet:mt-6 desktop:mt-8 mb-1 ml-1  tablet:mb-0 font-semibold">
+          Popular articles
         </h4>
       )}
       {articles &&

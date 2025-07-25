@@ -7,7 +7,6 @@ import { ScreenSizeProvider } from "./contexts/ScreenSizeContext.jsx";
 import { UserProvider } from "./contexts/UserContext.jsx";
 import { ArticlesProvider } from "./contexts/ArticlesContext.jsx";
 import { ExistingUsersProvider } from "./contexts/ExistingUsersContext.jsx";
-import { PopupProvider } from "./contexts/PopupContext.jsx";
 import { SearchBarInputProvider } from "./contexts/SearchBarInputContext.jsx";
 import { SearchOpenProvider } from "./contexts/SearchOpenContext.jsx";
 import { ComposeOpenProvider } from "./contexts/ComposeOpenContext.jsx";
@@ -28,23 +27,21 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <ArticlesProvider>
               <ExistingUsersProvider>
                 <UserProvider>
-                  <PopupProvider>
-                    <SearchOpenProvider>
-                      <SearchBarInputProvider>
-                        <ComposeOpenProvider>
-                          <VisibleProvider>
-                            <VoteCountProvider>
-                              <PostCommentOpenProvider>
-                                <CommentsProvider>
-                                  <App />
-                                </CommentsProvider>
-                              </PostCommentOpenProvider>
-                            </VoteCountProvider>
-                          </VisibleProvider>
-                        </ComposeOpenProvider>
-                      </SearchBarInputProvider>
-                    </SearchOpenProvider>
-                  </PopupProvider>
+                  <SearchOpenProvider>
+                    <SearchBarInputProvider>
+                      <ComposeOpenProvider>
+                        <VisibleProvider>
+                          <VoteCountProvider>
+                            <PostCommentOpenProvider>
+                              <CommentsProvider>
+                                <App />
+                              </CommentsProvider>
+                            </PostCommentOpenProvider>
+                          </VoteCountProvider>
+                        </VisibleProvider>
+                      </ComposeOpenProvider>
+                    </SearchBarInputProvider>
+                  </SearchOpenProvider>
                 </UserProvider>
               </ExistingUsersProvider>
             </ArticlesProvider>

@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import SearchContainer from "../components/SearchContainer";
 import OptionsContainer from "../components/OptionsContainer";
 import FeaturedSection from "../components/FeaturedSection";
@@ -11,7 +11,7 @@ import { SearchOpenContext } from "../contexts/SearchOpenContext";
 import { ComposeOpenContext } from "../contexts/ComposeOpenContext";
 import { ArticlesContext } from "../contexts/ArticlesContext";
 
-const Home = ({ handleOnLoadMore, visible }) => {
+const Home = ({ handleOnLoadMore, visible, topicParam }) => {
   const { width } = useContext(ScreenSizeContext);
   const { isSearchOpen } = useContext(SearchOpenContext);
   const { isComposeOpen } = useContext(ComposeOpenContext);
@@ -19,20 +19,21 @@ const Home = ({ handleOnLoadMore, visible }) => {
   const {
     state: { loading },
   } = useContext(ArticlesContext);
-  const divRef = useRef(null);
+
+  useEffect(() => {}, []);
 
   return (
-    <div className="sm:col-span-1 sm:row-span-1 overflow-y-auto  flex flex-col h-auto">
-      {width < 640 && !isComposeOpen && isSearchOpen && <SearchContainer />}
+    <div className={`${isSearchOpen && width < 640 ? "bg-black bg-opacity-80 z-20" : ""} sm:col-span-1 sm:row-span-1 overflow-y-auto  flex flex-col h-auto`}>
+      {width < 900 && !isComposeOpen && isSearchOpen && <SearchContainer />}
 
-      {width < 640 && !isComposeOpen && <OptionsContainer />}
-      {width < 640 && !isComposeOpen && <FeaturedSection />}
+      {width < 900 && !isComposeOpen && <OptionsContainer />}
+      {width < 900 && !isComposeOpen && <FeaturedSection />}
       {isComposeOpen ? (
         <ComposeForm isDisabled={isDisabled} setIsDisabled={setIsDisabled} />
       ) : (
-        width > 640 && <ComposeContainer setIsDisabled={setIsDisabled} />
+        width > 900 && <ComposeContainer setIsDisabled={setIsDisabled} />
       )}
-      {width > 640 && !isComposeOpen && <OptionsContainer />}
+      {width > 900 && !isComposeOpen && <OptionsContainer />}
       {loading ? (
         <div className="flex items-center justify-center w-[100%] h-[300px] sm:h-[600px] ">
           <LoadingSpinner />
@@ -41,7 +42,7 @@ const Home = ({ handleOnLoadMore, visible }) => {
         <MainArticlesList
           handleOnLoadMore={handleOnLoadMore}
           visible={visible}
-          divRef={divRef}
+          topicParam={topicParam}
         />
       )}
     </div>

@@ -10,12 +10,8 @@ import UserDetail from "../reuseable-components/UserDetail";
 
 const ArticleCommentsCard = ({ comment, article_id }) => {
   const { width } = useContext(ScreenSizeContext);
-  const {
-    state: { comments },
-    handleRemoveComment,
-    handleLikeComment,
-    handleUnlikeComment,
-  } = useContext(CommentsContext);
+  const { handleRemoveComment, handleLikeComment, handleUnlikeComment } =
+    useContext(CommentsContext);
   const { existingUsers } = useContext(ExistingUserContext);
   const { user } = useContext(UserContext);
 
@@ -28,7 +24,6 @@ const ArticleCommentsCard = ({ comment, article_id }) => {
   const isFirst = useRef(true);
 
   useEffect(() => {
-    
     isFirst.current = false;
   }, [comment, article_id]);
 
@@ -38,7 +33,7 @@ const ArticleCommentsCard = ({ comment, article_id }) => {
         voteChange > 0
           ? await handleLikeComment(id, voteChange)
           : await handleUnlikeComment(id, voteChange);
-      return response; 
+      return response;
     } catch (error) {
       console.error("Error updating comment votes:", error);
       throw error;
@@ -67,14 +62,12 @@ const ArticleCommentsCard = ({ comment, article_id }) => {
     <div className="w-full h-auto border-gray-200 dark:border-primary border-b p-2">
       <div className="flex justify-start items-center ml-2 mr-2 mt-1">
         <Avatar
-          avatarStyle={width < 640 ? "avatarMobileComment" : "avatarComment"}
+          avatarStyle={width < 900 ? "avatarMobileComment" : "avatarComment"}
           avatarURL={userAvatar}
         />
         <UserDetail createdAt={created_at} username={username} name={name} />
         <div className="ml-auto">
           <VotesContainer
-            votesStyle="mobileVotes dark:bg-secondaryBg"
-            votesNumStyle="mobileVotesNum dark:text-darkTextPrimary"
             votesIconStyle="mobileVotesIcon"
             initialVotes={votes}
             handleClick={handleVoteChange}
@@ -83,7 +76,7 @@ const ArticleCommentsCard = ({ comment, article_id }) => {
           />
         </div>
       </div>
-      <div className="sm:ml-[4rem] sm:mr-2 ml-3 mr-3 mb-1 mt-3 sm:mt-1 text-[0.75rem] sm:text-[13px] font-600 text-gray-950 dark:text-darkTextPrimary">
+      <div className="tablet:ml-[4rem] tablet:mr-2 ml-3 mr-3 mb-2 mt-3 tablet:mt-2 desktop:mt-3 xl-screen:mt-4 text-[0.75rem] tablet:text-[13px] desktop:text-[14px] font-600 text-gray-950 dark:text-darkTextPrimary">
         {body}
       </div>
       <div className="flex justify-end mr-2">

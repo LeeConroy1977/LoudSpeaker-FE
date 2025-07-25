@@ -90,18 +90,25 @@ export const CommentsProvider = ({ children }) => {
     dispatch({ type: "LIKE_COMMENT" });
     try {
       const response = await patchComment(id, inc_vote);
+      if (!response || typeof response.votes !== "number") {
+        throw new Error("Invalid comment response: missing votes");
+      }
+      const updatedComment = {
+        comment_id: response.comment_id,
+        votes: response.votes,
+      };
       dispatch({
         type: "LIKE_COMMENT_SUCCESS",
-        payload: {
-          comment: { id: response.comment_id, votes: response.votes },
-        },
+        payload: updatedComment,
       });
+      return updatedComment; 
     } catch (error) {
       console.error("Error liking comment:", error);
       dispatch({
         type: "LIKE_COMMENT_FAILURE",
         payload: error.message || "Error liking comment",
       });
+      throw error;
     }
   }, []);
 
@@ -109,18 +116,25 @@ export const CommentsProvider = ({ children }) => {
     dispatch({ type: "UNLIKE_COMMENT" });
     try {
       const response = await patchComment(id, inc_vote);
+      if (!response || typeof response.votes !== "number") {
+        throw new Error("Invalid comment response: missing votes");
+      }
+      const updatedComment = {
+        comment_id: response.comment_id,
+        votes: response.votes,
+      };
       dispatch({
         type: "UNLIKE_COMMENT_SUCCESS",
-        payload: {
-          comment: { id: response.comment_id, votes: response.votes },
-        },
+        payload: updatedComment,
       });
+      return updatedComment; 
     } catch (error) {
       console.error("Error unliking comment:", error);
       dispatch({
         type: "UNLIKE_COMMENT_FAILURE",
         payload: error.message || "Error unliking comment",
       });
+      throw error;
     }
   }, []);
 

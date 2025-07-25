@@ -16,12 +16,15 @@ export async function postArticleComment(id, body, username) {
       return data.comment;
     });
 }
-export async function patchComment(id, inc_votes) {
+export async function patchComment(comment_id, inc_votes) {
   try {
-    const { data } = await loudSpeakerApi.patch(`/api/comments/${id}`, {
+    const { data } = await loudSpeakerApi.patch(`/api/comments/${comment_id}`, {
       inc_votes,
     });
-    return data.comment;
+    if (!data.comment || typeof data.comment.votes !== "number") {
+      throw new Error("Invalid response: missing comment or votes");
+    }
+    return data.comment; 
   } catch (error) {
     console.error("Error patching comment:", error);
     throw error;

@@ -2,13 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply bg-white dark:bg-[#0e0e0e];
+}
+
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
   .scrollbar-hide {
-    -ms-overflow-style: none; 
-    scrollbar-width: none; 
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 
@@ -54,6 +58,31 @@
     border: 3px solid #456990;
     border-radius: 50%;
   }
+  .avatarComposeMain {
+    width: 54px;
+    height: 54px;
+    border: 3px solid #456990;
+    border-radius: 50%;
+  }
+  .avatarComposeTablet {
+    width: 46px;
+    height: 46px;
+    border: 3px solid #456990;
+    border-radius: 50%;
+  }
+
+  .avatarArticleMain {
+    width: 54px;
+    height: 54px;
+    border: 3px solid #456990;
+    border-radius: 50%;
+  }
+  .avatarArticleTablet {
+    width: 46px;
+    height: 46px;
+    border: 3px solid #456990;
+    border-radius: 50%;
+  }
   .avatarComment {
     width: 40px;
     height: 40px;
@@ -66,10 +95,23 @@
     border: 2px solid #456990;
     border-radius: 50%;
   }
+  .avatarFeaturedLarge {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #456990;
+    border-radius: 50%;
+  }
   .avatarLarge {
     width: 55px;
     height: 55px;
     border: 3.5px solid #456990;
+    border-radius: 50%;
+  }
+
+  .avatarMedium {
+    width: 46px;
+    height: 46px;
+    border: 3px solid #456990;
     border-radius: 50%;
   }
 
@@ -114,14 +156,14 @@
     font-size: 0.95rem;
   }
   .buttonMedium {
-    width: 84px;
-    height: 35px;
-    font-size: 0.85rem;
+    width: 86px;
+    height: 36px;
+    font-size: 0.8rem;
   }
   .buttonMediumDark {
-    width: 84px;
-    height: 35px;
-    font-size: 0.85rem;
+    width: 86px;
+    height: 36px;
+    font-size: 0.8rem;
     background-color: #456990;
     color: white;
   }
@@ -143,6 +185,22 @@
   .buttonMobileDisabled {
     width: 74px;
     height: 30px;
+    font-size: 0.7rem;
+    background-color: #f3f4f6;
+    color: black;
+    font-weight: bold;
+  }
+
+  .buttonform {
+    width: 86px;
+    height: 36px;
+    font-size: 0.7rem;
+    cursor: pointer;
+  }
+
+  .buttonFormDisabled {
+    width: 86px;
+    height: 36px;
     font-size: 0.7rem;
     background-color: #f3f4f6;
     color: black;
@@ -229,6 +287,7 @@
     color: #456990;
     font-weight: bold;
   }
+
   .selectForm {
     padding: 0.3rem;
     padding-left: 0.6rem;
@@ -243,7 +302,6 @@
     color: #456990;
     font-weight: bold;
   }
-
 
   .input {
     border: 1px solid #d2d2d2;

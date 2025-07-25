@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect} from "react";
 import { useParams } from "react-router-dom";
 import ArticleCard from "../components/ArticleCard";
 import LoadingSpinner from "../reuseable-components/LoadingSpinner";
@@ -12,17 +12,15 @@ const Article = () => {
   const { isSearchOpen } = useContext(SearchOpenContext);
   const { width } = useContext(ScreenSizeContext);
   const {
-    state: {  },
+    state: {},
     fetchArticleComments,
   } = useContext(CommentsContext);
   const {
-    state: {  loading },
+    state: { loading },
     fetchArticle,
-
   } = useContext(ArticlesContext);
 
   const { article_id } = useParams();
-
 
   useEffect(() => {
     fetchArticle(article_id);
@@ -34,7 +32,7 @@ const Article = () => {
 
   return (
     <div>
-      {width < 640 && isSearchOpen && <SearchContainer />}
+      {width < 900 && isSearchOpen && <SearchContainer />}
       {loading ? (
         <div className="w-[100%] h-[600px] flex items-center justify-center">
           <LoadingSpinner />

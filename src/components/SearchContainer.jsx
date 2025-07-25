@@ -42,14 +42,16 @@ const SearchContainer = () => {
 
   return (
     <div
-      ref={width > 640 ? extendedComponentRef : null}
-      className="relative w-full h-auto border-gray-200 border-b flex flex-col justify-center items-center p-2 ">
+      ref={width > 900 ? extendedComponentRef : null}
+      className={`${
+        isSearchOpen && width < 640 ? "bg-white " : ""
+      } relative w-full h-auto tablet-portrait:h-[60px] border-gray-200 border-b flex flex-col justify-center items-center p-2 tablet-portrait:px-20`}>
       <Input handleChange={handleSearchInput} searchInput={input} />
       {isSearchOpen ? (
         searchInputLength > 0 && filteredArticlesArr.length > 0 ? (
           <div
-            ref={width > 640 ? extendedComponentRef : null}
-            className="w-[360px] h-[600px] shadow-xl overflow-y-auto scrollbar-hide sm:ml-8 bg-white dark:bg-gray-800 absolute rounded-xl p-4 top-[15px] z-40">
+            ref={width > 900 ? extendedComponentRef : null}
+            className="w-[360px] h-[600px] tablet-portrait:w-[80%] tablet-portrait:h-[750px] shadow-xl overflow-y-auto scrollbar-hide sm:ml-8 bg-white dark:bg-gray-900 absolute rounded-xl p-4 top-[15px] z-40">
             <SearchBarList
               articles={filteredArticlesArr}
               searchInputLength={searchInputLength}
@@ -57,14 +59,14 @@ const SearchContainer = () => {
           </div>
         ) : isSearchOpen && searchInputLength < 1 ? (
           <div
-            ref={width > 640 ? extendedComponentRef : null}
-            className="w-[360px] h-[600px] shadow-xl overflow-y-auto scrollbar-hide sm:ml-8  absolute rounded-xl p-4 pb-4 z-40  bg-white dark:bg-gray-800 top-[15px]">
+            ref={width > 900 ? extendedComponentRef : null}
+            className="w-[360px] h-[600px] tablet-portrait:w-[80%] tablet-portrait:h-[750px] shadow-xl overflow-y-auto scrollbar-hide sm:ml-8  absolute rounded-xl p-4 pb-4 z-40  bg-white dark:bg-secondaryBg top-[15px]">
             <SearchBarList articles={popularArticles && popularArticles} />
           </div>
         ) : (
           <div
-            ref={width > 640 ? extendedComponentRef : null}
-            className="w-[360px] h-[600px] shadow-xl overflow-y-auto scrollbar-hide sm:ml-8  absolute rounded-xl p-4 z-40 bg-white dark:bg-gray-800 top-[15px]">
+            ref={width > 900 ? extendedComponentRef : null}
+            className="w-[360px] h-[600px] shadow-xl overflow-y-auto scrollbar-hide sm:ml-8  absolute rounded-xl p-4 z-40 bg-white dark:bg-gray-900 top-[15px]">
             <p className="text-[0.85rem] text-primary dark:text-darkTextPrimary mt-6 ">
               No results found...
             </p>

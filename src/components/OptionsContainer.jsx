@@ -59,8 +59,8 @@ const OptionsContainer = () => {
 
   return (
     <>
-      {!isSearchOpen && width < 640 ? (
-        <div className="w-full h-[54px] flex justify-between items-center pl-3 p-2 sm:pl-[4.6rem] border-b sm:border-gray-200 dark:border-primary">
+      {!isSearchOpen && width < 900 ? (
+        <div className="w-full h-[54px] flex justify-between items-center  px-2 tablet-portrait:px-6  py-2 tablet:pl-[4.6rem] border-b tablet:border-gray-200 dark:border-primary">
           <div className="flex">
             <SelectComponent
               selectStyle="selectMobile"
@@ -88,8 +88,8 @@ const OptionsContainer = () => {
             />
           </span>
         </div>
-      ) : isSearchOpen && width < 640 ? null : (
-        <div className="w-full h-[54px] flex justify-between items-center pl-3 p-2 sm:pl-[4.6rem] border-b sm:border-gray-200 dark:border-primary">
+      ) : isSearchOpen && width < 900 ? null : (
+        <div className="w-full tablet:h-[54px] desktop:h-[72px] flex justify-between items-center pl-3 p-2 tablet:pl-6 border-b tablet:border-gray-200 dark:border-primary">
           <div className="flex">
             <SelectComponent
               selectStyle="selectMobile"
@@ -106,8 +106,8 @@ const OptionsContainer = () => {
               selectedOption={selectedOptionOrder}
             />
           </div>
-          {totalArticles && (
-            <p className="text-[12px] text-primary dark:text-darkTextPrimary font-semibold mr-3">
+          {!totalArticles ? null : (
+            <p className="text-[12px] xl-screen:text-[14px] text-primary dark:text-darkTextPrimary font-semibold mr-3">
               {totalArticles} articles...
             </p>
           )}

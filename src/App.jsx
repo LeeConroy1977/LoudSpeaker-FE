@@ -2,6 +2,7 @@ import AppRoutes from "./components/AppRoutes";
 import { ArticleScrollProvider } from "./contexts/ArticleScrollContext";
 import { CommentScrollProvider } from "./contexts/CommentScrollContext";
 import { ModalProvider } from "./contexts/ModalContext";
+import { PopupProvider } from "./contexts/PopupContext";
 
 import Modal from "./reuseable-components/Modal";
 
@@ -10,9 +11,11 @@ function App() {
     <ArticleScrollProvider>
       <CommentScrollProvider>
         <ModalProvider>
-          <div className="w-full h-screen flex justify-center dark:bg-darkBg overflow-auto scrollbar-hide">
-            <AppRoutes />
-            <Modal />
+          <div className="relative w-screen h-screen flex items-center justify-center dark:bg-darkBg tablet:overflow-hidden  scrollbar-hide">
+            <PopupProvider>
+              <AppRoutes />
+              <Modal />
+            </PopupProvider>
           </div>
         </ModalProvider>
       </CommentScrollProvider>

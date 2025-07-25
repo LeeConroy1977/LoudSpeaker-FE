@@ -25,14 +25,7 @@ import { PostCommentOpenContext } from "../contexts/PostCommentOpenContext";
 import { ArticlesContext } from "../contexts/ArticlesContext";
 
 const NavBar = ({ handleSearchInput }) => {
-  const {
-    isMobile,
-    isTablet,
-    isLaptop,
-    isTabletPortrait,
-    isTabletLandscape,
-    isDesktop,
-  } = useContext(ScreenSizeContext);
+  const { width } = useContext(ScreenSizeContext);
   const { user, setUser } = useContext(UserContext);
   const { input, setInput } = useContext(SearchBarInputContext);
 
@@ -76,16 +69,19 @@ const NavBar = ({ handleSearchInput }) => {
     });
 
   return (
-    <nav className=" w-[100%] row-span-1 col-span-3  flex justify-between items-center border-b border-l-none border-r-none sm:border-l sm:border-r  border-gray-200 dark:border-primary dark:bg-darkBg">
+    <nav className="relative w-[100%] laptop:w-90vw  row-span-1 col-span-3 tablet-portrait:px-4  flex justify-between items-center border-b border-l-none border-r-none laptop:border-l laptop:border-r  border-gray-200 dark:border-primary dark:bg-darkBg">
       <Link to="/articles" onClick={handleScrollToTop}>
         <Logo />
       </Link>
-      {width > 640 && (
-        <div className={`${!isModalOpen ? "z-40" : "z-0"} relative ml-24`}>
+      {width > 900 && (
+        <div
+          className={`${
+            !isModalOpen ? "z-40" : "z-0"
+          } absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2  tablet:w-[420px] desktop:w-[460px] xl-screen:w-[560px]`}>
           <Input searchInput={input} handleChange={handleSearchInput} />
           {isSearchOpen ? (
             searchInputLength > 0 && filteredArticlesArr.length > 0 ? (
-              <div className="top-[10px] w-[460px] max-h-[550px] shadow-xl overflow-y-auto scrollbar-hide z-30 sm:ml-8 bg-white dark:bg-secondaryBg absolute rounded-xl p-4">
+              <div className="top-[10px]  tablet:w-[380px] desktop:w-[450px] xl-screen:w-[560px]  tablet:max-h-[550px] desktop:max-h-[600px] xl-screen:max-h-[700px]  shadow-xl overflow-y-auto scrollbar-hide z-30  bg-white dark:bg-secondaryBg absolute rounded-xl p-4">
                 <SearchBarList
                   articles={filteredArticlesArr}
                   searchInputLength={searchInputLength}
@@ -94,14 +90,14 @@ const NavBar = ({ handleSearchInput }) => {
             ) : isSearchOpen && searchInputLength < 1 ? (
               <div
                 ref={extendedComponentRef}
-                className="top-[10px]  w-[460px] max-h-[550px] shadow-xl overflow-y-auto sm:ml-8 bg-white dark:bg-secondaryBg absolute rounded-xl p-4 z-30 scrollbar-hide">
+                className="top-[10px]  tablet:w-[380px] desktop:w-[450px] xl-screen:w-[560px]  tablet:max-h-[550px] desktop:max-h-[600px] xl-screen:max-h-[1000px] shadow-xl overflow-y-auto  bg-white dark:bg-secondaryBg absolute rounded-xl p-4 z-30 scrollbar-hide">
                 <SearchBarList articles={popularArticles} />
               </div>
             ) : (
               <div
                 ref={extendedComponentRef}
-                className="top-[10px] w-[460px] h-[550px]  shadow-xl overflow-y-auto sm:ml-8 bg-white dark:bg-secondaryBg  absolute rounded-xl p-4 z-30 scrollbar-hide">
-                <p className="text-[0.85rem] text-primary sm:ml-2 sm:pt-4">
+                className="top-[10px]  tablet:w-[380px] desktop:w-[450px] xl-screen:w-[560px]  tablet:min-h-[550px] desktop:min-h-[600px] xl-screen:min-h-[700px]  shadow-xl overflow-y-auto  bg-white dark:bg-secondaryBg  absolute rounded-xl p-4 z-30 scrollbar-hide">
+                <p className="text-[0.85rem] desktop:text-[1rem] text-primary tablet:ml-2 tablet:pt-4 tablet:mt-4">
                   No results found...
                 </p>
               </div>
@@ -109,22 +105,26 @@ const NavBar = ({ handleSearchInput }) => {
           ) : null}
         </div>
       )}
-      <div className="flex items-center mx-2.5 sm:mx-6 gap-3 sm:gap-6">
+      <div className="flex items-center mx-2.5 tablet:mx-0 desktop:mx-8 tablet:mr-6 desktop:mr-8   gap-3 tablet-portrait:gap-5 tablet:gap-4 desktop:gap-6">
         <ThemeToggleSwitch onClick={toggleTheme} />
-        {width > 640 && (
+        {width > 900 && (
           <Button
-            buttonStyle={theme === "dark" ? "buttonLargeDark" : "buttonLarge"}
+            buttonStyle={
+              theme === "dark"
+                ? "tablet:buttonMediumDark desktop:buttonLargeDark"
+                : "tablet:buttonMedium desktop:buttonLarge"
+            }
             handleClick={handleSignOut}>
-            {user.username ? "Sign Out" : "Sign In"}
+            {user.username ? "Sign out" : "Sign in"}
           </Button>
         )}
-        {width < 640 && (
+        {width < 900 && (
           <FaSearch
             className="w-5 h-5 text-primary cursor-pointer"
             onClick={toggleSearchOpen}
           />
         )}
-        {width < 640 && !article_id && (
+        {width < 900 && !article_id && (
           <IoIosAddCircle
             className="w-7 h-7 text-primary cursor-pointer"
             onClick={() => {
@@ -134,8 +134,8 @@ const NavBar = ({ handleSearchInput }) => {
             }}
           />
         )}
-        <div className="sm:w-[65px] sm:h-[65px] flex justify-center items-center">
-          {user.username && width < 640 ? (
+        <div className="tablet:w-[65px] tablet:h-[65px] flex justify-center items-center">
+          {user.username && width < 900 ? (
             <Avatar
               avatarURL={user.avatar_url}
               avatarStyle="avatarMobileNav sm:avatarLarge "
@@ -144,12 +144,12 @@ const NavBar = ({ handleSearchInput }) => {
           ) : user.username ? (
             <Avatar
               avatarURL={user.avatar_url}
-              avatarStyle="avatarMobileNav sm:avatarLarge cursor-pointer"
+              avatarStyle="avatarMobileNav tablet:avatarMedium desktop:avatarLarge cursor-pointer"
             />
           ) : (
             <div>
               <CgProfile
-                className="avatarMobile w-[33px] h-[33px] sm:w-[58px]  sm:h-[58px] border-none text-primary cursor-pointer"
+                className="avatarMobile w-[33px] h-[33px] tablet:w-[46px] tablet:h-[46px] desktop:w-[58px]  desktop:h-[58px] border-none text-primary cursor-pointer"
                 onClick={() => showModal(<SignIn />)}
               />
             </div>

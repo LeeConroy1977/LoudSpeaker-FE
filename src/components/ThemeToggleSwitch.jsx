@@ -8,7 +8,7 @@ const ThemeToggleSwitch = () => {
   const { width } = useContext(ScreenSizeContext);
   return (
     <div className="flex items-center">
-      {width < 640 ? (
+      {width < 900 ? (
         <>
           {theme === "dark" ? (
             <span>
@@ -29,23 +29,21 @@ const ThemeToggleSwitch = () => {
       ) : (
         <>
           <span>
-            <MdLightMode className="text-yellow-400 w-[18px] h-[18px] cursor-pointer" />
+            <MdLightMode className="text-yellow-400 tablet:w-[22px] tablet:h-[22px] desktop:w-[26px] desktop:h-[26px] cursor-pointer" />
           </span>
           <div
-            className="relative flex items-center mr-1 ml-1  p-1 sm:w-[56px] sm:h-[25px] bg-white dark:bg-secondaryBg rounded-full border-2 border-primary cursor-pointer"
-            onClick={toggleTheme}
-          >
+            className="relative flex items-center mr-1 ml-1 p-1 tablet:w-[60px] tablet:h-[28px] desktop:w-[75px]  desktop:h-[32px] bg-white dark:bg-secondaryBg rounded-full border-2 border-primary cursor-pointer"
+            onClick={toggleTheme}>
             <div
-              className={`absolute transition-transform duration-300 ease-in-out sm:w-[17px]  sm:h-[17px] bg-primary rounded-full ${
+              className={`absolute transition-transform duration-300 ease-in-out tablet:w-[18px] tablet:h-[18px] desktop:w-[23px]  desktop:h-[23px] bg-primary rounded-full ${
                 theme === "dark" ? "translate-x-7" : "translate-x-0"
-              }`}
-            ></div>
+              }`}></div>
           </div>
           <span>
             <MdDarkMode
               className={`${
                 theme !== "dark" ? "text-secondaryBg" : "text-darkTextPrimary"
-              } [16px] h-[16px] cursor-pointer `}
+              } tablet:w-[22px] tablet:h-[22px] desktop:w-[26px] desktop:h-[26px] cursor-pointer `}
             />
           </span>
         </>

@@ -7,7 +7,7 @@ const Input = ({ handleChange, searchInput }) => {
   const { setIsSearchOpen } = useContext(SearchOpenContext);
   const { isModalOpen } = useModal();
   return (
-    <div className="w-[100%] h-8 sm:h-8 sm:w-[460px] sm:ml-8 bg-gray-100 dark:bg-secondaryBg rounded-full flex items-center relative z-50 ">
+    <div className="w-[100%] h-8 tablet:h-8 desktop:h-10  tablet:w-[380px] desktop:w-[450px] xl-screen:w-[560px]    bg-gray-100 dark:bg-secondaryBg rounded-full flex items-center relative z-50 ">
       <span className="h-8 w-10 sm:h-9 sm:w-12  rounded-full flex justify-center items-center z-41">
         {<FaSearch className="text-primary dark:text-gray-300 text-sm z-50" />}
       </span>

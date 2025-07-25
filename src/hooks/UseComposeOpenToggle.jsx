@@ -5,7 +5,7 @@ import { UserContext } from "../contexts/UserContext";
 
 const useComposeToggle = () => {
   const { setIsSearchOpen } = useContext(SearchOpenContext);
-  const { isComposeOpen, setIsComposeOpen } = useContext(ComposeOpenContext);
+  const {  setIsComposeOpen } = useContext(ComposeOpenContext);
   const { user } = useContext(UserContext);
 
   const toggleComposeOpen = () => {

@@ -69,9 +69,7 @@ export const ArticlesProvider = ({ children }) => {
         limit,
         page
       );
-      if (process.env.NODE_ENV === "development") {
-        console.log("Fetch articles response:", response);
-      }
+
       dispatch({
         type: "FETCH_ARTICLES_SUCCESS",
         payload: {
@@ -135,7 +133,6 @@ export const ArticlesProvider = ({ children }) => {
         limit,
         page
       );
-      console.log(response, "popular---context");
       dispatch({
         type: "FETCH_POPULAR_ARTICLES_SUCCESS",
         payload: response.articles,
@@ -166,11 +163,13 @@ export const ArticlesProvider = ({ children }) => {
       );
 
       const featuredArticles = response.articles;
-      featuredArticles.filter((article) => article.featured === true);
+      const filteredArticles = featuredArticles.filter(
+        (article) => article.featured === true
+      );
 
       dispatch({
         type: "FETCH_FEATURED_ARTICLES_SUCCESS",
-        payload: featuredArticles,
+        payload: filteredArticles,
       });
     } catch (error) {
       dispatch({
@@ -197,37 +196,35 @@ export const ArticlesProvider = ({ children }) => {
     }
   };
 
-  const likeArticle = async (id, inc_votes) => {
-    dispatch({ type: "LIKE_ARTICLE" });
+  const handleLikeArticle = async (articleId, voteChange) => {
     try {
-      const response = await patchArticle(id, inc_votes);
-
+      const response = await patchArticle(articleId, voteChange);
+      console.log("Like article response:", response);
       dispatch({
-        type: "LIKE_ARTICLES_SUCCESS",
-        payload: { id: response.id, votes: response.votes },
+        type: "LIKE_ARTICLE_SUCCESS",
+        payload: { article: response.article },
       });
+      return response;
     } catch (error) {
-      dispatch({
-        type: "LIKE_ARTICLES_FAILURE",
-        payload: error.message || "Error liking article",
-      });
+      console.error("Error liking article:", error.message, error.stack);
+      dispatch({ type: "LIKE_ARTICLE_FAILURE", payload: error.message });
+      throw error;
     }
   };
 
-  const unlikeArticle = async (id) => {
-    dispatch({ type: "UNLIKE_ARTICLE" });
+  const handleUnlikeArticle = async (articleId, voteChange) => {
     try {
-      const response = await patchArticle(id, -1);
-
+      const response = await patchArticle(articleId, voteChange);
+      console.log("Unlike article response:", response);
       dispatch({
-        type: "UNLIKE_ARTICLES_SUCCESS",
-        payload: { id: response.id, votes: response.votes },
+        type: "UNLIKE_ARTICLE_SUCCESS",
+        payload: { article: response.article },
       });
+      return response;
     } catch (error) {
-      dispatch({
-        type: "UNLIKE_ARTICLES_FAILURE",
-        payload: error.message || "Error unliking article",
-      });
+      console.error("Error unliking article:", error.message, error.stack);
+      dispatch({ type: "UNLIKE_ARTICLE_FAILURE", payload: error.message });
+      throw error;
     }
   };
 
@@ -240,8 +237,8 @@ export const ArticlesProvider = ({ children }) => {
         fetchArticles,
         fetchFeaturedArticles,
         createArticle,
-        likeArticle,
-        unlikeArticle,
+        handleLikeArticle,
+        handleUnlikeArticle,
         fetchAdditionalArticles,
         fetchPopularArticles,
       }}>

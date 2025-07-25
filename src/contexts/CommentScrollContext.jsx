@@ -1,6 +1,5 @@
 import React, { createContext, useRef } from "react";
 
-// Create the ScrollContext
 export const CommentScrollContext = createContext();
 
 export const CommentScrollProvider = ({ children }) => {

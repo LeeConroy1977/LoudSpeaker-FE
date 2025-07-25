@@ -5,9 +5,6 @@ import { useModal } from "../contexts/ModalContext";
 import SignIn from "../components/SignIn";
 
 const VotesContainer = ({
-  votesStyle,
-  votesNumStyle,
-  votesIconStyle,
   initialVotes,
   handleClick,
   entity_id,
@@ -17,14 +14,14 @@ const VotesContainer = ({
   const { showModal } = useModal();
   const [voteStatus, setVoteStatus] = useState(null);
   const [voteCount, setVoteCount] = useState(initialVotes);
-  const [isVoting, setIsVoting] = useState(false); 
+  const [isVoting, setIsVoting] = useState(false);
 
   useEffect(() => {
     if (entity_id && user.username) {
       const storedVote = localStorage.getItem(
         `voteStatus-${entity_id}-${user.username}`
       );
-      setVoteStatus(storedVote || null);
+      setVoteStatus(storedVote === "null" ? null : storedVote);
       setVoteCount(initialVotes);
     } else {
       setVoteStatus(null);
@@ -37,63 +34,62 @@ const VotesContainer = ({
       showModal(<SignIn />);
       return;
     }
-    if (isVoting) return; 
+    if (isVoting) return;
 
-    if (voteStatus === voteType) {
-      setIsVoting(true);
-      try {
-        const response = await handleClick(voteType === "up" ? -1 : 1); 
-        setVoteStatus(null);
-        setVoteCount(response.votes);
-        localStorage.setItem(
-          `voteStatus-${entity_id}-${user.username}`,
-          "null"
-        );
-      } catch (error) {
-        console.error(`Error undoing ${voteType} vote:`, error);
-      } finally {
-        setIsVoting(false);
+    setIsVoting(true);
+    const previousVoteCount = voteCount;
+    const previousVoteStatus = voteStatus;
+
+    const newVoteCount =
+      voteStatus === voteType ? voteCount - voteChange : voteCount + voteChange;
+    setVoteCount(newVoteCount);
+    setVoteStatus(voteStatus === voteType ? null : voteType);
+
+    try {
+      const response = await handleClick(
+        voteStatus === voteType ? -voteChange : voteChange
+      );
+      if (!response || typeof response.votes !== "number") {
+        throw new Error("Invalid response from server: missing votes");
       }
-    } else if (!voteStatus) {
-      setIsVoting(true);
-      try {
-        const response = await handleClick(voteChange);
-        setVoteStatus(voteType);
-        setVoteCount(response.votes);
+      setVoteCount(response.votes);
+      setVoteStatus(voteStatus === voteType ? null : voteType);
+      if (voteStatus === voteType) {
+        localStorage.removeItem(`voteStatus-${entity_id}-${user.username}`);
+      } else {
         localStorage.setItem(
           `voteStatus-${entity_id}-${user.username}`,
           voteType
         );
-      } catch (error) {
-        console.error(`Error adding ${voteType} vote:`, error);
-      } finally {
-        setIsVoting(false);
       }
+    } catch (error) {
+      console.error(`Error ${voteType} voting:`, error);
+      setVoteCount(previousVoteCount);
+      setVoteStatus(previousVoteStatus);
+    } finally {
+      setIsVoting(false);
     }
   };
 
   return (
-    <div className={`${votesStyle} flex items-center rounded-xl`}>
+    <div
+      className={`w-[60px] tablet-portrait:w-[68px] tablet:w-[63px] desktop:w-[66px] xl-screen:w-[75px] py-1.5 tablet-portrait:py-2 tablet:py-1.5 flex justify-center items-center rounded-full mobile:gap-0.5 tablet-portrait:gap-1 tablet:gap-1 desktop:gap-0.9 xl-screen:gap-1 bg-[#f3f4f6] dark:bg-secondaryBg`}>
       <TbArrowBigDown
-        className={`${votesIconStyle} ${
-          voteStatus === "down"
-            ? "fill-red-600"
-            : isVoting || voteStatus === "up"
-            ? "text-gray-400 cursor-not-allowed"
-            : "text-black cursor-pointer"
+        className={`size-[14px] tablet-portrait:size-[15px] desktop:size-[17px] xl-screen:size-[18px] text-red-500 cursor-pointer ${
+          isVoting ? "opacity-50 cursor-not-allowed" : ""
         }`}
         onClick={() => handleVote("down", -1)}
+        disabled={isVoting}
       />
-      <p className={`${votesNumStyle}`}>{voteCount}</p>
+      <p className="text-[10px] tablet-portrait:text-[11px] xl-screen:text-[14px] text-[#456990] dark:text-darkTextPrimary font-semibold">
+        {voteCount}
+      </p>
       <TbArrowBigUp
-        className={`${votesIconStyle} ${
-          voteStatus === "up"
-            ? "fill-green-600"
-            : isVoting || voteStatus === "down"
-            ? "text-gray-400 cursor-not-allowed"
-            : "text-black cursor-pointer"
+        className={`size-[14px] tablet-portrait:size-[15px] desktop:size-[17px] xl-screen:size-[18px] text-green-500 cursor-pointer ${
+          isVoting ? "opacity-50 cursor-not-allowed" : ""
         }`}
         onClick={() => handleVote("up", 1)}
+        disabled={isVoting}
       />
     </div>
   );

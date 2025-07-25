@@ -1,4 +1,3 @@
-import React from "react";
 
 const Avatar = ({ avatarStyle, avatarURL, handleClick }) => {
   return (

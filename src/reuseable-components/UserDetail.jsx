@@ -10,9 +10,9 @@ const UserDetail = ({ createdAt, name, username }) => {
   const timeDetail = timeSince(createdAt);
   return (
     <div className="flex items-center">
-      {width < 640 ? (
+      {width < 900 ? (
         <div className="flex flex-col w-[100%]">
-          <p className="flex items-center text-[9.5px] text-primary dark:text-darkTextPrimary  ml-2 font-bold">
+          <p className="flex items-center text-[10px] tablet-portrait:text-[11px]  text-primary dark:text-darkTextPrimary  ml-2 font-bold">
             @{username}
             <BsDot className="text-[20px]" />
             {timeDetail}
@@ -21,14 +21,14 @@ const UserDetail = ({ createdAt, name, username }) => {
       ) : (
         <>
           {" "}
-          <span className="text-[12px] font-bold text-primary dark:text-darkTextPrimary ml-3">
+          <span className="text-[12px] tablet:text-[11px] desktop:text-[14px] xl-screen:text-[15px] font-bold text-primary dark:text-darkTextPrimary ml-3">
             {name}
           </span>
           {"  "}
           <span className=" text-primary  ml-0.5">
             <IoCheckmarkCircleSharp className=" text-[18px] fill-primary text-white" />
           </span>
-          <div className="flex items-center text-[10px] text-primary dark:text-darkTextPrimary ml-1">
+          <div className="flex items-center text-[10px] tablet-[5px]  desktop:text-[12px] xl-screen:text-[13px] text-primary dark:text-darkTextPrimary ml-1">
             <p>@{username}</p>
             <span>
               <BsDot className="text-[20px]" />

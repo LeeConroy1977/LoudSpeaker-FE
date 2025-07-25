@@ -13,7 +13,6 @@ const AppRoutes = () => {
   const {
     state: { totalComments },
   } = useContext(CommentsContext);
-  const { user } = useContext(UserContext);
   const { visible } = useContext(VisibleContext);
   const {
     state: { popularArticles },
@@ -42,6 +41,7 @@ const AppRoutes = () => {
   }, [page]);
 
   useEffect(() => {
+    setPage(1);
     fetchArticles(topicParam, sortByParam, orderParam, limit, page);
   }, [topicParam, sortByParam, orderParam, voteCount]);
 
@@ -65,7 +65,11 @@ const AppRoutes = () => {
         <Route
           path="/articles"
           element={
-            <Home handleOnLoadMore={handleOnLoadMore} visible={visible} />
+            <Home
+              handleOnLoadMore={handleOnLoadMore}
+              visible={visible}
+              topicParam={topicParam}
+            />
           }
         />
         <Route

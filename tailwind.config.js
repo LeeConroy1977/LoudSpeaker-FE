@@ -15,13 +15,14 @@ export default {
         secondaryBg: "#1f2937",
       },
     },
-  },
-  screens: {
-    mobile: "375px",
-    tablet: "768px",
-    laptop: "1024px",
-    desktop: "1280px",
-    "xl-screen": "1600px",
+    screens: {
+      mobile: { max: "639px" },
+      "tablet-portrait": "640px",
+      tablet: "900px",
+      laptop: "1024px",
+      desktop: "1600px",
+      "xl-screen": "1920px",
+    },
   },
 
   plugins: [],

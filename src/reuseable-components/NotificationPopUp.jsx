@@ -19,8 +19,8 @@ const NotificationPopUp = ({
   return (
     <div
       className={`${
-        width < 640 ? "text-[13px] left-[70px]" : "text-[15px] left-[39%]"
-      } flex items-center justify-center w-[230px] h-[80px] sm:w-[280px] sm:h-[80px] fixed bottom-10  bg-primary text-white rounded-lg font-semibold`}>
+        width < 640 ? "text-[13px] " : "text-[15px]"
+      } absolute flex items-center justify-center w-[230px] h-[80px] tablet-portrait:w-[280px] tablet-portrait:h-[80px]  bottom-10 m-auto bg-primary text-white rounded-lg font-semibold`}>
       {message}
     </div>
   );

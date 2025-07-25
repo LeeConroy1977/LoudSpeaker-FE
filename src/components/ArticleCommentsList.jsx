@@ -11,11 +11,10 @@ const ArticleCommentsList = () => {
 
   return (
     <div ref={commentsRef} className="mb-4">
-      {comments?.map((comment) => {
-        return (
-          <ArticleCommentsCard key={comment?.comment_id} comment={comment} />
-        );
-      })}
+      {Array.isArray(comments) &&
+        comments?.map((comment, i) => {
+          return <ArticleCommentsCard key={i} comment={comment} />;
+        })}
     </div>
   );
 };

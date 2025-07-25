@@ -76,8 +76,8 @@ const CommentsReducer = (state = initialState, action) => {
       return {
         ...state,
         comments: state.comments.map((comment) =>
-          comment.id === action.payload.comment.id
-            ? { ...comment, votes: action.payload.comment.votes } 
+          comment.comment_id === action.payload.comment_id
+            ? { ...comment, votes: action.payload.votes }
             : comment
         ),
         loading: false,
@@ -99,8 +99,8 @@ const CommentsReducer = (state = initialState, action) => {
       return {
         ...state,
         comments: state.comments.map((comment) =>
-          comment.id === action.payload.comment.id
-            ? { ...comment, votes: action.payload.comment.votes } 
+          comment.comment_id === action.payload.comment_id
+            ? { ...comment, votes: action.payload.votes }
             : comment
         ),
         loading: false,

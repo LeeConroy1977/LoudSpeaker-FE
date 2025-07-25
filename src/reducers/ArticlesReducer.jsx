@@ -66,7 +66,7 @@ const ArticlesReducer = (state = initialState, action) => {
     case "FETCH_ADDITIONAL_ARTICLES_SUCCESS":
       return {
         ...state,
-        articles: action.payload.articles || [],
+        articles: [...state.articles, ...action.payload.articles] || [],
         articleCount: action.payload.totalCount || 0,
         loading: false,
         error: null,

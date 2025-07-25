@@ -14,7 +14,7 @@ const users = [
   {
     username: "happyamy2016",
     name: "Amy Happy",
-    avatar_url: "https://shpe.cornell.edu/images/eboard/delaney.jpg",
+    avatar_url: "https://randomuser.me/api/portraits/women/20.jpg",
   },
   {
     username: "cooljmessy",
