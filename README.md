@@ -1,6 +1,17 @@
 # LoudSpeaker
 
-![Alt text](./src/assets/images/loudSpeaker_1.png)
+---
+
+## Image Gallery
+
+| Image 1                                           | Image 2                                           |
+| ------------------------------------------------- | ------------------------------------------------- |
+| ![Image 1](./src/assets/images/loudSpeaker_1.png) | ![Image 2](./src/assets/images/loudSpeaker_1.png) |
+| _Caption 1_                                       | _Caption 2_                                       |
+| ![Image 3](./src/assets/images/loudSpeaker_1.png) | ![Image 4](./src/assets/images/loudSpeaker_1.png) |
+| _Caption 3_                                       | _Caption 4_                                       |
+
+---
 
 EventWey is an innovative event and meetup application designed to help users discover, join, and create events and groups in their community. Whether you're looking to organize events or find new experiences, EventWey brings people together seamlessly.
 
