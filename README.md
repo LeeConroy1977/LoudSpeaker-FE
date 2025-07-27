@@ -1,6 +1,8 @@
-# LoudSpeaker
+LoudSpeaker
+Overview
+LoudSpeaker is a modern, fully responsive articles platform designed to enhance the user experience of the original nc-news-frontend project from the Northcoders bootcamp. Built as an improved frontend for the nc-news-backend-project, LoudSpeaker allows users to sign in as one of six predefined users to explore, create, and interact with articles. The platform offers robust features like article searching, filtering, commenting, liking, and theme switching, all powered by a custom-built backend.
 
----
+Visit LoudSpeaker: https://loudspeaker77.netlify.app/
 
 ## Image Gallery
 
@@ -11,133 +13,62 @@
 | ![Image 3](./src/assets/images/loudSpeaker_1.png) | ![Image 4](./src/assets/images/loudSpeaker_1.png) |
 | _Caption 3_                                       | _Caption 4_                                       |
 
----
+Features
 
-EventWey is an innovative event and meetup application designed to help users discover, join, and create events and groups in their community. Whether you're looking to organize events or find new experiences, EventWey brings people together seamlessly.
+User Authentication: Sign in as one of six predefined users to access personalized features.
+Article Management: Create, search, and filter articles by various criteria.
+Interactivity: Comment on articles, like articles, and like comments.
+Theme Customization: Toggle between light and dark modes for a comfortable reading experience.
+Comment Moderation: Delete comments as needed.
+Responsive Design: Seamlessly adapts to desktop, tablet, and mobile devices.
 
----
+Technologies Used
 
-## Website
+Frontend: React, Tailwind CSS
+Backend: Node.js (via nc-news-backend-project, fully tested)
+Deployment: Netlify
 
-- https://loudspeaker77.netlify.app/
+Installation
+To run LoudSpeaker locally, ensure the nc-news-backend-project is set up first (see backend repository).
 
----
+Clone the Repository:
+git clone https://github.com/LeeConroy1977/LoudSpeaker-FE.git
 
-## Getting Started
+Install Dependencies:
+npm install
 
-### Prerequisites
+Run the Application:
+npm run dev
 
-- Ensure you have [Node.js](https://nodejs.org/) installed.
+Access the Application:Open your browser and navigate to http://localhost:3000.
+To view the application in mobile view, open dev-tools and select the device iPhone 6/7/8.
 
-### Installation and Setup
+Usage
 
-1. Clone or fork a copy of the repository to your local machine.
+Sign In: Choose one of the six predefined users to log in.
+Explore Articles: Scroll the main articles list or use the search bar or filters to find articles by topic, date, or other criteria.
+Create an Article: Click on the "Compose Article" section, fill in details, and publish.
+Interact: Like or comment on articles, like comments, or delete your own comments.
+Toggle Theme: Switch to dark mode via the theme toggle for better readability.
+Responsive Experience: Access the site on any device for a consistent experience.
 
-2. Open a terminal and navigate to the project directory.
+Backend Information
+LoudSpeaker relies on the nc-news-backend-project, a fully tested Node.js backend developed during the Northcoders bootcamp. For setup and details, refer to the backend repository.
+Screenshots
+Below is a gallery of key LoudSpeaker features:
 
-3. Run the following commands to install the necessary dependencies and start the app:
+Homepage
+Article Creation
+Dark Mode
 
-   ```bash
-   npm install
-   ```
+Note: Screenshots are placeholders. Replace with actual images in the screenshots/ folder of your repository.
+Contributing
+Contributions are welcome! To contribute:
 
-   ```bash
-   npm run dev
-   ```
+Please adhere to our Code of Conduct and style guidelines.
+License
+This project is licensed under the MIT License.
+Contact
+For questions or support, please contact:
 
-   Open a new terminal in the same directory and start the JSON server on port 3000 using:
-   json-server --watch db.json --port 3000
-
-Once both commands are running, you can access the application via your browser.
-
----
-
-## Main features
-
-- Create groups for users to join
-
-- Create group events that user can join
-
-- Add an event to google calendar
-
-- If an admin user, approve or reject new groups and events
-
----
-
-## Using the app
-
-To use Eventwey, visitor to the app have 4 options.
-
-**1. Sign up and create a new account.**
-
-Users can create a new account with a username, email and password. New user will then add their profile image, background image, bio, about me and tags to populate their profile page.
-
-**2. Sign in to your existing account.**
-
-If a user has already created an account, they can sign in using their email and password.
-
-**3. Sign in as an existing user.**
-
-A user can also sign in as an existing user by clicking on the existing user profile. If that user is the owner of a group, they can create new events for that group.
-
-**4. Sign in as an existing admin user.**
-
-A user can also sign in as an admin user and can approve or reject newly created events and groups.
-
----
-
-## Test accounts
-
-**User One**
-
-**Email:** mia6@gmail.com<br>
-**Password:** Password#6
-
-**User Two**
-
-**Email:** john2@gmail.com<br>
-**Password:** Password#2
-
-**User Three**
-
-**Email:** emma3@gmail.com<br>
-**Password:** Password#3
-
-**Admin User One**
-
-**Email:** lucas5@gmail.com<br>
-**Password:** Password#5
-
-**Admin User Two**
-
-**Email:** lucy7@gmail.com<br>
-**Password:** Password#7
-
-**Admin User Three**
-
-**Email:** sophie10@gmail.com<br>
-**Password:** Password#10
-
----
-
-## How to test the app features
-
-1. Sign up as a new user or sign in as an existing user.
-
-2. Click create a group in the nav bar and follow the instruction to add the group details.
-
-3. Sign out and sign back in as an admin user.
-
-4. In the admin user home page, Click admin in the navbar and click the newly created group and approve.
-
-5. Sign out and sign back in as the user who created the group.
-
-6. Click the create event button and follow the instruction to create an event.
-
-7. Sign out and sign back in as an admin user and approve the newly created event.
-
-8. Click join event and then click add to google calendar.
-
-9. Browse other groups and events and join any that you like!
-
----
+Email: leeconroy1977@yahoo.co.uk
