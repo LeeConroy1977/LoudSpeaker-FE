@@ -93,6 +93,6 @@ Email: leeconroy1977@yahoo.co.uk
 
 
 
-![Image 5](./src/assets/images/loudSpeaker_5.png)
+
 
 
