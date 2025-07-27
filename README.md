@@ -69,8 +69,6 @@ To view the application in mobile view, open dev-tools and select the device iPh
 
 LoudSpeaker relies on the nc-news-backend-project, a fully tested Node.js backend developed during the Northcoders bootcamp.
 
-## Backend Repository
-
 [Link to Backend Repository](https://github.com/LeeConroy1977/nc-news-backend-project)
 
 ## Contact
