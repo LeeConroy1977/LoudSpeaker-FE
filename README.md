@@ -67,7 +67,11 @@ To view the application in mobile view, open dev-tools and select the device iPh
 
 ## Backend Information
 
-LoudSpeaker relies on the nc-news-backend-project, a fully tested Node.js backend developed during the Northcoders bootcamp. For setup and details, refer to the backend repository.
+LoudSpeaker relies on the nc-news-backend-project, a fully tested Node.js backend developed during the Northcoders bootcamp.
+
+## Backend Repository
+
+[Link to Backend Repository](https://github.com/LeeConroy1977/nc-news-backend-project)
 
 ## Contact
 
@@ -77,22 +81,10 @@ Email: leeconroy1977@yahoo.co.uk
 
 ## Image Gallery
 
-![Image 1](./src/assets/images/loudSpeaker_1.png)  
-
-
+![Image 1](./src/assets/images/loudSpeaker_1.png)
 
 ![Image 2](./src/assets/images/loudSpeaker_2.png)
 
-
-
 ![Image 3](./src/assets/images/loudSpeaker_3.png)
 
-
-
 ![Image 4](./src/assets/images/loudSpeaker_4.png)
-
-
-
-
-
-
