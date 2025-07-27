@@ -1,5 +1,7 @@
-LoudSpeaker
-Overview
+### LoudSpeaker
+
+## Overview
+
 LoudSpeaker is a modern, fully responsive articles platform designed to enhance the user experience of the original nc-news-frontend project from the Northcoders bootcamp. Built as an improved frontend for the nc-news-backend-project, LoudSpeaker allows users to sign in as one of six predefined users to explore, create, and interact with articles. The platform offers robust features like article searching, filtering, commenting, liking, and theme switching, all powered by a custom-built backend.
 
 Visit LoudSpeaker: https://loudspeaker77.netlify.app/
@@ -13,7 +15,7 @@ Visit LoudSpeaker: https://loudspeaker77.netlify.app/
 | ![Image 3](./src/assets/images/loudSpeaker_1.png) | ![Image 4](./src/assets/images/loudSpeaker_1.png) |
 | _Caption 3_                                       | _Caption 4_                                       |
 
-Features
+## Features
 
 User Authentication: Sign in as one of six predefined users to access personalized features.
 Article Management: Create, search, and filter articles by various criteria.
@@ -22,14 +24,13 @@ Theme Customization: Toggle between light and dark modes for a comfortable readi
 Comment Moderation: Delete comments as needed.
 Responsive Design: Seamlessly adapts to desktop, tablet, and mobile devices.
 
-Technologies Used
+## Technologies Used
 
 Frontend: React, Tailwind CSS
 Backend: Node.js (via nc-news-backend-project, fully tested)
 Deployment: Netlify
 
-Installation
-To run LoudSpeaker locally, ensure the nc-news-backend-project is set up first (see backend repository).
+## Installation
 
 Clone the Repository:
 git clone https://github.com/LeeConroy1977/LoudSpeaker-FE.git
@@ -43,7 +44,7 @@ npm run dev
 Access the Application:Open your browser and navigate to http://localhost:3000.
 To view the application in mobile view, open dev-tools and select the device iPhone 6/7/8.
 
-Usage
+## Usage
 
 Sign In: Choose one of the six predefined users to log in.
 Explore Articles: Scroll the main articles list or use the search bar or filters to find articles by topic, date, or other criteria.
@@ -52,23 +53,14 @@ Interact: Like or comment on articles, like comments, or delete your own comment
 Toggle Theme: Switch to dark mode via the theme toggle for better readability.
 Responsive Experience: Access the site on any device for a consistent experience.
 
-Backend Information
+## Backend Information
+
 LoudSpeaker relies on the nc-news-backend-project, a fully tested Node.js backend developed during the Northcoders bootcamp. For setup and details, refer to the backend repository.
 Screenshots
 Below is a gallery of key LoudSpeaker features:
 
-Homepage
-Article Creation
-Dark Mode
+## Contact
 
-Note: Screenshots are placeholders. Replace with actual images in the screenshots/ folder of your repository.
-Contributing
-Contributions are welcome! To contribute:
-
-Please adhere to our Code of Conduct and style guidelines.
-License
-This project is licensed under the MIT License.
-Contact
 For questions or support, please contact:
 
 Email: leeconroy1977@yahoo.co.uk
