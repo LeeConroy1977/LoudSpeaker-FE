@@ -8,12 +8,12 @@ Visit LoudSpeaker: https://loudspeaker77.netlify.app/
 
 ## Image Gallery
 
-| Image 1                                           |     | Image 2                                           |
 | ------------------------------------------------- | --- | ------------------------------------------------- |
-| ![Image 1](./src/assets/images/loudSpeaker_1.png) |     | ![Image 2](./src/assets/images/loudSpeaker_1.png) |
-| _Caption 1_                                       |     | _Caption 2_                                       |
-| ![Image 3](./src/assets/images/loudSpeaker_1.png) |     | ![Image 4](./src/assets/images/loudSpeaker_1.png) |
-| _Caption 3_                                       |     | _Caption 4_                                       |
+| ![Image 1](./src/assets/images/loudSpeaker_1.png) | | ![Image 2](./src/assets/images/loudSpeaker_1.png) |
+
+| _Caption 1_ | | _Caption 2_ |
+| ![Image 3](./src/assets/images/loudSpeaker_1.png) | | ![Image 4](./src/assets/images/loudSpeaker_1.png) |
+| _Caption 3_ | | _Caption 4_ |
 
 ## Features
 
