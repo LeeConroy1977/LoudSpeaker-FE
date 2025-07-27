@@ -77,10 +77,10 @@ Email: leeconroy1977@yahoo.co.uk
 
 ## Image Gallery
 
-[Image 1](./src/assets/images/loudSpeaker_1.png)
+![Image 1](./src/assets/images/loudSpeaker_1.png)
 
-[Image 1](./src/assets/images/loudSpeaker_1.png)
+![Image 1](./src/assets/images/loudSpeaker_1.png)
 
-[Image 1](./src/assets/images/loudSpeaker_1.png)
+![Image 1](./src/assets/images/loudSpeaker_1.png)
 
-[Image 1](./src/assets/images/loudSpeaker_1.png)
+![Image 1](./src/assets/images/loudSpeaker_1.png)
