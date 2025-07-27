@@ -6,13 +6,6 @@ LoudSpeaker is a modern, fully responsive articles platform designed to enhance 
 
 Visit LoudSpeaker: https://loudspeaker77.netlify.app/
 
-## Image Gallery
-
-| ![Image 1](./src/assets/images/loudSpeaker_1.png) | | ![Image 2](./src/assets/images/loudSpeaker_1.png) |
-| _Caption 1_ | | _Caption 2_ |
-| ![Image 3](./src/assets/images/loudSpeaker_1.png) | | ![Image 4](./src/assets/images/loudSpeaker_1.png) |
-| _Caption 3_ | | _Caption 4_ |
-
 ## Features
 
 **User Authentication:** Sign in as one of six predefined users to access personalized features.
@@ -81,3 +74,13 @@ LoudSpeaker relies on the nc-news-backend-project, a fully tested Node.js backen
 For questions or support, please contact:
 
 Email: leeconroy1977@yahoo.co.uk
+
+## Image Gallery
+
+[Image 1](./src/assets/images/loudSpeaker_1.png)
+
+[Image 1](./src/assets/images/loudSpeaker_1.png)
+
+[Image 1](./src/assets/images/loudSpeaker_1.png)
+
+[Image 1](./src/assets/images/loudSpeaker_1.png)
