@@ -8,32 +8,10 @@ Visit LoudSpeaker: https://loudspeaker77.netlify.app/
 
 ## Image Gallery
 
-Image Gallery
-
-Image 1
-Image 2
-Image 3
-Image 4
-
-Caption 1: Sleek black loudspeaker.
-Caption 2: Modern audio design.
-Caption 3: Compact sound system.
-Caption 4: Premium audio quality.
-
-Caption 5: Wireless speaker model.
-Caption 6: High-fidelity audio.
-Caption 7: Portable sound device.
-Caption 8: Elegant speaker design.
-
-Caption 9: Minimalist audio unit.
-Caption 10: Surround sound speaker.
-Caption 11: Vintage-inspired design.
-Caption 12: Powerful bass system.
-
-Caption 13: Smart speaker tech.
-Caption 14: Crystal-clear sound.
-Caption 15: Retro speaker style.
-Caption 16: Advanced audio tech.
+| ![Image 1](./src/assets/images/loudSpeaker_1.png) | | ![Image 2](./src/assets/images/loudSpeaker_1.png) |
+| _Caption 1_ | | _Caption 2_ |
+| ![Image 3](./src/assets/images/loudSpeaker_1.png) | | ![Image 4](./src/assets/images/loudSpeaker_1.png) |
+| _Caption 3_ | | _Caption 4_ |
 
 ## Features
 
