@@ -10,10 +10,8 @@ import { ArticlesContext } from "../contexts/ArticlesContext";
 
 const MainArticlesCard = ({ article, users }) => {
   const { width } = useContext(ScreenSizeContext);
-  const {
-    handleUnlikeArticle,
-    handleLikeArticle,
-  } = useContext(ArticlesContext);
+  const { handleUnlikeArticle, handleLikeArticle } =
+    useContext(ArticlesContext);
   const {
     title,
     author,
@@ -96,7 +94,7 @@ const MainArticlesCard = ({ article, users }) => {
                 commentStyle="mobileComments dark:bg-secondaryBg"
                 commentsNumStyle="mobileCommentsNum dark:text-darkTextPrimary"
                 commentsIconStyle="mobileCommentsIcon dark:text-darkTextPrimary"
-                commentCount={comment_count}
+                commentCount={comment_count === undefined ? 0 : comment_count}
               />
               <div className="ml-auto">
                 <VotesContainer

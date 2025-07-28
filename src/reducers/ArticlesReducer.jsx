@@ -103,9 +103,12 @@ const ArticlesReducer = (state = initialState, action) => {
         error: null,
       };
     case "FETCH_POPULAR_ARTICLES_SUCCESS":
+      const popArticles = action.payload
+        .sort((a, b) => b.votes - a.votes)
+        .slice(0, 6);
       return {
         ...state,
-        popularArticles: action.payload || [],
+        popularArticles: popArticles || [],
         loading: false,
         error: null,
       };

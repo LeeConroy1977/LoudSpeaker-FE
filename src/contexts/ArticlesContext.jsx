@@ -1,5 +1,6 @@
 import { createContext, useReducer, useState } from "react";
 import ArticlesReducer from "../reducers/ArticlesReducer";
+import CommentsReducer from "../reducers/CommentReducer";
 import {
   getAllArticles,
   getArticle,
@@ -19,10 +20,20 @@ const initialState = {
   error: null,
 };
 
+const initialCommentsState = {
+  comments: [],
+  loading: false,
+  error: null,
+};
+
 export const ArticlesContext = createContext();
 
 export const ArticlesProvider = ({ children }) => {
   const [state, dispatch] = useReducer(ArticlesReducer, initialState);
+  const [commentsState, commentsDispatch] = useReducer(
+    CommentsReducer,
+    initialCommentsState
+  );
 
   const fetchTotalArticlesCount = async () => {
     dispatch({ type: "FETCH_TOTAL_ARTICLES" });
@@ -43,6 +54,7 @@ export const ArticlesProvider = ({ children }) => {
 
   const fetchArticle = async (articleId) => {
     dispatch({ type: "CLEAR_ARTICLE" });
+    commentsDispatch({ type: "CLEAR_COMMENTS" });
     dispatch({ type: "FETCH_ARTICLE" });
     try {
       const response = await getArticle(articleId);
@@ -183,7 +195,7 @@ export const ArticlesProvider = ({ children }) => {
     dispatch({ type: "CREATE_ARTICLE" });
     try {
       const response = await postArticle(body);
-
+      console.log(response);
       dispatch({
         type: "CREATE_ARTICLES_SUCCESS",
         payload: response,

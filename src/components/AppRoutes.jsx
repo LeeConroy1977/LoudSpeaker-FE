@@ -15,7 +15,7 @@ const AppRoutes = () => {
   } = useContext(CommentsContext);
   const { visible } = useContext(VisibleContext);
   const {
-    state: { popularArticles },
+    state: { totalArticles },
     fetchTotalArticlesCount,
     fetchAdditionalArticles,
     fetchPopularArticles,
@@ -46,7 +46,7 @@ const AppRoutes = () => {
   }, [topicParam, sortByParam, orderParam, voteCount]);
 
   useEffect(() => {
-    fetchPopularArticles(null, "votes", null, 6, null);
+    fetchPopularArticles(null, "votes", null, "10000", null);
   }, []);
 
   function handleOnLoadMore() {

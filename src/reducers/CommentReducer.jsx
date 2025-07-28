@@ -7,6 +7,11 @@ const initialState = {
 
 const CommentsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case "CLEAR_COMMENTS":
+      return {
+        ...state,
+        comments: [],
+      };
     case "FETCH_TOTAL_COMMENTS":
       return {
         ...state,
